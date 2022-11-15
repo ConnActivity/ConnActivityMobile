@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element.dart';
 import 'package:connactivity/feed_element_data.dart';
-import 'package:connactivity/sort_page.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -29,19 +28,6 @@ class _FeedPageState extends State<FeedPage>
     var userToken = await getUserToken();
 
     if (userToken == null) return null;
-    //debugPrint(userToken);
-
-    /*
-    //set withCredentials = true
-    var client = bc.BrowserClient();
-    var response = await client.get(Uri.parse("https://reqres.in/api/users?page=2"));
-    */
-    /*
-    var response = await client.get(Uri.parse("https://api.connactivity.me/events/"), headers: {
-      "Cookie" : "user_token=${userToken!}",
-      "Content-Type" : "application/json"
-    });
-    */
 
     var response = await http
         .get(Uri.parse("https://api.connactivity.me/events/"), headers: {
