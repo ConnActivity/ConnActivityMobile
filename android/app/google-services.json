@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1047106688432",
+    "firebase_url": "https://tenacious-moon-348609-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tenacious-moon-348609",
+    "storage_bucket": "tenacious-moon-348609.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047106688432:android:0a033aca85b928e96f7275",
+        "android_client_info": {
+          "package_name": "com.entenreich.connactivity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1047106688432-og2fr7usmr7eq0lfgsmtf8d0p68j9f6d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmnrNuxcSaXDdk2Sz0gRM_WV2kUKfSDw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1047106688432-og2fr7usmr7eq0lfgsmtf8d0p68j9f6d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
