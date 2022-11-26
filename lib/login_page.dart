@@ -72,6 +72,10 @@ class _State extends State<LoginPage> {
       var creds = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       debugPrint(creds.user?.uid.toString());
+      var userExists = await comms.userExists();
+      print(userExists.toString());
+      if (!userExists) await comms.registerUser(creds.user?.uid.toString().substring(0,19), email);
+      debugPrint("Login end");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         debugPrint('No user found for that email.');
@@ -79,10 +83,6 @@ class _State extends State<LoginPage> {
         debugPrint('Wrong password provided for that user.');
       }
     }
-    var userExists = await comms.userExists();
-    debugPrint(userExists.toString());
-    if (!userExists) await comms.registerUser("DEBUG_USER", email);
-    debugPrint("Login end");
 
     Navigator.pop(context);
   }
