@@ -52,7 +52,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '1047106688432',
     projectId: 'tenacious-moon-348609',
     authDomain: 'tenacious-moon-348609.firebaseapp.com',
-    databaseURL: 'https://tenacious-moon-348609-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://tenacious-moon-348609-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'tenacious-moon-348609.appspot.com',
   );
 
@@ -61,7 +62,8 @@ class DefaultFirebaseOptions {
     appId: '1:1047106688432:android:0a033aca85b928e96f7275',
     messagingSenderId: '1047106688432',
     projectId: 'tenacious-moon-348609',
-    databaseURL: 'https://tenacious-moon-348609-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://tenacious-moon-348609-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'tenacious-moon-348609.appspot.com',
   );
 
@@ -70,9 +72,11 @@ class DefaultFirebaseOptions {
     appId: '1:1047106688432:ios:ad278705d48417986f7275',
     messagingSenderId: '1047106688432',
     projectId: 'tenacious-moon-348609',
-    databaseURL: 'https://tenacious-moon-348609-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://tenacious-moon-348609-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'tenacious-moon-348609.appspot.com',
-    iosClientId: '1047106688432-fdq2brumd8n7rtomesu2e46s4rukrkob.apps.googleusercontent.com',
+    iosClientId:
+        '1047106688432-fdq2brumd8n7rtomesu2e46s4rukrkob.apps.googleusercontent.com',
     iosBundleId: 'com.entenreich.connactivity',
   );
 }

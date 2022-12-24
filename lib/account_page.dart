@@ -37,8 +37,6 @@ class _AccountPageState extends State<AccountPage> {
     //await FirebaseAuth.instance.signOut();
     var currentUser = FirebaseAuth.instance.currentUser;
 
-
-
     setState(() {
       displayName = currentUser?.displayName;
       userEmail = currentUser?.email;
@@ -81,7 +79,6 @@ class _AccountPageState extends State<AccountPage> {
                     photoUrl: photoUrl ?? "No photo",
                     id: firebaseId ?? "No id",
                   ),
-                  
                   isVerified(emailVerified),
                   userEmail == null
                       ? LoginBtn(callback: userAuth)
@@ -175,11 +172,10 @@ class GoogleSignInBtn extends StatelessWidget {
       idToken: googleAuth.idToken,
     );
 
-    await FirebaseAuth.instance
-        .signInWithCredential(credential);
-    
+    await FirebaseAuth.instance.signInWithCredential(credential);
+
     //untested...
-    
+
     var name = googleUser?.displayName;
     var email = googleUser?.email;
 
@@ -195,8 +191,7 @@ class GoogleSignInBtn extends StatelessWidget {
 
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.profile');
-    googleProvider
-        .setCustomParameters({'login_hint': 'email@example.com'});
+    googleProvider.setCustomParameters({'login_hint': 'email@example.com'});
 
     await FirebaseAuth.instance
         .signInWithPopup(googleProvider)
@@ -267,17 +262,16 @@ class GitHubSignInBtn extends StatelessWidget {
 
     final githubAuthCredential = GithubAuthProvider.credential(result.token!);
 
-    await FirebaseAuth.instance
-        .signInWithCredential(githubAuthCredential);
+    await FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
 
     final gitHubUser = FirebaseAuth.instance.currentUser;
 
     var userExists = await comms.userExists();
-    if (!userExists) await comms.registerUser(gitHubUser?.displayName, gitHubUser?.email);
+    if (!userExists)
+      await comms.registerUser(gitHubUser?.displayName, gitHubUser?.email);
 
     callback();
-        //.then((value) => callback());
-
+    //.then((value) => callback());
   }
 
   void signInWithGitHubWeb() async {
@@ -459,22 +453,26 @@ class SendVerificationEmailBtn extends StatelessWidget {
   void sendVerificationEmail(BuildContext context) async {
     debugPrint("Sending verification email");
     try {
-  await FirebaseAuth.instance.currentUser
-      ?.sendEmailVerification()
-      .whenComplete(() => callback());
-} on Exception catch (e) {
-    debugPrint(e.toString());
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("Verification email already sent!"),
-    ));
-}
+      await FirebaseAuth.instance.currentUser
+          ?.sendEmailVerification()
+          .whenComplete(() => callback());
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Verification email already sent!"),
+      ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       disabledColor: Colors.grey,
-      onPressed: isActive ? () {sendVerificationEmail(context);} : null,
+      onPressed: isActive
+          ? () {
+              sendVerificationEmail(context);
+            }
+          : null,
       color: const Color(0xffFE7F2D),
       child: Row(
         mainAxisSize: MainAxisSize.min,

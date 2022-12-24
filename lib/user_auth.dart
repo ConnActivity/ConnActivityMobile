@@ -22,5 +22,5 @@ Future<UserData> getUserId() async {
       email: currentUser?.email,
       id: currentUser?.uid,
       photoUrl: currentUser?.photoURL,
-      isLoggedIn: (currentUser!=null));
+      isLoggedIn: (currentUser != null));
 }

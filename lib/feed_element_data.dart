@@ -1,5 +1,4 @@
 class FeedElementData {
-
   final int id;
   final String title;
   final String description;
@@ -7,5 +6,11 @@ class FeedElementData {
   final DateTime? time;
   final bool? isMemeber;
 
-  FeedElementData({this.isMemeber, required this.id, required this.title, required this.description, required this.place, required this.time});
+  FeedElementData(
+      {this.isMemeber,
+      required this.id,
+      required this.title,
+      required this.description,
+      required this.place,
+      required this.time});
 }

@@ -9,7 +9,12 @@ class UserDisplay extends StatelessWidget {
   final String photoUrl;
   final String id;
 
-  const UserDisplay({super.key, required this.name, required this.email, required this.photoUrl, required this.id});
+  const UserDisplay(
+      {super.key,
+      required this.name,
+      required this.email,
+      required this.photoUrl,
+      required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +58,19 @@ class InfoChip extends StatelessWidget {
     //TODO: fix text overflow
     //https://docs.flutter.dev/development/ui/layout/constraints
     return Row(
-      children: [Icon(icon, color: Colors.white,), const SizedBox(width: 5,), Text(text, overflow: TextOverflow.fade,)],
+      children: [
+        Icon(
+          icon,
+          color: Colors.white,
+        ),
+        const SizedBox(
+          width: 5,
+        ),
+        Text(
+          text,
+          overflow: TextOverflow.fade,
+        )
+      ],
     );
   }
 }

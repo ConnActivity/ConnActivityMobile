@@ -23,7 +23,6 @@ class FeedPage extends StatefulWidget {
 
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
-
   Future<List<FeedElementData>?> getFeedData() async {
     var userToken = await getUserToken();
 
@@ -80,8 +79,8 @@ class _FeedPageState extends State<FeedPage>
                 behavior: SnackBarBehavior.floating,
                 margin: EdgeInsets.fromLTRB(90, 0, 90, 30),
                 duration: Duration(milliseconds: 500),
-      content: Text("updating feed..."),
-    ));
+                content: Text("updating feed..."),
+              ));
               setState(() {});
             },
             heroTag: "updateFeedBtn",
@@ -99,13 +98,16 @@ class _FeedPageState extends State<FeedPage>
                   getFeedData(),
                 ]),
                 builder: (context, AsyncSnapshot<List> snapshot) {
-
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (!snapshot.data![0].isLoggedIn) {
-                    return const Center(child: Text("Your are not logged in", style: TextStyle(color: Colors.red),),);
-                  }
-                  else {
+                    return const Center(
+                      child: Text(
+                        "Your are not logged in",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                  } else {
                     return ListView.builder(
                       shrinkWrap: false,
                       itemCount: snapshot.data?[1].length,

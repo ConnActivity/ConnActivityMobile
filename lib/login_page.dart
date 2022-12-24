@@ -74,7 +74,9 @@ class _State extends State<LoginPage> {
       debugPrint(creds.user?.uid.toString());
       var userExists = await comms.userExists();
       print(userExists.toString());
-      if (!userExists) await comms.registerUser(creds.user?.uid.toString().substring(0,19), email);
+      if (!userExists)
+        await comms.registerUser(
+            creds.user?.uid.toString().substring(0, 19), email);
       debugPrint("Login end");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

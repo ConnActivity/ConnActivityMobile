@@ -53,7 +53,6 @@ Future<bool> registerUser(String? name, String? email) async {
   UserData user = await getUserId();
   var uid = user.id;
 
-
   var body = {
     "username": name,
     "user_email": email,
@@ -66,8 +65,8 @@ Future<bool> registerUser(String? name, String? email) async {
 
   var response = await http.post(Uri.parse("https://api.connactivity.me/user/"),
       headers: {
-        "cookie" : "user_token=${userToken!}",
-        "Content-Type" : "application/json"
+        "cookie": "user_token=${userToken!}",
+        "Content-Type": "application/json"
       },
       body: json.encode(body));
   debugPrint(response.statusCode.toString());
@@ -76,26 +75,26 @@ Future<bool> registerUser(String? name, String? email) async {
 }
 
 Future<bool> userExists() async {
-
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
 
   debugPrint(userToken.toString());
 
-  var response = await http.get(Uri.parse("https://api.connactivity.me/user/$uid"), headers: {"cookie" : "user_token=$userToken"});
+  var response = await http.get(
+      Uri.parse("https://api.connactivity.me/user/$uid"),
+      headers: {"cookie": "user_token=$userToken"});
 
   return response.statusCode != 404;
-
 }
 
-Future<bool> createEvent(String eventName, String eventDescription, String location, DateTime time) async {
+Future<bool> createEvent(String eventName, String eventDescription,
+    String location, DateTime time) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
 
   //debugPrint(time.toUtc().toIso8601String());
-  
 
   var requestBody = <String, dynamic>{};
 
@@ -108,12 +107,13 @@ Future<bool> createEvent(String eventName, String eventDescription, String locat
   requestBody["creator"] = uid;
   //requestBody["is_private"] = false;
 
-  var response = await http.post(Uri.parse("https://api.connactivity.me/events/"),
-      headers: {
-        "cookie" : "user_token=${userToken!}",
-        //"Content-Type" : "application/json"
-      },
-      body: requestBody);
+  var response =
+      await http.post(Uri.parse("https://api.connactivity.me/events/"),
+          headers: {
+            "cookie": "user_token=${userToken!}",
+            //"Content-Type" : "application/json"
+          },
+          body: requestBody);
   debugPrint(response.statusCode.toString());
   debugPrint(response.body.toString());
   return response.statusCode == 201;
