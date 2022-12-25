@@ -9,17 +9,14 @@ on:
 jobs:
   dart-format:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       - uses: dart-lang/setup-dart@v1.3
-
       - name: Run dart format
         run: dart format --output=none --set-exit-if-changed .
 
-  build-apk:
+  build-android:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-java@v2
@@ -40,6 +37,7 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
+        cache: true
         architecture: x64
     - run: flutter pub get
     - run: flutter build ios --release --no-codesign
