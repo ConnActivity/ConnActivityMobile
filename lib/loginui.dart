@@ -30,6 +30,7 @@ class Loginfield extends StatelessWidget {
         Container(
           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: TextField(
+            keyboardType: isNumber ? TextInputType.number : TextInputType.text,
             controller: controller,
             style: const TextStyle(color: Colors.white),
             obscureText: false,

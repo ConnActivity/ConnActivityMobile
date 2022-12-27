@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> joinEvent(int id) async {
@@ -89,7 +90,7 @@ Future<bool> userExists() async {
 }
 
 Future<bool> createEvent(String eventName, String eventDescription,
-    String location, DateTime time) async {
+    String location, DateTime time, memberLimit) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
@@ -97,7 +98,8 @@ Future<bool> createEvent(String eventName, String eventDescription,
   //debugPrint(time.toUtc().toIso8601String());
 
   var requestBody = <String, dynamic>{};
-
+  print("MemberLimit: ${memberLimit.text}");
+  print(memberLimit);
   requestBody["title"] = eventName;
   requestBody["date_published"] = DateTime.now().toLocal().toIso8601String();
   requestBody["date"] = time.toLocal().toIso8601String();
@@ -105,6 +107,7 @@ Future<bool> createEvent(String eventName, String eventDescription,
   requestBody["description"] = eventDescription;
   requestBody["member_list"] = uid;
   requestBody["creator"] = uid;
+  //requestBody["member_limit"] = memberLimit;
   //requestBody["is_private"] = false;
 
   var response =

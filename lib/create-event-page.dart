@@ -40,7 +40,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
           heroTag: "createEvent",
           onPressed: () async {
             await createEvent(eventNameInput.text, eventDescriptionInput.text,
-                eventLocation.text, eventDate);
+                eventLocation.text, eventDate, memberLimit);
             Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
