@@ -210,19 +210,7 @@ class GoogleSignInBtn extends StatelessWidget {
               try {
                 signInWithGoogle();
               } catch (error) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("So ein Scheiß"),
-                        content: Text(error.toString()),
-                        actions: [
-                          TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("doof"))
-                        ],
-                      );
-                    });
+                debugPrint(error.toString());
               }
             },
       color: const Color(0xffFE7F2D),
@@ -291,19 +279,7 @@ class GitHubSignInBtn extends StatelessWidget {
               try {
                 signInWithGitHub();
               } catch (error) {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text("So ein Scheiß"),
-                        content: Text(error.toString()),
-                        actions: [
-                          TextButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("doof"))
-                        ],
-                      );
-                    });
+                debugPrint(error.toString());
               }
             }),
       color: const Color(0xffFE7F2D),
