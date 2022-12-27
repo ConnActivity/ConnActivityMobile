@@ -98,8 +98,6 @@ Future<bool> createEvent(String eventName, String eventDescription,
   //debugPrint(time.toUtc().toIso8601String());
 
   var requestBody = <String, dynamic>{};
-  print("MemberLimit: ${memberLimit.text}");
-  print(memberLimit);
   requestBody["title"] = eventName;
   requestBody["date_published"] = DateTime.now().toLocal().toIso8601String();
   requestBody["date"] = time.toLocal().toIso8601String();
@@ -107,7 +105,7 @@ Future<bool> createEvent(String eventName, String eventDescription,
   requestBody["description"] = eventDescription;
   requestBody["member_list"] = uid;
   requestBody["creator"] = uid;
-  //requestBody["member_limit"] = memberLimit;
+  requestBody["member_limit"] = memberLimit.text;
   //requestBody["is_private"] = false;
 
   var response =
