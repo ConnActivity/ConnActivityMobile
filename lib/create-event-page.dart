@@ -18,6 +18,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   var eventDescriptionInput = TextEditingController();
   var eventLocation = TextEditingController();
   var memberLimit = TextEditingController();
+  var isPrivate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
           heroTag: "createEvent",
           onPressed: () async {
             await createEvent(eventNameInput.text, eventDescriptionInput.text,
-                eventLocation.text, eventDate, memberLimit);
+                eventLocation.text, eventDate, memberLimit, isPrivate);
             Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
@@ -89,6 +90,17 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   defaultText: "Put the member limit here",
                   controller: memberLimit,
               isNumber: true,),
+              SwitchListTile(
+                title: const Text("Is Event Private"),
+                  tileColor: const Color(0xffcc8016),
+                  activeColor: const Color(0xfff2d635),
+                  value: isPrivate,
+                  onChanged: (bool value) {
+                    setState(() {
+                      isPrivate = value;
+                    });
+                  }
+              )
             ],
           ),
         ));

@@ -90,7 +90,7 @@ Future<bool> userExists() async {
 }
 
 Future<bool> createEvent(String eventName, String eventDescription,
-    String location, DateTime time, memberLimit) async {
+    String location, DateTime time, memberLimit, isPrivate) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
@@ -106,7 +106,12 @@ Future<bool> createEvent(String eventName, String eventDescription,
   requestBody["member_list"] = uid;
   requestBody["creator"] = uid;
   requestBody["member_limit"] = memberLimit.text;
-  //requestBody["is_private"] = false;
+  if (isPrivate) {
+    requestBody["is_private"] = "true";
+  } else {
+    requestBody["is_private"] = "false";
+  }
+
 
   var response =
       await http.post(Uri.parse("https://api.connactivity.me/events/"),
