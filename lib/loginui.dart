@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 class Loginfield extends StatelessWidget {
   final String title, defaultText;
   final TextEditingController controller;
+  final bool isNumber;
+
   const Loginfield(
       {Key? key,
       required this.title,
       required this.defaultText,
-      required this.controller})
+      required this.controller
+      ,this.isNumber = false})
       : super(key: key);
 
   @override

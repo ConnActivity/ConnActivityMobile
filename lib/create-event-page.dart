@@ -17,6 +17,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   var eventNameInput = TextEditingController();
   var eventDescriptionInput = TextEditingController();
   var eventLocation = TextEditingController();
+  var memberLimit = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +84,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     }
                   },
                   child: Text(dateToString(eventDate))),
+              Loginfield(
+                  title: "Member limit",
+                  defaultText: "Put the member limit here",
+                  controller: memberLimit,
+              isNumber: true,),
             ],
           ),
         ));
