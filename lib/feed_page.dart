@@ -22,7 +22,7 @@ class FeedPage extends StatefulWidget {
   @override
   State<FeedPage> createState() => _FeedPageState();
 }
-
+var currentPage = 1;
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
 
@@ -60,7 +60,6 @@ class _FeedPageState extends State<FeedPage>
 
   @override
   Widget build(BuildContext context) {
-    var currentPage = 1;
     super.build(context);
     return Scaffold(
       backgroundColor: Colors.black,
@@ -137,6 +136,7 @@ class _FeedPageState extends State<FeedPage>
     onPageChange: (number) {
     setState(() {
       currentPage = number;
+      print(currentPage);
     });
     },
     useGroup: false,
