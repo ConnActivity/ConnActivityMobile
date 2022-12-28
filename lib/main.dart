@@ -10,33 +10,32 @@ import 'package:google_fonts/google_fonts.dart';
 void main() {
   runApp(const MainConnActivity());
 }
+
 class MainConnActivity extends StatelessWidget {
-  const MainConnActivity({ Key? key }) : super(key: key);
+  const MainConnActivity({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       theme: ThemeData(
-        primaryColor: const Color(0xFF02020A),
-        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: const Color(0xFFFE7F2D)),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.white)
-        )
-      ),
+          primaryColor: const Color(0xFF02020A),
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(secondary: const Color(0xFFFE7F2D)),
+          textTheme:
+              const TextTheme(bodyMedium: TextStyle(color: Colors.white))),
       home: const ConnActivityHome(),
     );
   }
 }
 
 class ConnActivityHome extends StatefulWidget {
-  const ConnActivityHome({ Key? key }) : super(key: key);
+  const ConnActivityHome({Key? key}) : super(key: key);
 
   @override
   State<ConnActivityHome> createState() => _ConnActivityHomeState();
 }
 
 class _ConnActivityHomeState extends State<ConnActivityHome> {
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -47,20 +46,23 @@ class _ConnActivityHomeState extends State<ConnActivityHome> {
           foregroundColor: const Color(0xff02020A),
           title: Center(
             child: Text("ConnActivity",
-            style: GoogleFonts.lobster(color: const Color(0xffFE7F2D), fontSize: 30)),
+                style: GoogleFonts.lobster(
+                    color: const Color(0xffFE7F2D), fontSize: 30)),
           ),
         ),
         backgroundColor: Colors.black,
         body: TabBarView(children: [
-          LayoutBuilder(builder:(context, constraints) {
+          LayoutBuilder(builder: (context, constraints) {
             debugPrint(constraints.maxHeight.toString());
-            return FeedPage(height: constraints.maxHeight,);}),
+            return FeedPage(
+              height: constraints.maxHeight,
+            );
+          }),
           //const Center(child: Text("👋 You have not entered any events yet", style: TextStyle(color: Colors.white),)),
           const MyPAge(),
           const AccountPage(),
         ]),
         bottomNavigationBar: const ConnActivityNavBar(),
-        
       ),
     );
   }

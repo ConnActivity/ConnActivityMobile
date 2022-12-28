@@ -38,7 +38,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
         floatingActionButton: FloatingActionButton(
           heroTag: "createEvent",
           onPressed: () async {
-            await createEvent(eventNameInput.text, eventDescriptionInput.text, eventLocation.text, eventDate);
+            await createEvent(eventNameInput.text, eventDescriptionInput.text,
+                eventLocation.text, eventDate);
             Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
@@ -50,23 +51,38 @@ class _CreateEventPageState extends State<CreateEventPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Loginfield(title: "Event-Name", defaultText: "Put your event here", controller: eventNameInput),
-              const SizedBox(height: 10,),
-              Loginfield(title: "Event-Description", defaultText: "What is your event about", controller: eventDescriptionInput),
-              const SizedBox(height: 10,),
-              Loginfield(title: "Location", defaultText: "Where does your event happen", controller: eventLocation),
-              TextButton(onPressed: () async {
-                var selectedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2022),
-                                lastDate: DateTime(2025));
-                if (selectedDate != null) {
-                  setState(() {
-                    eventDate = selectedDate;
-                  });
-                }
-              }, child: Text(dateToString(eventDate))),
+              Loginfield(
+                  title: "Event-Name",
+                  defaultText: "Put your event here",
+                  controller: eventNameInput),
+              const SizedBox(
+                height: 10,
+              ),
+              Loginfield(
+                  title: "Event-Description",
+                  defaultText: "What is your event about",
+                  controller: eventDescriptionInput),
+              const SizedBox(
+                height: 10,
+              ),
+              Loginfield(
+                  title: "Location",
+                  defaultText: "Where does your event happen",
+                  controller: eventLocation),
+              TextButton(
+                  onPressed: () async {
+                    var selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2022),
+                        lastDate: DateTime(2025));
+                    if (selectedDate != null) {
+                      setState(() {
+                        eventDate = selectedDate;
+                      });
+                    }
+                  },
+                  child: Text(dateToString(eventDate))),
             ],
           ),
         ));

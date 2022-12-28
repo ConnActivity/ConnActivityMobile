@@ -19,13 +19,15 @@ class FeedElement extends StatefulWidget {
   State<FeedElement> createState() => _FeedElementState();
 }
 
-class _FeedElementState extends State<FeedElement> with AutomaticKeepAliveClientMixin {
+class _FeedElementState extends State<FeedElement>
+    with AutomaticKeepAliveClientMixin {
   bool joint = false;
 
-    @override
+  @override
   void initState() {
     super.initState();
-    if (widget.feedElementData.isMemeber != null && widget.feedElementData.isMemeber!) {
+    if (widget.feedElementData.isMemeber != null &&
+        widget.feedElementData.isMemeber!) {
       setState(() {
         joint = true;
       });
@@ -133,7 +135,8 @@ class _FeedElementState extends State<FeedElement> with AutomaticKeepAliveClient
                     //TODO: implement route to actual details-page
                     onPressed: () => null,
                     style: ButtonStyle(
-                        shadowColor: MaterialStateProperty.all(Colors.transparent),
+                        shadowColor:
+                            MaterialStateProperty.all(Colors.transparent),
                         backgroundColor:
                             MaterialStateProperty.all(Colors.transparent),
                         shape:
@@ -156,7 +159,7 @@ class _FeedElementState extends State<FeedElement> with AutomaticKeepAliveClient
       ),
     );
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }

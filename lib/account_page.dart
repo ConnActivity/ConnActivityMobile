@@ -37,8 +37,6 @@ class _AccountPageState extends State<AccountPage> {
     //await FirebaseAuth.instance.signOut();
     var currentUser = FirebaseAuth.instance.currentUser;
 
-
-
     setState(() {
       displayName = currentUser?.displayName;
       userEmail = currentUser?.email;
@@ -81,7 +79,6 @@ class _AccountPageState extends State<AccountPage> {
                     photoUrl: photoUrl ?? "No photo",
                     id: firebaseId ?? "No id",
                   ),
-                  
                   isVerified(emailVerified),
                   userEmail == null
                       ? LoginBtn(callback: userAuth)
@@ -120,6 +117,7 @@ class _AccountPageState extends State<AccountPage> {
 //UI - Buttons
 class LoginBtn extends StatelessWidget {
   final void Function() callback;
+
   const LoginBtn({Key? key, required this.callback}) : super(key: key);
 
   @override
@@ -140,6 +138,7 @@ class LoginBtn extends StatelessWidget {
 
 class LogoutBtn extends StatelessWidget {
   final void Function() callback;
+
   const LogoutBtn({Key? key, required this.callback}) : super(key: key);
 
   @override
@@ -158,6 +157,7 @@ class LogoutBtn extends StatelessWidget {
 
 class GoogleSignInBtn extends StatelessWidget {
   final Function() callback;
+
   const GoogleSignInBtn({Key? key, required this.callback}) : super(key: key);
 
   void signInWithGoogle() async {
@@ -175,11 +175,10 @@ class GoogleSignInBtn extends StatelessWidget {
       idToken: googleAuth.idToken,
     );
 
-    await FirebaseAuth.instance
-        .signInWithCredential(credential);
-    
+    await FirebaseAuth.instance.signInWithCredential(credential);
+
     //untested...
-    
+
     var name = googleUser?.displayName;
     var email = googleUser?.email;
 
@@ -195,8 +194,7 @@ class GoogleSignInBtn extends StatelessWidget {
 
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.profile');
-    googleProvider
-        .setCustomParameters({'login_hint': 'email@example.com'});
+    googleProvider.setCustomParameters({'login_hint': 'email@example.com'});
 
     await FirebaseAuth.instance
         .signInWithPopup(googleProvider)
@@ -248,6 +246,7 @@ class GoogleSignInBtn extends StatelessWidget {
 class GitHubSignInBtn extends StatelessWidget {
   final Function() callback;
   final BuildContext context;
+
   const GitHubSignInBtn(
       {Key? key, required this.callback, required this.context})
       : super(key: key);
@@ -267,17 +266,16 @@ class GitHubSignInBtn extends StatelessWidget {
 
     final githubAuthCredential = GithubAuthProvider.credential(result.token!);
 
-    await FirebaseAuth.instance
-        .signInWithCredential(githubAuthCredential);
+    await FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
 
     final gitHubUser = FirebaseAuth.instance.currentUser;
 
     var userExists = await comms.userExists();
-    if (!userExists) await comms.registerUser(gitHubUser?.displayName, gitHubUser?.email);
+    if (!userExists)
+      await comms.registerUser(gitHubUser?.displayName, gitHubUser?.email);
 
     callback();
-        //.then((value) => callback());
-
+    //.then((value) => callback());
   }
 
   void signInWithGitHubWeb() async {
@@ -332,6 +330,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
   final BuildContext context;
   final String? oldDisplayName;
   final bool isActive;
+
   const ChangeDisplayNameBtn(
       {Key? key,
       required this.callback,
@@ -420,6 +419,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
 //DEBUGGING-only
 class RefreshTokenBtn extends StatelessWidget {
   final Function() callback;
+
   const RefreshTokenBtn({Key? key, required this.callback}) : super(key: key);
 
   Future<void> refreshToken() async {
@@ -452,6 +452,7 @@ class RefreshTokenBtn extends StatelessWidget {
 class SendVerificationEmailBtn extends StatelessWidget {
   final Function() callback;
   final bool isActive;
+
   const SendVerificationEmailBtn(
       {Key? key, required this.callback, required this.isActive})
       : super(key: key);
@@ -459,22 +460,26 @@ class SendVerificationEmailBtn extends StatelessWidget {
   void sendVerificationEmail(BuildContext context) async {
     debugPrint("Sending verification email");
     try {
-  await FirebaseAuth.instance.currentUser
-      ?.sendEmailVerification()
-      .whenComplete(() => callback());
-} on Exception catch (e) {
-    debugPrint(e.toString());
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("Verification email already sent!"),
-    ));
-}
+      await FirebaseAuth.instance.currentUser
+          ?.sendEmailVerification()
+          .whenComplete(() => callback());
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("Verification email already sent!"),
+      ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       disabledColor: Colors.grey,
-      onPressed: isActive ? () {sendVerificationEmail(context);} : null,
+      onPressed: isActive
+          ? () {
+              sendVerificationEmail(context);
+            }
+          : null,
       color: const Color(0xffFE7F2D),
       child: Row(
         mainAxisSize: MainAxisSize.min,

@@ -64,7 +64,10 @@ class _MyPAgeState extends State<MyPAge> {
       backgroundColor: Colors.black,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const CreateEventPage()));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => const CreateEventPage()));
         },
         backgroundColor: const Color(0xffFE7F2D),
         heroTag: "createEventBtn",
@@ -73,15 +76,19 @@ class _MyPAgeState extends State<MyPAge> {
       body: FutureBuilder(
           future: Future.wait([
             getUserId(),
-        getUserEvents(),
-      ]),
+            getUserEvents(),
+          ]),
           builder: (context, AsyncSnapshot<List> snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             } else if (!snapshot.data![0].isLoggedIn) {
-              return const Center(child: Text("Your are not logged in", style: TextStyle(color: Colors.red),),);
-            }
-            else {
+              return const Center(
+                child: Text(
+                  "Your are not logged in",
+                  style: TextStyle(color: Colors.red),
+                ),
+              );
+            } else {
               return ListView.builder(
                 shrinkWrap: false,
                 itemCount: snapshot.data?[1].length,

@@ -22,10 +22,11 @@ class FeedPage extends StatefulWidget {
   @override
   State<FeedPage> createState() => _FeedPageState();
 }
+
 var currentPage = 1;
+
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
-
   Future<List<FeedElementData>?> getFeedData() async {
     var userToken = await getUserToken();
 
@@ -82,8 +83,8 @@ class _FeedPageState extends State<FeedPage>
                 behavior: SnackBarBehavior.floating,
                 margin: EdgeInsets.fromLTRB(90, 0, 90, 30),
                 duration: Duration(milliseconds: 500),
-      content: Text("updating feed..."),
-    ));
+                content: Text("updating feed..."),
+              ));
               setState(() {});
             },
             heroTag: "updateFeedBtn",
@@ -101,13 +102,16 @@ class _FeedPageState extends State<FeedPage>
                   getFeedData(),
                 ]),
                 builder: (context, AsyncSnapshot<List> snapshot) {
-
                   if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (!snapshot.data![0].isLoggedIn) {
-                    return const Center(child: Text("Your are not logged in", style: TextStyle(color: Colors.red),),);
-                  }
-                  else {
+                    return const Center(
+                      child: Text(
+                        "Your are not logged in",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                  } else {
                     return ListView.builder(
                       //adding pagination
                       shrinkWrap: false,
@@ -123,27 +127,27 @@ class _FeedPageState extends State<FeedPage>
                   }
                 }),
           ),
-    Pagination(
-    paginateButtonStyles: PaginateButtonStyles(),
-    prevButtonStyles: PaginateSkipButton(
-    borderRadius: const BorderRadius.only(
-    topLeft: Radius.circular(20),
-    bottomLeft: Radius.circular(20))),
-    nextButtonStyles: PaginateSkipButton(
-    borderRadius: const BorderRadius.only(
-    topRight: Radius.circular(20),
-    bottomRight: Radius.circular(20))),
-    onPageChange: (number) {
-    setState(() {
-      currentPage = number;
-      print(currentPage);
-    });
-    },
-    useGroup: false,
-    totalPage: 30,
-    show: 2,
-    currentPage: currentPage,
-    ),
+          Pagination(
+            paginateButtonStyles: PaginateButtonStyles(),
+            prevButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20))),
+            nextButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20))),
+            onPageChange: (number) {
+              setState(() {
+                currentPage = number;
+                print(currentPage);
+              });
+            },
+            useGroup: false,
+            totalPage: 30,
+            show: 2,
+            currentPage: currentPage,
+          ),
         ],
       ),
     );

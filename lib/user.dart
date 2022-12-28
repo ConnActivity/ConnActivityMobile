@@ -5,5 +5,10 @@ class UserData {
   final String? photoUrl;
   final bool isLoggedIn;
 
-  const UserData({this.name, this.email, this.id, this.photoUrl, required this.isLoggedIn});
+  const UserData(
+      {this.name,
+      this.email,
+      this.id,
+      this.photoUrl,
+      required this.isLoggedIn});
 }
