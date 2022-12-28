@@ -140,7 +140,6 @@ class _FeedPageState extends State<FeedPage>
             onPageChange: (number) {
               setState(() {
                 currentPage = number;
-                print(currentPage);
               });
             },
             useGroup: false,
