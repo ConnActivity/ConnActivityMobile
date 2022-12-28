@@ -60,6 +60,7 @@ class _FeedPageState extends State<FeedPage>
 
   @override
   Widget build(BuildContext context) {
+    var currentPage = 1;
     super.build(context);
     return Scaffold(
       backgroundColor: Colors.black,
@@ -135,13 +136,13 @@ class _FeedPageState extends State<FeedPage>
     bottomRight: Radius.circular(20))),
     onPageChange: (number) {
     setState(() {
-      print(number);
+      currentPage = number;
     });
     },
     useGroup: false,
     totalPage: 30,
     show: 2,
-    currentPage: 1,
+    currentPage: currentPage,
     ),
         ],
       ),
