@@ -5,6 +5,8 @@ import 'package:connactivity/feed_element.dart';
 import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pagination/flutter_pagination.dart';
+import 'package:flutter_pagination/widgets/button_styles.dart';
 import 'package:http/http.dart' as http;
 //import 'package:http/browser_client.dart' as bc;
 
@@ -107,6 +109,7 @@ class _FeedPageState extends State<FeedPage>
                   }
                   else {
                     return ListView.builder(
+                      //adding pagination
                       shrinkWrap: false,
                       itemCount: snapshot.data?[1].length,
                       itemBuilder: (context, index) {
@@ -120,6 +123,26 @@ class _FeedPageState extends State<FeedPage>
                   }
                 }),
           ),
+    Pagination(
+    paginateButtonStyles: PaginateButtonStyles(),
+    prevButtonStyles: PaginateSkipButton(
+    borderRadius: const BorderRadius.only(
+    topLeft: Radius.circular(20),
+    bottomLeft: Radius.circular(20))),
+    nextButtonStyles: PaginateSkipButton(
+    borderRadius: const BorderRadius.only(
+    topRight: Radius.circular(20),
+    bottomRight: Radius.circular(20))),
+    onPageChange: (number) {
+    setState(() {
+      print(number);
+    });
+    },
+    useGroup: false,
+    totalPage: 30,
+    show: 2,
+    currentPage: 1,
+    ),
         ],
       ),
     );
