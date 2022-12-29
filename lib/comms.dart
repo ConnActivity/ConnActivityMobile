@@ -5,6 +5,7 @@ import 'package:connactivity/user_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:http/http.dart' as http;
+import 'dart:io';
 
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
@@ -90,37 +91,43 @@ Future<bool> userExists() async {
 }
 
 Future<bool> createEvent(String eventName, String eventDescription,
-    String location, DateTime time, memberLimit, isPrivate) async {
+    String location, DateTime time, memberLimit, isPrivate, imagebytes) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
 
   //debugPrint(time.toUtc().toIso8601String());
-
-  var requestBody = <String, dynamic>{};
-  requestBody["title"] = eventName;
-  requestBody["date_published"] = DateTime.now().toLocal().toIso8601String();
-  requestBody["date"] = time.toLocal().toIso8601String();
-  requestBody["location"] = location;
-  requestBody["description"] = eventDescription;
-  requestBody["member_list"] = uid;
-  requestBody["creator"] = uid;
-  requestBody["member_limit"] = memberLimit.text;
+  var request = http.MultipartRequest(
+      'POST', Uri.parse("https://api.connactivity.me/events/"));
+  request.headers.addAll({"cookie": "user_token=${userToken!}"});
+  request.fields["title"] = eventName;
+  request.fields["date_published"] = DateTime.now().toLocal().toIso8601String();
+  request.fields["date"] = time.toLocal().toIso8601String();
+  request.fields["location"] = location;
+  request.fields["description"] = eventDescription;
+  request.fields["member_list"] = uid.toString();
+  request.fields["creator"] = uid.toString();
+  request.fields["member_limit"] = memberLimit.text;
   if (isPrivate) {
-    requestBody["is_private"] = "true";
+    request.fields["is_private"] = "true";
   } else {
-    requestBody["is_private"] = "false";
+    request.fields["is_private"] = "false";
   }
+  // Debug print
+  print(imagebytes);
+  print(imagebytes!=null);
+  print(imagebytes.runtimeType);
+
+  if (imagebytes != null) {
+    var picture = http.MultipartFile.fromBytes('picture', imagebytes,
+        filename: 'image.jpg');
+    request.fields["image"] = picture.toString();
+  }
+  var response = await request.send();
+  var responseData = await response.stream.bytesToString();
+  debugPrint(responseData);
 
 
-  var response =
-      await http.post(Uri.parse("https://api.connactivity.me/events/"),
-          headers: {
-            "cookie": "user_token=${userToken!}",
-            //"Content-Type" : "application/json"
-          },
-          body: requestBody);
   debugPrint(response.statusCode.toString());
-  debugPrint(response.body.toString());
   return response.statusCode == 201;
 }
