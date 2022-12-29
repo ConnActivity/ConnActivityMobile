@@ -1,8 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/loginui.dart';
 import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);
@@ -19,6 +24,29 @@ class _CreateEventPageState extends State<CreateEventPage> {
   var eventLocation = TextEditingController();
   var memberLimit = TextEditingController();
   var isPrivate = false;
+  var imagebytes = null;
+  final ImagePicker imgpicker = ImagePicker();
+  String imagepath = "";
+  late File imagefile;
+
+  openImage() async {
+    try {
+      var pickedFile = await imgpicker.pickImage(source: ImageSource.gallery);
+      //you can use ImageCourse.camera for Camera capture
+      if(pickedFile != null){
+        imagepath = pickedFile.path;
+        imagefile = File(imagepath);
+        imagebytes = imagefile.readAsBytesSync();
+        setState(() {
+
+        });
+      }else{
+        print("No image is selected.");
+      }
+    }catch (e) {
+      print("error while picking file.");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +69,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
           heroTag: "createEvent",
           onPressed: () async {
             await createEvent(eventNameInput.text, eventDescriptionInput.text,
-                eventLocation.text, eventDate, memberLimit, isPrivate);
+                eventLocation.text, eventDate, memberLimit, isPrivate, imagebytes);
             Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
@@ -100,7 +128,19 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       isPrivate = value;
                     });
                   }
-              )
+              ),
+              imagepath != ""?Image.file(imagefile):
+              Container(
+                child: Text("No Image selected."),
+              ),
+              ElevatedButton(
+                  onPressed: ()  {
+                    openImage();
+                  },
+                  child: Text("Pick Image")
+              ),
+             // image == null?Container():
+             // Image.file((image.path))
             ],
           ),
         ));
