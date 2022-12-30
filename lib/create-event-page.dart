@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:connactivity/comms.dart';
@@ -128,7 +127,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Loginfield(
+                    EventField(
                       title: "Event Name\u002A",
                       defaultText: "Put your event here",
                       controller: eventNameInput,
@@ -146,7 +145,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Loginfield(
+                    EventField(
                       title: "Event Description\u002A",
                       defaultText: "What is your event about?",
                       controller: eventDescriptionInput,
@@ -164,7 +163,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Loginfield(
+                    EventField(
                       title: "Location",
                       defaultText: "Where is your event?",
                       controller: eventLocation,
@@ -225,7 +224,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Loginfield(
+                    EventField(
                       title: "Member Limit",
                       defaultText: "How many participants? (Default: 4)",
                       controller: memberLimit,
