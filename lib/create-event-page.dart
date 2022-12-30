@@ -87,15 +87,20 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffFE7F2D)),
+                    color: const Color(0xff52D1DC)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Add an image to your event",
-                        style: GoogleFonts.anton(
-                            textStyle: const TextStyle(
-                                color: Colors.black, fontSize: 30))),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Add an image to your event",
+                            style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
+                      ],
+                    ),
                         Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [Container(
                           child: imagebytes == null
@@ -118,7 +123,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffFE7F2D)),
+                    color: const Color(0xffB497D6)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,7 +141,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffFE7F2D)),
+                    color: const Color(0xffDCF763)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +159,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffFE7F2D)),
+                    color: const Color(0xff52D1DC)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,7 +177,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffFE7F2D)),
+                    color: const Color(0xffB497D6)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +209,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffFE7F2D)),
+                    color: const Color(0xffDCF763)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -223,7 +228,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xffFE7F2D)),
+                    color: const Color(0xff52D1DC)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,

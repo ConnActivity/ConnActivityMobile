@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Loginfield extends StatelessWidget {
   final String title, defaultText;
@@ -20,10 +21,9 @@ class Loginfield extends StatelessWidget {
         Text(title,
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: Colors.amber)),
+            style: GoogleFonts.lato(
+                textStyle: const TextStyle(
+                    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
         const SizedBox(
           height: 10,
         ),
