@@ -128,9 +128,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
               Container(
                 margin: const EdgeInsets.all(10),
                 padding: const EdgeInsets.all(15),
@@ -148,9 +145,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 10,
               ),
               Container(
                 margin: const EdgeInsets.all(10),
@@ -170,39 +164,84 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   ],
                 ),
               ),
-              TextButton(
-                  onPressed: () async {
-                    var selectedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2022),
-                        lastDate: DateTime(2025));
-                    if (selectedDate != null) {
-                      setState(() {
-                        eventDate = selectedDate;
-                      });
-                    }
-                  },
-                  child: Text(dateToString(eventDate))),
-              Loginfield(
-                  title: "Member limit",
-                  defaultText: "Put the member limit here",
-                  controller: memberLimit,
-              isNumber: true,),
-              SwitchListTile(
-                title: const Text("Is Event Private"),
-                  tileColor: const Color(0xffcc8016),
-                  activeColor: const Color(0xfff2d635),
-                  value: isPrivate,
-                  onChanged: (bool value) {
-                    setState(() {
-                      isPrivate = value;
-                    });
-                  }
-              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffFE7F2D)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.center,
+                    children: [TextButton(
+                        style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(10)), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
+                        onPressed: () async {
+                          var selectedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2022),
+                              lastDate: DateTime(2025));
+                          if (selectedDate != null) {
+                            setState(() {
+                              eventDate = selectedDate;
+                            });
+                          }
+                        },
+                        child: Text("Select Date: ${dateToString(eventDate)}", style: GoogleFonts.lato(
+    textStyle: const TextStyle(
+    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold)),)),],),
 
-             // image == null?Container():
-             // Image.file((image.path))
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffFE7F2D)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Loginfield(
+                      title: "Member Limit",
+                      defaultText: "How many people can join?",
+                      controller: memberLimit,
+                      isNumber: true,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffFE7F2D)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SwitchListTile(
+                        title: Text("Event private?",
+                            style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
+                        tileColor: const Color(0xff1f2121),
+                        activeColor: const Color(0xfff2d635),
+                        value: isPrivate,
+                        onChanged: (bool value) {
+                          setState(() {
+                            isPrivate = value;
+                          });
+                        }
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ));
