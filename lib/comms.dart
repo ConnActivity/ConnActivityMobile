@@ -119,9 +119,11 @@ Future<bool> createEvent(String eventName, String eventDescription,
   print(imagebytes.runtimeType);
 
   if (imagebytes != null) {
-    var picture = http.MultipartFile.fromBytes('picture', imagebytes,
-        filename: 'image.jpg');
-    request.fields["image"] = picture.toString();
+    var imagename = imagebytes.hashCode.toString();
+    var picture = http.MultipartFile.fromBytes('image', imagebytes,
+        filename: imagename);
+    //request.fields["image"] = picture;
+    request.files.add(picture);
   }
   var response = await request.send();
   var responseData = await response.stream.bytesToString();
