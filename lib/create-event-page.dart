@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:connactivity/comms.dart';
-import 'package:connactivity/loginui.dart';
+import 'package:connactivity/create_event_ui.dart';
 import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
