@@ -51,11 +51,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xff02020A),
+        backgroundColor: const Color(0xff1b1c1f),
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          backgroundColor: const Color(0xff02020A),
-          foregroundColor: const Color(0xff02020A),
+          backgroundColor: const Color(0xff0e0f0f),
+          foregroundColor: const Color(0xff0e0f0f),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -81,24 +81,95 @@ class _CreateEventPageState extends State<CreateEventPage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Loginfield(
-                  title: "Event-Name",
-                  defaultText: "Put your event here",
-                  controller: eventNameInput),
+              // Display image
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffFE7F2D)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Add an image to your event",
+                        style: GoogleFonts.anton(
+                            textStyle: const TextStyle(
+                                color: Colors.black, fontSize: 30))),
+                        Container(
+                          child: imagebytes == null
+                              ? const Icon(Icons.image)
+                              : Image.memory(imagebytes),
+                        ),
+                        ElevatedButton(
+                          onPressed: ()  {
+                            openImage();
+                          },
+                          child: imagebytes == null ? Text("Pick Image"): Text("Change Image"),
+                        ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffFE7F2D)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Loginfield(
+                      title: "Event Name",
+                      defaultText: "Put your event here",
+                      controller: eventNameInput,
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
-              Loginfield(
-                  title: "Event-Description",
-                  defaultText: "What is your event about",
-                  controller: eventDescriptionInput),
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffFE7F2D)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Loginfield(
+                      title: "Event Description",
+                      defaultText: "What is your event about?",
+                      controller: eventDescriptionInput,
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
-              Loginfield(
-                  title: "Location",
-                  defaultText: "Where does your event happen",
-                  controller: eventLocation),
+              Container(
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: const Color(0xffFE7F2D)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Loginfield(
+                      title: "Location",
+                      defaultText: "Where is your event?",
+                      controller: eventLocation,
+                    ),
+                  ],
+                ),
+              ),
               TextButton(
                   onPressed: () async {
                     var selectedDate = await showDatePicker(
@@ -129,16 +200,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     });
                   }
               ),
-              imagepath != ""?Image.file(imagefile):
-              Container(
-                child: Text("No Image selected."),
-              ),
-              ElevatedButton(
-                  onPressed: ()  {
-                    openImage();
-                  },
-                  child: Text("Pick Image")
-              ),
+
              // image == null?Container():
              // Image.file((image.path))
             ],
