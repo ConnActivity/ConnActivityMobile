@@ -265,3 +265,4 @@ class _CreateEventPageState extends State<CreateEventPage> {
         ));
   }
 }
+// TODO: Add event tags
