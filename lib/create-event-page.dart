@@ -96,17 +96,20 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         style: GoogleFonts.anton(
                             textStyle: const TextStyle(
                                 color: Colors.black, fontSize: 30))),
-                        Container(
+                        Row(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Container(
                           child: imagebytes == null
                               ? const Icon(Icons.image)
                               : Image.memory(imagebytes),
-                        ),
-                        ElevatedButton(
+                        ),],),
+                        Row(mainAxisAlignment: MainAxisAlignment.center,
+                        children: [ElevatedButton(
                           onPressed: ()  {
                             openImage();
                           },
                           child: imagebytes == null ? Text("Pick Image"): Text("Change Image"),
-                        ),
+                        ),],),
+
                   ],
                 ),
               ),
