@@ -35,13 +35,17 @@ class Loginfield extends StatelessWidget {
             style: const TextStyle(color: Colors.white),
             obscureText: false,
             decoration: InputDecoration(
-              labelStyle: const TextStyle(color: Colors.amber),
+              labelStyle: const TextStyle(color: Colors.black54),
               enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: Colors.amber,
+                  width: 3,
+                  color: Colors.black54,
                 ),
               ),
-              labelText: defaultText,
+              label: Text(defaultText,
+                style: GoogleFonts.lato(
+                    textStyle: const TextStyle(
+                        color: Colors.black54, fontSize: 15, fontWeight: FontWeight.bold)),),
             ),
           ),
         )

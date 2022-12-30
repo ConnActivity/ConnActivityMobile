@@ -129,7 +129,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Loginfield(
-                      title: "Event Name",
+                      title: "Event Name\u002A",
                       defaultText: "Put your event here",
                       controller: eventNameInput,
                     ),
@@ -147,7 +147,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Loginfield(
-                      title: "Event Description",
+                      title: "Event Description\u002A",
                       defaultText: "What is your event about?",
                       controller: eventDescriptionInput,
                     ),
@@ -183,23 +183,34 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [TextButton(
-                        style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(10)), shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))),
-                        onPressed: () async {
-                          var selectedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2022),
-                              lastDate: DateTime(2025));
-                          if (selectedDate != null) {
-                            setState(() {
-                              eventDate = selectedDate;
-                            });
-                          }
-                        },
-                        child: Text("Select Date: ${dateToString(eventDate)}", style: GoogleFonts.lato(
-    textStyle: const TextStyle(
-    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold)),)),],),
+                    children: [
+                      Text("Selcet Date\u002A: ", style: GoogleFonts.lato(
+                          textStyle: const TextStyle(
+                              color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
+                      SizedBox(
+                        height: 50,
+                        width: 150,
+                        child: TextButton(
+                            onPressed: () async {
+                              var selectedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(2022),
+                                  lastDate: DateTime(2025));
+                              if (selectedDate != null) {
+                                setState(() {
+                                  eventDate = selectedDate;
+                                });
+                              }
+                            },
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(const Color(
+                                  0xffa173bd)),
+                            ),
+                            child: Text(dateToString(eventDate),style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                    color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)))),)
+                      ,],),
 
                   ],
                 ),
@@ -216,7 +227,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   children: [
                     Loginfield(
                       title: "Member Limit",
-                      defaultText: "How many people can join?",
+                      defaultText: "How many participants? (Default: 4)",
                       controller: memberLimit,
                       isNumber: true,
                     ),
