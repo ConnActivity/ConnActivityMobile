@@ -75,7 +75,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
             var creation = await createEvent(eventNameInput.text, eventDescriptionInput.text,
                 eventLocation.text, eventDate, memberLimit, isPrivate, imagebytes);
             debugPrint(creation.toString());
-            creation[0] ? Navigator.pop(context) : showAlertDialog(context, "Error", "Event while creating event\nPlease try again later");
+            if(creation[0]){Navigator.pop(context);}else{if(creation[1] == 400 || creation[1]== 401){showAlertDialog(context, "Error while creating the event", "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");}else{showAlertDialog(context, "Error", "An unexpected Error occured while creating event\nPlease try again later");}}
             //Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
