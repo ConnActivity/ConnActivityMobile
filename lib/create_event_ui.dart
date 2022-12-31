@@ -32,7 +32,7 @@ class EventField extends StatelessWidget {
           child: TextField(
             keyboardType: isNumber ? TextInputType.number : TextInputType.text,
             controller: controller,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.black),
             obscureText: false,
             decoration: InputDecoration(
               labelStyle: const TextStyle(color: Colors.black54),

@@ -7,6 +7,7 @@ import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:connactivity/alert_dialog.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);
@@ -17,7 +18,9 @@ class CreateEventPage extends StatefulWidget {
 
 class _CreateEventPageState extends State<CreateEventPage> {
   DateTime eventDate = DateTime.now();
+  TimeOfDay eventTime = TimeOfDay.now();
 
+  String time = "";
   var eventNameInput = TextEditingController();
   var eventDescriptionInput = TextEditingController();
   var eventLocation = TextEditingController();
@@ -43,7 +46,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
         print("No image is selected.");
       }
     }catch (e) {
-      print("error while picking file.");
+      showAlertDialog(context, "Error while loading image","Exception: $e" );
     }
   }
 
@@ -67,6 +70,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
         floatingActionButton: FloatingActionButton(
           heroTag: "createEvent",
           onPressed: () async {
+            eventDate = DateTime(eventDate.year, eventDate.month,
+                eventDate.day, eventTime.hour, eventTime.minute);
             await createEvent(eventNameInput.text, eventDescriptionInput.text,
                 eventLocation.text, eventDate, memberLimit, isPrivate, imagebytes);
             Navigator.pop(context);
@@ -102,9 +107,12 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     ),
                         Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [Container(
-                          child: imagebytes == null
+
+                          width: 320,
+                          height: 200,
+                          child: ClipRRect(borderRadius: BorderRadius.circular(50), child: imagebytes == null
                               ? const Icon(Icons.image)
-                              : Image.memory(imagebytes),
+                              : Image.memory(imagebytes),),
                         ),],),
                         Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [ElevatedButton(
@@ -210,8 +218,35 @@ class _CreateEventPageState extends State<CreateEventPage> {
                                 textStyle: const TextStyle(
                                     color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)))),)
                       ,],),
+                  const SizedBox(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [Text("Selcet Time\u002A: ", style: GoogleFonts.lato(
+                        textStyle: const TextStyle(
+                            color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),SizedBox(
+                      height: 50,
+                      width: 150,
+                      child: TextButton(
+                          onPressed: () async {
+                            var selectedTime = await showTimePicker(
+                              context: context,
+                              initialTime: TimeOfDay.now(),);
+                            if (selectedTime != null) {
+                              setState(() {
+                                eventTime = selectedTime;
 
-                  ],
+                              });
+                            }
+                          },
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(const Color(
+                                0xffa173bd)),
+                          ),
+                          child: Text(eventTime.format(context),style: GoogleFonts.lato(
+                              textStyle: const TextStyle(
+                                  color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)))),)],
+                  ),
+                    ],
                 ),
               ),
               Container(
@@ -265,4 +300,4 @@ class _CreateEventPageState extends State<CreateEventPage> {
         ));
   }
 }
-// TODO: Add event tags
+// TODO: Adde user feedback-- > error Handling
