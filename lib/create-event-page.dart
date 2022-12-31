@@ -35,18 +35,16 @@ class _CreateEventPageState extends State<CreateEventPage> {
     try {
       var pickedFile = await imgpicker.pickImage(source: ImageSource.gallery);
       //you can use ImageCourse.camera for Camera capture
-      if(pickedFile != null){
+      if (pickedFile != null) {
         imagepath = pickedFile.path;
         imagefile = File(imagepath);
         imagebytes = imagefile.readAsBytesSync();
-        setState(() {
-
-        });
-      }else{
+        setState(() {});
+      } else {
         print("No image is selected.");
       }
-    }catch (e) {
-      showAlertDialog(context, "Error while loading image","Exception: $e" );
+    } catch (e) {
+      showAlertDialog(context, "Error while loading image", "Exception: $e");
     }
   }
 
@@ -70,12 +68,28 @@ class _CreateEventPageState extends State<CreateEventPage> {
         floatingActionButton: FloatingActionButton(
           heroTag: "createEvent",
           onPressed: () async {
-            eventDate = DateTime(eventDate.year, eventDate.month,
-                eventDate.day, eventTime.hour, eventTime.minute);
-            var creation = await createEvent(eventNameInput.text, eventDescriptionInput.text,
-                eventLocation.text, eventDate, memberLimit, isPrivate, imagebytes);
+            eventDate = DateTime(eventDate.year, eventDate.month, eventDate.day,
+                eventTime.hour, eventTime.minute);
+            var creation = await createEvent(
+                eventNameInput.text,
+                eventDescriptionInput.text,
+                eventLocation.text,
+                eventDate,
+                memberLimit,
+                isPrivate,
+                imagebytes);
             debugPrint(creation.toString());
-            if(creation[0]){Navigator.pop(context);}else{if(creation[1] == 400 || creation[1]== 401){showAlertDialog(context, "Error while creating the event", "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");}else{showAlertDialog(context, "Error", "An unexpected Error occured while creating event\nPlease try again later");}}
+            if (creation[0]) {
+              Navigator.pop(context);
+            } else {
+              if (creation[1] == 400 || creation[1] == 401) {
+                showAlertDialog(context, "Error while creating the event",
+                    "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
+              } else {
+                showAlertDialog(context, "Error",
+                    "An unexpected Error occured while creating event\nPlease try again later");
+              }
+            }
             //Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
@@ -104,26 +118,39 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         Text("Add an image to your event",
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
-                                    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold))),
                       ],
                     ),
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Container(
-
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
                           width: 320,
                           height: 200,
-                          child: ClipRRect(borderRadius: BorderRadius.circular(50), child: imagebytes == null
-                              ? const Icon(Icons.image)
-                              : Image.memory(imagebytes),),
-                        ),],),
-                        Row(mainAxisAlignment: MainAxisAlignment.center,
-                        children: [ElevatedButton(
-                          onPressed: ()  {
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: imagebytes == null
+                                ? const Icon(Icons.image)
+                                : Image.memory(imagebytes),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
                             openImage();
                           },
-                          child: imagebytes == null ? Text("Pick Image"): Text("Change Image"),
-                        ),],),
-
+                          child: imagebytes == null
+                              ? Text("Pick Image")
+                              : Text("Change Image"),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -191,64 +218,87 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Selcet Date\u002A: ", style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                              color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
-                      SizedBox(
-                        height: 50,
-                        width: 150,
-                        child: TextButton(
-                            onPressed: () async {
-                              var selectedDate = await showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2022),
-                                  lastDate: DateTime(2025));
-                              if (selectedDate != null) {
-                                setState(() {
-                                  eventDate = selectedDate;
-                                });
-                              }
-                            },
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(const Color(
-                                  0xffa173bd)),
-                            ),
-                            child: Text(dateToString(eventDate),style: GoogleFonts.lato(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Selcet Date\u002A: ",
+                            style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
-                                    color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)))),)
-                      ,],),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [Text("Selcet Time\u002A: ", style: GoogleFonts.lato(
-                        textStyle: const TextStyle(
-                            color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),SizedBox(
-                      height: 50,
-                      width: 150,
-                      child: TextButton(
-                          onPressed: () async {
-                            var selectedTime = await showTimePicker(
-                              context: context,
-                              initialTime: TimeOfDay.now(),);
-                            if (selectedTime != null) {
-                              setState(() {
-                                eventTime = selectedTime;
-
-                              });
-                            }
-                          },
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(const Color(
-                                0xffa173bd)),
-                          ),
-                          child: Text(eventTime.format(context),style: GoogleFonts.lato(
-                              textStyle: const TextStyle(
-                                  color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)))),)],
-                  ),
-                    ],
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold))),
+                        SizedBox(
+                          height: 50,
+                          width: 150,
+                          child: TextButton(
+                              onPressed: () async {
+                                var selectedDate = await showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2022),
+                                    lastDate: DateTime(2025));
+                                if (selectedDate != null) {
+                                  setState(() {
+                                    eventDate = selectedDate;
+                                  });
+                                }
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xffa173bd)),
+                              ),
+                              child: Text(dateToString(eventDate),
+                                  style: GoogleFonts.lato(
+                                      textStyle: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)))),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Selcet Time\u002A: ",
+                            style: GoogleFonts.lato(
+                                textStyle: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold))),
+                        SizedBox(
+                          height: 50,
+                          width: 150,
+                          child: TextButton(
+                              onPressed: () async {
+                                var selectedTime = await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                );
+                                if (selectedTime != null) {
+                                  setState(() {
+                                    eventTime = selectedTime;
+                                  });
+                                }
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        const Color(0xffa173bd)),
+                              ),
+                              child: Text(eventTime.format(context),
+                                  style: GoogleFonts.lato(
+                                      textStyle: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold)))),
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -284,7 +334,9 @@ class _CreateEventPageState extends State<CreateEventPage> {
                         title: Text("Event private?",
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
-                                    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
+                                    color: Colors.black,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold))),
                         tileColor: const Color(0xff1f2121),
                         activeColor: const Color(0xfff2d635),
                         value: isPrivate,
@@ -292,8 +344,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           setState(() {
                             isPrivate = value;
                           });
-                        }
-                    ),
+                        }),
                   ],
                 ),
               ),

@@ -5,9 +5,9 @@ class Loginfield extends StatelessWidget {
   final TextEditingController controller;
   const Loginfield(
       {Key? key,
-        required this.title,
-        required this.defaultText,
-        required this.controller})
+      required this.title,
+      required this.defaultText,
+      required this.controller})
       : super(key: key);
 
   @override
@@ -45,4 +45,3 @@ class Loginfield extends StatelessWidget {
     );
   }
 }
-

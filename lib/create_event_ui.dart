@@ -8,10 +8,10 @@ class EventField extends StatelessWidget {
 
   const EventField(
       {Key? key,
-        required this.title,
-        required this.defaultText,
-        required this.controller,
-        this.isNumber = false})
+      required this.title,
+      required this.defaultText,
+      required this.controller,
+      this.isNumber = false})
       : super(key: key);
 
   @override
@@ -23,7 +23,9 @@ class EventField extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.lato(
                 textStyle: const TextStyle(
-                    color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold))),
+                    color: Colors.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold))),
         const SizedBox(
           height: 10,
         ),
@@ -42,10 +44,14 @@ class EventField extends StatelessWidget {
                   color: Colors.black54,
                 ),
               ),
-              label: Text(defaultText,
+              label: Text(
+                defaultText,
                 style: GoogleFonts.lato(
                     textStyle: const TextStyle(
-                        color: Colors.black54, fontSize: 15, fontWeight: FontWeight.bold)),),
+                        color: Colors.black54,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold)),
+              ),
             ),
           ),
         )

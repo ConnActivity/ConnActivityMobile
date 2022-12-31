@@ -93,8 +93,15 @@ Future<bool> userExists() async {
   return response.statusCode != 404;
 }
 
-Future<List> createEvent(String eventName, String eventDescription,
-    String location, DateTime time, memberLimit, isPrivate, imagebytes,) async {
+Future<List> createEvent(
+  String eventName,
+  String eventDescription,
+  String location,
+  DateTime time,
+  memberLimit,
+  isPrivate,
+  imagebytes,
+) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
@@ -119,8 +126,8 @@ Future<List> createEvent(String eventName, String eventDescription,
 
   if (imagebytes != null) {
     var imagename = imagebytes.hashCode.toString();
-    var picture = http.MultipartFile.fromBytes('image', imagebytes,
-        filename: imagename);
+    var picture =
+        http.MultipartFile.fromBytes('image', imagebytes, filename: imagename);
     request.files.add(picture);
   }
   var response = await request.send();
