@@ -72,9 +72,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
           onPressed: () async {
             eventDate = DateTime(eventDate.year, eventDate.month,
                 eventDate.day, eventTime.hour, eventTime.minute);
-            await createEvent(eventNameInput.text, eventDescriptionInput.text,
+            var creation = await createEvent(eventNameInput.text, eventDescriptionInput.text,
                 eventLocation.text, eventDate, memberLimit, isPrivate, imagebytes);
-            Navigator.pop(context);
+            debugPrint(creation.toString());
+            creation[0] ? Navigator.pop(context) : showAlertDialog(context, "Error", "Event while creating event\nPlease try again later");
+            //Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
           child: const Icon(

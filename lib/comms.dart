@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
+
+import 'alert_dialog.dart';
 
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
@@ -90,8 +93,8 @@ Future<bool> userExists() async {
   return response.statusCode != 404;
 }
 
-Future<bool> createEvent(String eventName, String eventDescription,
-    String location, DateTime time, memberLimit, isPrivate, imagebytes) async {
+Future<List> createEvent(String eventName, String eventDescription,
+    String location, DateTime time, memberLimit, isPrivate, imagebytes,) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
@@ -113,10 +116,6 @@ Future<bool> createEvent(String eventName, String eventDescription,
   } else {
     request.fields["is_private"] = "false";
   }
-  // Debug print
-  print(imagebytes);
-  print(imagebytes!=null);
-  print(imagebytes.runtimeType);
 
   if (imagebytes != null) {
     var imagename = imagebytes.hashCode.toString();
@@ -128,7 +127,6 @@ Future<bool> createEvent(String eventName, String eventDescription,
   var responseData = await response.stream.bytesToString();
   debugPrint(responseData);
 
-
   debugPrint(response.statusCode.toString());
-  return response.statusCode == 201;
+  return [response.statusCode == 201, response.statusCode, responseData];
 }

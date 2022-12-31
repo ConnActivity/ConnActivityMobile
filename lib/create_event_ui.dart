@@ -10,8 +10,8 @@ class EventField extends StatelessWidget {
       {Key? key,
         required this.title,
         required this.defaultText,
-        required this.controller
-        ,this.isNumber = false})
+        required this.controller,
+        this.isNumber = false})
       : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class EventField extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-          child: TextField(
+          child: TextFormField(
             keyboardType: isNumber ? TextInputType.number : TextInputType.text,
             controller: controller,
             style: const TextStyle(color: Colors.black),
