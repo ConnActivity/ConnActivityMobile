@@ -47,6 +47,7 @@ class _FeedElementState extends State<FeedElement>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(widget.feedElementData.image),
           Text(widget.feedElementData.title,
               style: GoogleFonts.anton(
                   textStyle:
