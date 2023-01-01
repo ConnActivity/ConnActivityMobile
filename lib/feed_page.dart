@@ -115,7 +115,6 @@ class _FeedPageState extends State<FeedPage>
                     );
                   } else {
                     return ListView.builder(
-                      //adding pagination
                       shrinkWrap: false,
                       itemCount: snapshot.data?[1].length,
                       itemBuilder: (context, index) {
@@ -144,9 +143,11 @@ class _FeedPageState extends State<FeedPage>
                 currentPage = number;
               });
             },
-            useGroup: false,
+            useGroup: true,
             totalPage: 30,
-            show: 2,
+            show: 3,
+            height: 50,
+            width: 200,
             currentPage: currentPage,
           ),
         ],

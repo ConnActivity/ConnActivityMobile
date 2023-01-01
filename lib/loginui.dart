@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class Loginfield extends StatelessWidget {
   final String title, defaultText;
   final TextEditingController controller;
-  final bool isHidden;
+  final bool isPassword;
 
   const Loginfield(
       {Key? key,
       required this.title,
       required this.defaultText,
       required this.controller,
-      this.isHidden = false})
+      this.isPassword = false})
       : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class Loginfield extends StatelessWidget {
           child: TextField(
             controller: controller,
             style: const TextStyle(color: Colors.white),
-            obscureText: isHidden,
+            obscureText: isPassword,
             decoration: InputDecoration(
               labelStyle: const TextStyle(color: Colors.amber),
               enabledBorder: const OutlineInputBorder(

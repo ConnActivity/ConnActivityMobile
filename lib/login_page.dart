@@ -55,7 +55,7 @@ class _State extends State<LoginPage> {
                       title: 'Password:',
                       defaultText: 'topsecret123',
                       controller: passwordController,
-                      isHidden: true,
+                      isPassword: true,
                     ),
                     MaterialButton(
                         onPressed: () => loginUser(
