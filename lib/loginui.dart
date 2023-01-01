@@ -11,9 +11,7 @@ class Loginfield extends StatelessWidget {
       required this.defaultText,
       required this.controller,
       this.isHidden = false})
-
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
