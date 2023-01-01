@@ -44,12 +44,14 @@ class _FeedPageState extends State<FeedPage>
     for (Map<String, dynamic> event in decodedResponse) {
       feedData.add(
         FeedElementData(
-            isMemeber: userEventIds.contains(event["id"]),
-            id: event["id"],
-            title: event["title"],
-            description: event["description"],
-            place: null,
-            time: event["date"] != null ? DateTime.parse(event["date"]) : null),
+          isMemeber: userEventIds.contains(event["id"]),
+          id: event["id"],
+          title: event["title"],
+          description: event["description"],
+          place: null,
+          time: event["date"] != null ? DateTime.parse(event["date"]) : null,
+          image: event["image"] ?? "null",
+        ),
       );
     }
 
