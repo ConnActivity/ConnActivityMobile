@@ -4,6 +4,8 @@ import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'event_detail_view.dart';
+
 class FeedElement extends StatefulWidget {
   const FeedElement(
       {Key? key,
@@ -133,8 +135,14 @@ class _FeedElementState extends State<FeedElement>
                   width: double.infinity,
                   margin: const EdgeInsets.fromLTRB(5, 15, 0, 0),
                   child: ElevatedButton(
-                    //TODO: implement route to actual details-page
-                    onPressed: () => null,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailScreen(
+                                  feedElementData: widget.feedElementData)));
+                    },
+
                     style: ButtonStyle(
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
