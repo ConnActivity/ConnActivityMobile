@@ -47,7 +47,9 @@ class _FeedPageState extends State<FeedPage>
           description: event["description"],
           place: null,
           time: event["date"] != null ? DateTime.parse(event["date"]) : null,
-          image: event["image"] == null ? Uint8List(0) : await getImage(event["image"]) ,
+          image: event["image"] == null
+              ? Uint8List(0)
+              : await getImage(event["image"]),
         ),
       );
     }
@@ -132,12 +134,12 @@ class _FeedPageState extends State<FeedPage>
   getImage(event) async {
     try {
       var response = await http
-          .get(Uri.parse("https://api.connactivity.me$event")).timeout(const Duration(seconds: 5));
+          .get(Uri.parse("https://api.connactivity.me$event"))
+          .timeout(const Duration(seconds: 5));
       return response.bodyBytes;
     } catch (e) {
       return Uint8List(0);
     }
-
   }
 }
 
