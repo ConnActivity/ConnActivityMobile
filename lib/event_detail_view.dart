@@ -1,6 +1,6 @@
 import 'package:connactivity/feed_element_data.dart';
-import 'package:flutter/cupertino.dart'
-import 'package:flutter/material.dart';;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 Future<bool> showDetailView() async {
   print("showDetailView");

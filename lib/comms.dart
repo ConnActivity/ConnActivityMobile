@@ -126,6 +126,7 @@ Future<List> createEvent(
 
   if (imagebytes != null) {
     var imagename = imagebytes.hashCode.toString();
+    imagename += ".jpg";
     var picture =
         http.MultipartFile.fromBytes('image', imagebytes, filename: imagename);
     request.files.add(picture);

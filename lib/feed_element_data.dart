@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 class FeedElementData {
@@ -7,7 +9,7 @@ class FeedElementData {
   final String? place;
   final DateTime? time;
   final bool? isMemeber;
-  final String image;
+  final Uint8List image;
 
   FeedElementData(
       {this.isMemeber,

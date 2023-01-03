@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element.dart';
@@ -46,11 +47,12 @@ class _FeedPageState extends State<FeedPage>
           description: event["description"],
           place: null,
           time: event["date"] != null ? DateTime.parse(event["date"]) : null,
-          image: event["image"] ?? "null",
+          image: event["image"] != null ? getImage(event["image"]) : Uint8List.fromList([]),
+
         ),
       );
+      print(event["image"] != null);
     }
-
     debugPrint(response.statusCode.toString());
     //debugPrint(response.body);
 
@@ -131,6 +133,12 @@ class _FeedPageState extends State<FeedPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  getImage(event) {
+    var response = http
+        .get(Uri.parse("https://api.connactivity.me$event"));
+    print(response);
+  }
 }
 
 //TODO: change icon color to black

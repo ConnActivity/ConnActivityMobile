@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/time_formater.dart';
@@ -49,7 +51,14 @@ class _FeedElementState extends State<FeedElement>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.feedElementData.image),
+          Container(
+            width: 320,
+            height: 200,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: widget.feedElementData.image == Uint8List.fromList([]) ? const Icon(Icons.image) : Image.memory(widget.feedElementData.image),
+            ),
+          ),
           Text(widget.feedElementData.title,
               style: GoogleFonts.anton(
                   textStyle:
