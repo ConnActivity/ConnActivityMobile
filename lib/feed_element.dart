@@ -56,7 +56,7 @@ class _FeedElementState extends State<FeedElement>
             height: 200,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: widget.feedElementData.image == Uint8List.fromList([]) ? const Icon(Icons.image) : Image.memory(widget.feedElementData.image),
+              child: (widget.feedElementData.image.isEmpty) ? const Icon(Icons.image) : Image.memory(widget.feedElementData.image),
             ),
           ),
           Text(widget.feedElementData.title,
@@ -148,8 +148,7 @@ class _FeedElementState extends State<FeedElement>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DetailScreen(
-                                  feedElementData: widget.feedElementData)));
+                              builder: (context) => DetailScreen(widget.feedElementData)));
                     },
 
                     style: ButtonStyle(

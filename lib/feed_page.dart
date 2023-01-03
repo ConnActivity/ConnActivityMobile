@@ -47,15 +47,10 @@ class _FeedPageState extends State<FeedPage>
           description: event["description"],
           place: null,
           time: event["date"] != null ? DateTime.parse(event["date"]) : null,
-          image: event["image"] != null ? getImage(event["image"]) : Uint8List.fromList([]),
-
+          image: event["image"] == null ? Uint8List(0) : await getImage(event["image"]) ,
         ),
       );
-      print(event["image"] != null);
     }
-    debugPrint(response.statusCode.toString());
-    //debugPrint(response.body);
-
     return feedData;
   }
 
@@ -134,10 +129,15 @@ class _FeedPageState extends State<FeedPage>
   @override
   bool get wantKeepAlive => true;
 
-  getImage(event) {
-    var response = http
-        .get(Uri.parse("https://api.connactivity.me$event"));
-    print(response);
+  getImage(event) async {
+    try {
+      var response = await http
+          .get(Uri.parse("https://api.connactivity.me$event")).timeout(const Duration(seconds: 5));
+      return response.bodyBytes;
+    } catch (e) {
+      return Uint8List(0);
+    }
+
   }
 }
 

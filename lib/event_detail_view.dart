@@ -6,32 +6,42 @@ Future<bool> showDetailView() async {
   print("showDetailView");
   return true;
 }
+
 class DetailScreen extends StatefulWidget {
   final FeedElementData feedElementData;
 
+  DetailScreen(this.feedElementData);
+
+  @override
+  State<DetailScreen> createState() => DetailScreenState();
+
+}
+
+  //const DetailScreen({super.key, required this.feedElementData});
 
 
-  const DetailScreen({super.key, required this.feedElementData});
+class DetailScreenState extends State<DetailScreen> {
+  @override
+  void initState() {
+    // ...
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Use the Todo to create the UI.
     return Scaffold(
       appBar: AppBar(
-        title: Text(feedElementData.title),
+        title: Text(widget.feedElementData.title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Text(feedElementData.description),
+        child: Text(widget.feedElementData.description, style: const TextStyle(fontSize: 25, color: Colors.black)),
       ),
     );
   }
 
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
 }
+
+
 
 // TODO: implement an edit/delete button if the user is the owner of the event

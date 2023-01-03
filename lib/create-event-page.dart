@@ -201,7 +201,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     EventField(
-                      title: "Location",
+                      title: "Location\u002A",
                       defaultText: "Where is your event?",
                       controller: eventLocation,
                     ),
@@ -221,7 +221,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Selcet Date\u002A: ",
+                        Text("Select Date\u002A: ",
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                     color: Colors.black,
