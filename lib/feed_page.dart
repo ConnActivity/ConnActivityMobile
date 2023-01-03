@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
 
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element.dart';
@@ -24,6 +26,7 @@ class FeedPage extends StatefulWidget {
 }
 
 var currentPage = 1;
+var maxpages = 1;
 
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
@@ -32,10 +35,12 @@ class _FeedPageState extends State<FeedPage>
 
     if (userToken == null) return null;
 
-    var response = await http
-        .get(Uri.parse("https://api.connactivity.me/events/"), headers: {
-      "cookie": "user_token=$userToken",
-    });
+    var response = await http.get(
+        Uri.parse("https://api.connactivity.me/events/?page=$currentPage"),
+        headers: {
+          "cookie": "user_token=$userToken",
+        });
+    maxpages = int.parse(response.headers['link']!);
 
     var userEventIds = await getUserEventIdList();
 
@@ -77,7 +82,7 @@ class _FeedPageState extends State<FeedPage>
             child: const Icon(Icons.sort),
           ),
           const SizedBox(
-            height: 5,
+            height: 2,
           ),
           FloatingActionButton(
             onPressed: () {
@@ -92,11 +97,31 @@ class _FeedPageState extends State<FeedPage>
             heroTag: "updateFeedBtn",
             backgroundColor: const Color(0xffFE7F2D),
             child: const Icon(Icons.refresh),
-          )
+          ),
         ],
       ),
       body: Column(
         children: [
+          Pagination(
+            paginateButtonStyles: PaginateButtonStyles(),
+            prevButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20))),
+            nextButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20))),
+            onPageChange: (number) {
+              setState(() {
+                currentPage = number;
+              });
+            },
+            useGroup: true,
+            totalPage: maxpages,
+            show: maxpages > 3 ? 3 : 0,
+            currentPage: currentPage,
+          ),
           Expanded(
             child: FutureBuilder(
                 future: Future.wait([
@@ -127,28 +152,6 @@ class _FeedPageState extends State<FeedPage>
                     );
                   }
                 }),
-          ),
-          Pagination(
-            paginateButtonStyles: PaginateButtonStyles(),
-            prevButtonStyles: PaginateSkipButton(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20))),
-            nextButtonStyles: PaginateSkipButton(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20))),
-            onPageChange: (number) {
-              setState(() {
-                currentPage = number;
-              });
-            },
-            useGroup: true,
-            totalPage: 30,
-            show: 3,
-            height: 50,
-            width: 200,
-            currentPage: currentPage,
           ),
         ],
       ),
