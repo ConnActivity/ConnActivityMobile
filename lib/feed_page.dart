@@ -65,12 +65,6 @@ class _FeedPageState extends State<FeedPage>
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            heroTag: "openSortPageBtn",
-            onPressed: () => null,
-            backgroundColor: const Color(0xffFE7F2D),
-            child: const Icon(Icons.sort),
-          ),
           const SizedBox(
             height: 5,
           ),

@@ -1,4 +1,5 @@
 import 'package:connactivity/comms.dart';
+import 'package:connactivity/event_detail_view.dart';
 import 'package:connactivity/feed_element_data.dart';
 import 'package:flutter/material.dart';
 
@@ -61,7 +62,13 @@ class _MyEventState extends State<MyEvent> {
                 var hasLeft = await leaveEvent(widget.data.id);
                 if (hasLeft) widget.callback();
               }),
-          onTap: () => null,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DetailScreen(widget.data, widget.color, 500)));
+          },
         ),
       ),
     );

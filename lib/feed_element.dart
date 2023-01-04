@@ -41,7 +41,7 @@ class _FeedElementState extends State<FeedElement>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height - 30,
+      height: widget.height - 220,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -56,7 +56,9 @@ class _FeedElementState extends State<FeedElement>
             height: 200,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: (widget.feedElementData.image.isEmpty) ? const Icon(Icons.image) : Image.memory(widget.feedElementData.image),
+              child: (widget.feedElementData.image.isEmpty)
+                  ? const Icon(Icons.image)
+                  : Image.memory(widget.feedElementData.image),
             ),
           ),
           Text(widget.feedElementData.title,
@@ -148,9 +150,11 @@ class _FeedElementState extends State<FeedElement>
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DetailScreen(widget.feedElementData)));
+                              builder: (context) => DetailScreen(
+                                  widget.feedElementData,
+                                  widget.backgroundColor,
+                                  widget.height)));
                     },
-
                     style: ButtonStyle(
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
