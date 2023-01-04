@@ -42,8 +42,8 @@ dependencies:
   github_sign_in: 0.0.5-dev.4
   font_awesome_flutter: ^10.1.0
   html: ^0.15.0
-  flutter_pagination: ^0.0.1
   image_picker: ^0.8.5+3
+  flutter_pagination: ^0.0.1
 
 dev_dependencies:
   flutter_test:

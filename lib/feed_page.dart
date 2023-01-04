@@ -74,6 +74,7 @@ class _FeedPageState extends State<FeedPage>
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           FloatingActionButton(
             heroTag: "openSortPageBtn",
@@ -88,7 +89,7 @@ class _FeedPageState extends State<FeedPage>
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 behavior: SnackBarBehavior.floating,
-                margin: EdgeInsets.fromLTRB(90, 0, 90, 30),
+                //margin: EdgeInsets.fromLTRB(90, 0, 90, 30),
                 duration: Duration(milliseconds: 500),
                 content: Text("updating feed..."),
               ));
@@ -98,10 +99,6 @@ class _FeedPageState extends State<FeedPage>
             backgroundColor: const Color(0xffFE7F2D),
             child: const Icon(Icons.refresh),
           ),
-        ],
-      ),
-      body: Column(
-        children: [
           Pagination(
             paginateButtonStyles: PaginateButtonStyles(),
             prevButtonStyles: PaginateSkipButton(
@@ -122,6 +119,10 @@ class _FeedPageState extends State<FeedPage>
             show: maxpages > 3 ? 3 : 0,
             currentPage: currentPage,
           ),
+        ],
+      ),
+      body: Column(
+        children: [
           Expanded(
             child: FutureBuilder(
                 future: Future.wait([
