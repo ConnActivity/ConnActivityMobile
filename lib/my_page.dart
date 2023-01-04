@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:connactivity/comms.dart';
 import 'package:connactivity/create-event-page.dart';
 import 'package:connactivity/feed_element_data.dart';
+import 'package:connactivity/feed_page.dart';
 import 'package:connactivity/my_event_element.dart';
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
@@ -34,7 +36,7 @@ class _MyPAgeState extends State<MyPAge> {
     if (userId == null) return null;
 
     var response = await http.get(
-        Uri.parse("https://api.connactivity.me/list_user_with_events/$userId"),
+        Uri.parse("https://$server_url/list_user_with_events/$userId"),
         headers: {
           "cookie": "user_token=${userToken!}",
         });

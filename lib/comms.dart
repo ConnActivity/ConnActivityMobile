@@ -1,15 +1,16 @@
 import 'dart:convert';
 
+import 'package:connactivity/feed_page.dart';
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
+const String server_url = "https://api.connactivity.me";
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
 
   var response = await http
-      .put(Uri.parse("https://api.connactivity.me/join_event/$id"), headers: {
+      .put(Uri.parse("$server_url/join_event/$id"), headers: {
     "cookie": "user_token=${userToken!}",
   });
 
@@ -20,7 +21,7 @@ Future<bool> leaveEvent(int id) async {
   var userToken = await getUserToken();
 
   var response = await http
-      .put(Uri.parse("https://api.connactivity.me/leave_event/$id"), headers: {
+      .put(Uri.parse("$server_url/leave_event/$id"), headers: {
     "cookie": "user_token=${userToken!}",
   });
 
@@ -34,7 +35,7 @@ Future<List<int>> getUserEventIdList() async {
   var userId = user.id;
 
   var response = await http.get(
-      Uri.parse("https://api.connactivity.me/list_user_with_events/${userId!}"),
+      Uri.parse("$server_url/list_user_with_events/${userId!}"),
       headers: {
         "cookie": "user_token=${userToken!}",
       });
@@ -63,7 +64,7 @@ Future<bool> registerUser(String? name, String? email) async {
     "user_id": uid,
   };
 
-  var response = await http.post(Uri.parse("https://api.connactivity.me/user/"),
+  var response = await http.post(Uri.parse("$server_url/user/"),
       headers: {
         "cookie": "user_token=${userToken!}",
         "Content-Type": "application/json"
@@ -82,7 +83,7 @@ Future<bool> userExists() async {
   debugPrint(userToken.toString());
 
   var response = await http.get(
-      Uri.parse("https://api.connactivity.me/user/$uid"),
+      Uri.parse("$server_url/user/$uid"),
       headers: {"cookie": "user_token=$userToken"});
 
   return response.statusCode != 404;
@@ -108,7 +109,7 @@ Future<bool> createEvent(String eventName, String eventDescription,
   //requestBody["is_private"] = false;
 
   var response =
-      await http.post(Uri.parse("https://api.connactivity.me/events/"),
+      await http.post(Uri.parse("$server_url/events/"),
           headers: {
             "cookie": "user_token=${userToken!}",
             //"Content-Type" : "application/json"

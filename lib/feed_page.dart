@@ -29,7 +29,7 @@ class _FeedPageState extends State<FeedPage>
     if (userToken == null) return null;
 
     var response = await http
-        .get(Uri.parse("https://api.connactivity.me/events/"), headers: {
+        .get(Uri.parse("https://$server_url/events/"), headers: {
       "cookie": "user_token=$userToken",
     });
 
