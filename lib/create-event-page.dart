@@ -356,4 +356,3 @@ class _CreateEventPageState extends State<CreateEventPage> {
         ));
   }
 }
-
