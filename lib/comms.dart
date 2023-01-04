@@ -23,22 +23,24 @@ Future<bool> joinEvent(int id) async {
 
 Future<bool> leaveEvent(int id) async {
   var userToken = await getUserToken();
- //var event = await http
- //    .get(Uri.parse("https://api.connactivity.me/events/$id"), headers: {
- //  "cookie": "user_token=$userToken",
- //});
- //var jsnondecoded = json.decode(event.body);
- //var creator = jsnondecoded["creator"];
+  //var event = await http
+  //    .get(Uri.parse("https://api.connactivity.me/events/$id"), headers: {
+  //  "cookie": "user_token=$userToken",
+  //});
+  //var jsnondecoded = json.decode(event.body);
+  //var creator = jsnondecoded["creator"];
   var response = await http
       .put(Uri.parse("https://api.connactivity.me/leave_event/$id"), headers: {
     "cookie": "user_token=$userToken",
   });
-  print("----------------------------------------------------------------------------------");
+  print(
+      "----------------------------------------------------------------------------------");
   print(id.toString());
   print(response.statusCode);
   //print(event.statusCode);
   //print(event.body.toString());
-  print("----------------------------------------------------------------------------------");
+  print(
+      "----------------------------------------------------------------------------------");
 
   return response.statusCode == 200;
 }
