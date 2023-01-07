@@ -10,7 +10,7 @@ Future<String?> getUserToken() async {
   );
   var currentUser = FirebaseAuth.instance.currentUser;
   if (currentUser == null) throw Exception("User not logged in");
-  return currentUser?.getIdToken(true);
+  return currentUser.getIdToken(true);
 }
 
 Future<UserData> getUserId() async {

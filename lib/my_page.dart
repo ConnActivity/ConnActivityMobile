@@ -5,6 +5,7 @@ import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/my_event_element.dart';
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
+import 'package:connactivity/user_not_logged_in.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -75,27 +76,20 @@ class _MyPAgeState extends State<MyPAge> {
         child: const Icon(Icons.add),
       ),
       body: FutureBuilder(
-          future: Future.wait([
-            getUserId(),
-            getUserEvents(),
-          ]),
-          builder: (context, AsyncSnapshot<List> snapshot) {
-            if (!snapshot.hasData) {
+          future: getUserEvents(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasError && snapshot.data == null) {
+              return const UserNotLoggedIn();
+            } else if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
-            } else if (!snapshot.data![0].isLoggedIn) {
-              return const Center(
-                child: Text(
-                  "Your are not logged in",
-                  style: TextStyle(color: Colors.red),
-                ),
-              );
             } else {
+              debugPrint(snapshot.data.toString());
               return ListView.builder(
                 shrinkWrap: false,
-                itemCount: snapshot.data?[1].length,
+                itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   return MyEvent(
-                    data: snapshot.data?[1][index],
+                    data: snapshot.data?[index],
                     color: colors[index % 3],
                     callback: triggerUpdate,
                   );

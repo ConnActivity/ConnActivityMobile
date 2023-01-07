@@ -6,6 +6,7 @@ import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element.dart';
 import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/user_auth.dart';
+import 'package:connactivity/user_not_logged_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagination/flutter_pagination.dart';
 import 'package:flutter_pagination/widgets/button_styles.dart';
@@ -83,20 +84,13 @@ class _FeedPageState extends State<FeedPage>
         children: [
           Expanded(
             child: FutureBuilder(
-                future: 
-                  getFeedData(),
+                future: getFeedData(),
                 builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) {
-                    return const Center(
-                      child: Text(
-                        "Your are not logged in",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
+                    return const UserNotLoggedIn();
                   } else if (!snapshot.hasData) {
                     debugPrint("F:build() -> snapshot.hasData: false");
                     return const Center(child: CircularProgressIndicator());
-                  
                   } else {
                     debugPrint("F:build() -> snapshot.hasData: true");
                     return RefreshIndicator(
