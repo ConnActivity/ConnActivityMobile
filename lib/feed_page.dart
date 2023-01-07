@@ -75,22 +75,7 @@ class _FeedPageState extends State<FeedPage>
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                behavior: SnackBarBehavior.floating,
-                //margin: EdgeInsets.fromLTRB(90, 0, 90, 30),
-                duration: Duration(milliseconds: 500),
-                content: Text("updating feed..."),
-              ));
-              setState(() {});
-            },
-            heroTag: "updateFeedBtn",
-            backgroundColor: const Color(0xffFE7F2D),
-            child: const Icon(Icons.refresh),
-          ),
-        ],
+        children: [],
       ),
       body: Column(
         children: [
@@ -111,16 +96,22 @@ class _FeedPageState extends State<FeedPage>
                       ),
                     );
                   } else {
-                    return ListView.builder(
-                      shrinkWrap: false,
-                      itemCount: snapshot.data?[1].length,
-                      itemBuilder: (context, index) {
-                        return FeedElement(
-                          feedElementData: snapshot.data?[1][index],
-                          backgroundColor: widget.colors[index % 3],
-                          height: widget.height,
-                        );
+                    return RefreshIndicator(
+                      onRefresh: () {
+                        setState(() {});
+                        return Future.value();
                       },
+                      child: ListView.builder(
+                        shrinkWrap: false,
+                        itemCount: snapshot.data?[1].length,
+                        itemBuilder: (context, index) {
+                          return FeedElement(
+                            feedElementData: snapshot.data?[1][index],
+                            backgroundColor: widget.colors[index % 3],
+                            height: widget.height,
+                          );
+                        },
+                      ),
                     );
                   }
                 }),
