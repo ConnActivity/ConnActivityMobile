@@ -77,15 +77,6 @@ class _FeedPageState extends State<FeedPage>
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           FloatingActionButton(
-            heroTag: "openSortPageBtn",
-            onPressed: () => null,
-            backgroundColor: const Color(0xffFE7F2D),
-            child: const Icon(Icons.sort),
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          FloatingActionButton(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 behavior: SnackBarBehavior.floating,
