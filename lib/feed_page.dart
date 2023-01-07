@@ -31,7 +31,9 @@ var maxpages = 1;
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
   Future<List<FeedElementData>?> getFeedData() async {
+    debugPrint("CALLED FEED DATA");
     var userToken = await getUserToken();
+    debugPrint("F:getFeedData() -> userToken: $userToken");
 
     if (userToken == null) return null;
 
@@ -75,27 +77,28 @@ class _FeedPageState extends State<FeedPage>
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: [],
+        children: const [],
       ),
       body: Column(
         children: [
           Expanded(
             child: FutureBuilder(
-                future: Future.wait([
-                  getUserId(),
+                future: 
                   getFeedData(),
-                ]),
-                builder: (context, AsyncSnapshot<List> snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (!snapshot.data![0].isLoggedIn) {
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
                     return const Center(
                       child: Text(
                         "Your are not logged in",
                         style: TextStyle(color: Colors.red),
                       ),
                     );
+                  } else if (!snapshot.hasData) {
+                    debugPrint("F:build() -> snapshot.hasData: false");
+                    return const Center(child: CircularProgressIndicator());
+                  
                   } else {
+                    debugPrint("F:build() -> snapshot.hasData: true");
                     return RefreshIndicator(
                       onRefresh: () {
                         setState(() {});
@@ -103,10 +106,10 @@ class _FeedPageState extends State<FeedPage>
                       },
                       child: ListView.builder(
                         shrinkWrap: false,
-                        itemCount: snapshot.data?[1].length,
+                        itemCount: snapshot.data?.length,
                         itemBuilder: (context, index) {
                           return FeedElement(
-                            feedElementData: snapshot.data?[1][index],
+                            feedElementData: snapshot.data?[index],
                             backgroundColor: widget.colors[index % 3],
                             height: widget.height,
                           );
