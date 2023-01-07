@@ -99,26 +99,6 @@ class _FeedPageState extends State<FeedPage>
             backgroundColor: const Color(0xffFE7F2D),
             child: const Icon(Icons.refresh),
           ),
-          Pagination(
-            paginateButtonStyles: PaginateButtonStyles(),
-            prevButtonStyles: PaginateSkipButton(
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    bottomLeft: Radius.circular(20))),
-            nextButtonStyles: PaginateSkipButton(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(20),
-                    bottomRight: Radius.circular(20))),
-            onPageChange: (number) {
-              setState(() {
-                currentPage = number;
-              });
-            },
-            useGroup: true,
-            totalPage: maxpages,
-            show: maxpages > 3 ? 3 : 0,
-            currentPage: currentPage,
-          ),
         ],
       ),
       body: Column(
@@ -153,6 +133,26 @@ class _FeedPageState extends State<FeedPage>
                     );
                   }
                 }),
+          ),
+          Pagination(
+            paginateButtonStyles: PaginateButtonStyles(),
+            prevButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20))),
+            nextButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20))),
+            onPageChange: (number) {
+              setState(() {
+                currentPage = number;
+              });
+            },
+            useGroup: true,
+            totalPage: maxpages,
+            show: maxpages > 3 ? 3 : 0,
+            currentPage: currentPage,
           ),
         ],
       ),
