@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 
+/// Displays the user's [name], [email], and [photoUrl].
 class UserDisplay extends StatelessWidget {
   final String name;
   final String email;
@@ -47,6 +48,7 @@ class UserDisplay extends StatelessWidget {
   }
 }
 
+/// Displays an [icon] and [text] in a row. Sub-part of [UserDisplay].
 class InfoChip extends StatelessWidget {
   final IconData icon;
   final String text;
