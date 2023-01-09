@@ -47,7 +47,7 @@ class DetailScreenState extends State<DetailScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
             width: 320,
             height: 200,
             child: ClipRRect(
