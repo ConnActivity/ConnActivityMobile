@@ -1,14 +1,9 @@
 import 'dart:convert';
-
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:http/http.dart' as http;
-import 'dart:io';
-
-import 'alert_dialog.dart';
 
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
@@ -23,24 +18,10 @@ Future<bool> joinEvent(int id) async {
 
 Future<bool> leaveEvent(int id) async {
   var userToken = await getUserToken();
-  //var event = await http
-  //    .get(Uri.parse("https://api.connactivity.me/events/$id"), headers: {
-  //  "cookie": "user_token=$userToken",
-  //});
-  //var jsnondecoded = json.decode(event.body);
-  //var creator = jsnondecoded["creator"];
   var response = await http
       .put(Uri.parse("https://api.connactivity.me/leave_event/$id"), headers: {
     "cookie": "user_token=$userToken",
   });
-  print(
-      "----------------------------------------------------------------------------------");
-  print(id.toString());
-  print(response.statusCode);
-  //print(event.statusCode);
-  //print(event.body.toString());
-  print(
-      "----------------------------------------------------------------------------------");
 
   return response.statusCode == 200;
 }
@@ -119,7 +100,6 @@ Future<List> createEvent(
   UserData user = await getUserId();
   var uid = user.id;
 
-  //debugPrint(time.toUtc().toIso8601String());
   var request = http.MultipartRequest(
       'POST', Uri.parse("https://api.connactivity.me/events/"));
   request.headers.addAll({"cookie": "user_token=${userToken!}"});
@@ -138,10 +118,10 @@ Future<List> createEvent(
   }
 
   if (imagebytes != null) {
-    var imagename = imagebytes.hashCode.toString();
-    imagename += ".jpg";
+    var imageName = "${imagebytes.hashCode.toString()}.jpg";
+    ;
     var picture =
-        http.MultipartFile.fromBytes('image', imagebytes, filename: imagename);
+        http.MultipartFile.fromBytes('image', imagebytes, filename: imageName);
     request.files.add(picture);
   }
   var response = await request.send();

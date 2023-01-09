@@ -1,13 +1,12 @@
 import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/time_formater.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'comms.dart';
 
 Future<bool> showDetailView() async {
-  print("showDetailView");
+  debugPrint("showDetailView");
   return true;
 }
 
@@ -15,13 +14,12 @@ class DetailScreen extends StatefulWidget {
   final FeedElementData feedElementData;
   final Color backgroundColor;
   final double height;
+
   DetailScreen(this.feedElementData, this.backgroundColor, this.height);
 
   @override
   State<DetailScreen> createState() => DetailScreenState();
 }
-
-//const DetailScreen({super.key, required this.feedElementData});
 
 class DetailScreenState extends State<DetailScreen> {
   bool joint = false;
@@ -36,19 +34,6 @@ class DetailScreenState extends State<DetailScreen> {
     }
   }
 
-  //@override
-  //Widget build(BuildContext context) {
-  //  return Scaffold(
-  //    appBar: AppBar(
-  //      title: Text(widget.feedElementData.title),
-  //    ),
-  //    body: Padding(
-  //      padding: const EdgeInsets.all(16.0),
-  //      child: Text(widget.feedElementData.description,
-  //          style: const TextStyle(fontSize: 25, color: Colors.black)),
-  //    ),
-  //  );
-  //}
   @override
   Widget build(BuildContext context) {
     return Container(

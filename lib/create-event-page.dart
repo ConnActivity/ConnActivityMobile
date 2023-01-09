@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
-
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/create_event_ui.dart';
 import 'package:connactivity/time_formater.dart';
