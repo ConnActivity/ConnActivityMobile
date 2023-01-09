@@ -1,3 +1,5 @@
+import 'package:connactivity/account_page/github_sign_in.dart';
+import 'package:connactivity/account_page/google_sign_in.dart';
 import 'package:connactivity/comms.dart' as comms;
 import 'package:connactivity/user_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -10,6 +12,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'firebase_options.dart';
 import 'login_page.dart';
 
+/// The AccountPage shows the user theier current account information
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
 
@@ -30,11 +33,11 @@ class _AccountPageState extends State<AccountPage> {
     userAuth();
   }
 
+  /// Gets information about current user and triggers widgets to be updated
   void userAuth() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    //await FirebaseAuth.instance.signOut();
     var currentUser = FirebaseAuth.instance.currentUser;
 
     setState(() {
@@ -46,12 +49,13 @@ class _AccountPageState extends State<AccountPage> {
     });
   }
 
-  Text isVerified(bool? isVerified) {
-    if (isVerified == null) {
+  /// Returns Text widget describing verification state of user email according to [isEmailVerified]
+  Text isVerified(bool? isEmailVerified) {
+    if (isEmailVerified == null) {
       return const Text("Email verification state not available",
           style: TextStyle(color: Colors.white));
     }
-    return isVerified
+    return isEmailVerified
         ? const Text("Email is verified", style: TextStyle(color: Colors.white))
         : const Text("Please verify your email",
             style: TextStyle(color: Colors.white));
@@ -80,9 +84,11 @@ class _AccountPageState extends State<AccountPage> {
                     id: firebaseId ?? "No id",
                   ),
                   isVerified(emailVerified),
+                  // Display login button if user is not logged in and vice versa (Email-Login)
                   userEmail == null
                       ? LoginBtn(callback: userAuth)
                       : LogoutBtn(callback: userAuth),
+                  // Offer option to send verification email if user is logged in and email is not verified
                   userEmail != null && emailVerified == false
                       ? SendVerificationEmailBtn(
                           callback: userAuth,
@@ -92,6 +98,7 @@ class _AccountPageState extends State<AccountPage> {
                           callback: userAuth, isActive: false),
                   GoogleSignInBtn(callback: userAuth),
                   GitHubSignInBtn(callback: userAuth, context: context),
+                  // Offer option to change display name if user is logged in
                   userEmail != null
                       ? ChangeDisplayNameBtn(
                           callback: userAuth,
@@ -105,7 +112,6 @@ class _AccountPageState extends State<AccountPage> {
                           oldDisplayName: displayName,
                           isActive: false,
                         ),
-                  RefreshTokenBtn(callback: userAuth)
                 ]),
           )
         ],
@@ -114,7 +120,7 @@ class _AccountPageState extends State<AccountPage> {
   }
 }
 
-//UI - Buttons
+/// Login user with email and password
 class LoginBtn extends StatelessWidget {
   final void Function() callback;
   const LoginBtn({Key? key, required this.callback}) : super(key: key);
@@ -135,6 +141,7 @@ class LoginBtn extends StatelessWidget {
   }
 }
 
+/// Logout user regardless of account type
 class LogoutBtn extends StatelessWidget {
   final void Function() callback;
   const LogoutBtn({Key? key, required this.callback}) : super(key: key);
@@ -153,150 +160,7 @@ class LogoutBtn extends StatelessWidget {
   }
 }
 
-class GoogleSignInBtn extends StatelessWidget {
-  final Function() callback;
-  const GoogleSignInBtn({Key? key, required this.callback}) : super(key: key);
-
-  void signInWithGoogle() async {
-    final googleUser = await GoogleSignIn().signIn();
-
-    final googleAuth = await googleUser?.authentication;
-
-    if (googleAuth == null) {
-      debugPrint("Google Auth didn't function");
-      return;
-    }
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
-
-    //untested...
-
-    var name = googleUser?.displayName;
-    var email = googleUser?.email;
-
-    var userExists = await comms.userExists();
-    debugPrint(userExists.toString());
-    if (!userExists) await comms.registerUser(name, email);
-
-    callback();
-  }
-
-  void signInWithGoogleWeb() async {
-    GoogleAuthProvider googleProvider = GoogleAuthProvider();
-
-    googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
-    googleProvider.addScope('https://www.googleapis.com/auth/userinfo.profile');
-    googleProvider.setCustomParameters({'login_hint': 'email@example.com'});
-
-    await FirebaseAuth.instance
-        .signInWithPopup(googleProvider)
-        .then((value) => callback());
-
-    // Or use signInWithRedirect
-    // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: kIsWeb
-          ? signInWithGoogleWeb
-          : () {
-              try {
-                signInWithGoogle();
-              } catch (error) {
-                debugPrint(error.toString());
-              }
-            },
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          FaIcon(FontAwesomeIcons.google),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Sign in with Google"),
-        ],
-      ),
-    );
-  }
-}
-
-class GitHubSignInBtn extends StatelessWidget {
-  final Function() callback;
-  final BuildContext context;
-  const GitHubSignInBtn(
-      {Key? key, required this.callback, required this.context})
-      : super(key: key);
-
-  void signInWithGitHub() async {
-    final GitHubSignIn gitHubSignIn = GitHubSignIn(
-        clientId: "92059c6ea0e08cad4256",
-        clientSecret: "4ed27f9c322c50dda7cba53856ce66e0c4bffcbd",
-        redirectUrl:
-            'https://tenacious-moon-348609.firebaseapp.com/__/auth/handler');
-
-    final result = await gitHubSignIn.signIn(context);
-
-    if (result.token == null) {
-      return;
-    }
-
-    final githubAuthCredential = GithubAuthProvider.credential(result.token!);
-
-    await FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
-
-    final gitHubUser = FirebaseAuth.instance.currentUser;
-
-    var userExists = await comms.userExists();
-    if (!userExists)
-      await comms.registerUser(gitHubUser?.displayName, gitHubUser?.email);
-
-    callback();
-    //.then((value) => callback());
-  }
-
-  void signInWithGitHubWeb() async {
-    GithubAuthProvider githubProvider = GithubAuthProvider();
-
-    await FirebaseAuth.instance
-        .signInWithPopup(githubProvider)
-        .then((value) => callback());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: kIsWeb
-          ? signInWithGitHubWeb
-          : (() {
-              try {
-                signInWithGitHub();
-              } catch (error) {
-                debugPrint(error.toString());
-              }
-            }),
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          FaIcon(FontAwesomeIcons.github),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Sign in with GitHub"),
-        ],
-      ),
-    );
-  }
-}
-
+/// Change the display name of the user
 class ChangeDisplayNameBtn extends StatelessWidget {
   final Function() callback;
   final BuildContext context;
@@ -319,13 +183,15 @@ class ChangeDisplayNameBtn extends StatelessWidget {
         .then((value) => callback());
   }
 
+  /// Show the dialog to change the display name
   Future<void> _showMyDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         var nickNameController = TextEditingController();
-        nickNameController.text = oldDisplayName ?? "";
+        nickNameController.text = oldDisplayName ??
+            ""; // Prepopulate the text field with the old display name
         return AlertDialog(
           title: const Text('Nickname Settings'),
           titleTextStyle: const TextStyle(color: Colors.white, fontSize: 25),
@@ -356,6 +222,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
                   foregroundColor:
                       MaterialStateProperty.all<Color>(Colors.white)),
               onPressed: () {
+                // change nickname asynchrnously
                 changeNickname(nickNameController.text);
                 Navigator.of(context).pop();
               },
@@ -370,6 +237,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      // if the button is not active it is still displayed in the UI but greyed out
       disabledColor: Colors.grey,
       onPressed: isActive
           ? () async {
@@ -387,38 +255,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
   }
 }
 
-//DEBUGGING-only
-class RefreshTokenBtn extends StatelessWidget {
-  final Function() callback;
-  const RefreshTokenBtn({Key? key, required this.callback}) : super(key: key);
-
-  Future<void> refreshToken() async {
-    FirebaseAuth.instance.currentUser
-        ?.getIdToken(true)
-        .then((value) => debugPrint(value));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        refreshToken().then((value) => callback());
-      },
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Icon(Icons.refresh),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Refresh Token"),
-        ],
-      ),
-    );
-  }
-}
-
+/// Request a verification email to be sent to the user
 class SendVerificationEmailBtn extends StatelessWidget {
   final Function() callback;
   final bool isActive;
@@ -426,6 +263,7 @@ class SendVerificationEmailBtn extends StatelessWidget {
       {Key? key, required this.callback, required this.isActive})
       : super(key: key);
 
+  /// Request firebase to send a verification email to the user
   void sendVerificationEmail(BuildContext context) async {
     debugPrint("Sending verification email");
     try {
@@ -443,6 +281,7 @@ class SendVerificationEmailBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      // if the button is not active it is still displayed in the UI but greyed out
       disabledColor: Colors.grey,
       onPressed: isActive
           ? () {
