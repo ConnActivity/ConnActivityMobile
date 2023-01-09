@@ -1,14 +1,9 @@
 import 'dart:convert';
-
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:http/http.dart' as http;
-import 'dart:io';
-
-import 'alert_dialog.dart';
 
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
@@ -23,10 +18,9 @@ Future<bool> joinEvent(int id) async {
 
 Future<bool> leaveEvent(int id) async {
   var userToken = await getUserToken();
-
   var response = await http
       .put(Uri.parse("https://api.connactivity.me/leave_event/$id"), headers: {
-    "cookie": "user_token=${userToken!}",
+    "cookie": "user_token=$userToken",
   });
 
   return response.statusCode == 200;
@@ -106,7 +100,6 @@ Future<List> createEvent(
   UserData user = await getUserId();
   var uid = user.id;
 
-  //debugPrint(time.toUtc().toIso8601String());
   var request = http.MultipartRequest(
       'POST', Uri.parse("https://api.connactivity.me/events/"));
   request.headers.addAll({"cookie": "user_token=${userToken!}"});
@@ -125,9 +118,10 @@ Future<List> createEvent(
   }
 
   if (imagebytes != null) {
-    var imagename = imagebytes.hashCode.toString();
+    var imageName = "${imagebytes.hashCode.toString()}.jpg";
+    ;
     var picture =
-        http.MultipartFile.fromBytes('image', imagebytes, filename: imagename);
+        http.MultipartFile.fromBytes('image', imagebytes, filename: imageName);
     request.files.add(picture);
   }
   var response = await request.send();

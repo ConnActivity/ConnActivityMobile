@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element.dart';
@@ -46,14 +47,12 @@ class _FeedPageState extends State<FeedPage>
           description: event["description"],
           place: null,
           time: event["date"] != null ? DateTime.parse(event["date"]) : null,
-          image: event["image"] ?? "null",
+          image: event["image"] == null
+              ? Uint8List(0)
+              : await getImage(event["image"]),
         ),
       );
     }
-
-    debugPrint(response.statusCode.toString());
-    //debugPrint(response.body);
-
     return feedData;
   }
 
@@ -66,12 +65,6 @@ class _FeedPageState extends State<FeedPage>
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            heroTag: "openSortPageBtn",
-            onPressed: () => null,
-            backgroundColor: const Color(0xffFE7F2D),
-            child: const Icon(Icons.sort),
-          ),
           const SizedBox(
             height: 5,
           ),
@@ -131,6 +124,17 @@ class _FeedPageState extends State<FeedPage>
 
   @override
   bool get wantKeepAlive => true;
+
+  getImage(event) async {
+    try {
+      var response = await http
+          .get(Uri.parse("https://api.connactivity.me$event"))
+          .timeout(const Duration(seconds: 5));
+      return response.bodyBytes;
+    } catch (e) {
+      return Uint8List(0);
+    }
+  }
 }
 
 //TODO: change icon color to black
