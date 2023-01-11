@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:connactivity/create-event-page.dart';
 import 'package:connactivity/feed_element_data.dart';
@@ -43,15 +44,14 @@ class _MyPAgeState extends State<MyPAge> {
     List<FeedElementData> userEvents = [];
     List decodedResponse = json.decode(utf8.decode(response.bodyBytes));
     for (Map<String, dynamic> event in decodedResponse) {
-      userEvents.add(
-        FeedElementData(
-            id: event["id"],
-            title: event["title"],
-            description: event["description"],
-            place: null,
-            time: event["date"] != null ? DateTime.parse(event["date"]) : null,
-            image: event["image"] ?? "null"),
-      );
+      userEvents.add(FeedElementData(
+          id: event["id"],
+          title: event["title"],
+          description: event["description"],
+          place: null,
+          time: event["date"] != null ? DateTime.parse(event["date"]) : null,
+          image: Uint8List(
+              0))); // If we want to show the image replace it with and add get_image function from feed_page event["image"] == null? Uint8List(0): await getImage(event["image"]),
     }
 
     debugPrint(response.statusCode.toString());
