@@ -6,6 +6,7 @@ import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element.dart';
 import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/user_auth.dart';
+import 'package:connactivity/user_not_logged_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagination/flutter_pagination.dart';
 import 'package:flutter_pagination/widgets/button_styles.dart';
@@ -31,7 +32,9 @@ var maxpages = 1;
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
   Future<List<FeedElementData>?> getFeedData() async {
+    debugPrint("CALLED FEED DATA");
     var userToken = await getUserToken();
+    debugPrint("F:getFeedData() -> userToken: $userToken");
 
     if (userToken == null) return null;
 
@@ -75,29 +78,40 @@ class _FeedPageState extends State<FeedPage>
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
+        children: const [],
+      ),
+      body: Column(
         children: [
-          FloatingActionButton(
-            heroTag: "openSortPageBtn",
-            onPressed: () => null,
-            backgroundColor: const Color(0xffFE7F2D),
-            child: const Icon(Icons.sort),
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                behavior: SnackBarBehavior.floating,
-                //margin: EdgeInsets.fromLTRB(90, 0, 90, 30),
-                duration: Duration(milliseconds: 500),
-                content: Text("updating feed..."),
-              ));
-              setState(() {});
-            },
-            heroTag: "updateFeedBtn",
-            backgroundColor: const Color(0xffFE7F2D),
-            child: const Icon(Icons.refresh),
+          Expanded(
+            child: FutureBuilder(
+                future: getFeedData(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    return const UserNotLoggedIn();
+                  } else if (!snapshot.hasData) {
+                    debugPrint("F:build() -> snapshot.hasData: false");
+                    return const Center(child: CircularProgressIndicator());
+                  } else {
+                    debugPrint("F:build() -> snapshot.hasData: true");
+                    return RefreshIndicator(
+                      onRefresh: () {
+                        setState(() {});
+                        return Future.value();
+                      },
+                      child: ListView.builder(
+                        shrinkWrap: false,
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index) {
+                          return FeedElement(
+                            feedElementData: snapshot.data?[index],
+                            backgroundColor: widget.colors[index % 3],
+                            height: widget.height,
+                          );
+                        },
+                      ),
+                    );
+                  }
+                }),
           ),
           Pagination(
             paginateButtonStyles: PaginateButtonStyles(),
@@ -118,41 +132,6 @@ class _FeedPageState extends State<FeedPage>
             totalPage: maxpages,
             show: maxpages > 3 ? 3 : 0,
             currentPage: currentPage,
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: FutureBuilder(
-                future: Future.wait([
-                  getUserId(),
-                  getFeedData(),
-                ]),
-                builder: (context, AsyncSnapshot<List> snapshot) {
-                  if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (!snapshot.data![0].isLoggedIn) {
-                    return const Center(
-                      child: Text(
-                        "Your are not logged in",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
-                  } else {
-                    return ListView.builder(
-                      shrinkWrap: false,
-                      itemCount: snapshot.data?[1].length,
-                      itemBuilder: (context, index) {
-                        return FeedElement(
-                          feedElementData: snapshot.data?[1][index],
-                          backgroundColor: widget.colors[index % 3],
-                          height: widget.height,
-                        );
-                      },
-                    );
-                  }
-                }),
           ),
         ],
       ),
