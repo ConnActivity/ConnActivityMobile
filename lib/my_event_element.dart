@@ -16,6 +16,7 @@ class MyEvent extends StatefulWidget {
       required this.color,
       required this.callback})
       : super(key: key);
+
   //const MyEvent({Key? key}) : super(key: key);
   final Color color;
   final FeedElementData data;

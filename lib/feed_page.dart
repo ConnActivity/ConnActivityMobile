@@ -5,7 +5,10 @@ import 'package:connactivity/comms.dart';
 import 'package:connactivity/feed_element.dart';
 import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/user_auth.dart';
+import 'package:connactivity/user_not_logged_in.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pagination/flutter_pagination.dart';
+import 'package:flutter_pagination/widgets/button_styles.dart';
 import 'package:http/http.dart' as http;
 //import 'package:http/browser_client.dart' as bc;
 
@@ -22,17 +25,24 @@ class FeedPage extends StatefulWidget {
   State<FeedPage> createState() => _FeedPageState();
 }
 
+var currentPage = 1;
+var maxpages = 1;
+
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
   Future<List<FeedElementData>?> getFeedData() async {
+    debugPrint("CALLED FEED DATA");
     var userToken = await getUserToken();
+    debugPrint("F:getFeedData() -> userToken: $userToken");
 
     if (userToken == null) return null;
 
-    var response = await http
-        .get(Uri.parse("https://api.connactivity.me/events/"), headers: {
-      "cookie": "user_token=$userToken",
-    });
+    var response = await http.get(
+        Uri.parse("https://api.connactivity.me/events/?page=$currentPage"),
+        headers: {
+          "cookie": "user_token=$userToken",
+        });
+    maxpages = int.parse(response.headers['link']!);
 
     var userEventIds = await getUserEventIdList();
 
@@ -64,58 +74,61 @@ class _FeedPageState extends State<FeedPage>
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const SizedBox(
-            height: 5,
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                behavior: SnackBarBehavior.floating,
-                margin: EdgeInsets.fromLTRB(90, 0, 90, 30),
-                duration: Duration(milliseconds: 500),
-                content: Text("updating feed..."),
-              ));
-              setState(() {});
-            },
-            heroTag: "updateFeedBtn",
-            backgroundColor: const Color(0xffFE7F2D),
-            child: const Icon(Icons.refresh),
-          )
-        ],
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: const [],
       ),
       body: Column(
         children: [
           Expanded(
             child: FutureBuilder(
-                future: Future.wait([
-                  getUserId(),
-                  getFeedData(),
-                ]),
-                builder: (context, AsyncSnapshot<List> snapshot) {
-                  if (!snapshot.hasData) {
+                future: getFeedData(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    return const UserNotLoggedIn();
+                  } else if (!snapshot.hasData) {
+                    debugPrint("F:build() -> snapshot.hasData: false");
                     return const Center(child: CircularProgressIndicator());
-                  } else if (!snapshot.data![0].isLoggedIn) {
-                    return const Center(
-                      child: Text(
-                        "Your are not logged in",
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
                   } else {
-                    return ListView.builder(
-                      shrinkWrap: false,
-                      itemCount: snapshot.data?[1].length,
-                      itemBuilder: (context, index) {
-                        return FeedElement(
-                          feedElementData: snapshot.data?[1][index],
-                          backgroundColor: widget.colors[index % 3],
-                          height: widget.height,
-                        );
+                    debugPrint("F:build() -> snapshot.hasData: true");
+                    return RefreshIndicator(
+                      onRefresh: () {
+                        setState(() {});
+                        return Future.value();
                       },
+                      child: ListView.builder(
+                        shrinkWrap: false,
+                        itemCount: snapshot.data?.length,
+                        itemBuilder: (context, index) {
+                          return FeedElement(
+                            feedElementData: snapshot.data?[index],
+                            backgroundColor: widget.colors[index % 3],
+                            height: widget.height,
+                          );
+                        },
+                      ),
                     );
                   }
                 }),
+          ),
+          Pagination(
+            paginateButtonStyles: PaginateButtonStyles(),
+            prevButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20))),
+            nextButtonStyles: PaginateSkipButton(
+                borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20))),
+            onPageChange: (number) {
+              setState(() {
+                currentPage = number;
+              });
+            },
+            useGroup: true,
+            totalPage: maxpages,
+            show: maxpages > 3 ? 3 : 0,
+            currentPage: currentPage,
           ),
         ],
       ),

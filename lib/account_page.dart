@@ -117,6 +117,7 @@ class _AccountPageState extends State<AccountPage> {
 //UI - Buttons
 class LoginBtn extends StatelessWidget {
   final void Function() callback;
+
   const LoginBtn({Key? key, required this.callback}) : super(key: key);
 
   @override
@@ -137,6 +138,7 @@ class LoginBtn extends StatelessWidget {
 
 class LogoutBtn extends StatelessWidget {
   final void Function() callback;
+
   const LogoutBtn({Key? key, required this.callback}) : super(key: key);
 
   @override
@@ -155,6 +157,7 @@ class LogoutBtn extends StatelessWidget {
 
 class GoogleSignInBtn extends StatelessWidget {
   final Function() callback;
+
   const GoogleSignInBtn({Key? key, required this.callback}) : super(key: key);
 
   void signInWithGoogle() async {
@@ -231,6 +234,7 @@ class GoogleSignInBtn extends StatelessWidget {
 class GitHubSignInBtn extends StatelessWidget {
   final Function() callback;
   final BuildContext context;
+
   const GitHubSignInBtn(
       {Key? key, required this.callback, required this.context})
       : super(key: key);
@@ -302,6 +306,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
   final BuildContext context;
   final String? oldDisplayName;
   final bool isActive;
+
   const ChangeDisplayNameBtn(
       {Key? key,
       required this.callback,
@@ -390,6 +395,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
 //DEBUGGING-only
 class RefreshTokenBtn extends StatelessWidget {
   final Function() callback;
+
   const RefreshTokenBtn({Key? key, required this.callback}) : super(key: key);
 
   Future<void> refreshToken() async {
@@ -422,6 +428,7 @@ class RefreshTokenBtn extends StatelessWidget {
 class SendVerificationEmailBtn extends StatelessWidget {
   final Function() callback;
   final bool isActive;
+
   const SendVerificationEmailBtn(
       {Key? key, required this.callback, required this.isActive})
       : super(key: key);
