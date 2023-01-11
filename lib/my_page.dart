@@ -86,7 +86,7 @@ class _MyPAgeState extends State<MyPAge> {
             } else if (!snapshot.data![0].isLoggedIn) {
               return const Center(
                 child: Text(
-                  "Your are not logged in",
+                  "You are not logged in",
                   style: TextStyle(color: Colors.red),
                 ),
               );
