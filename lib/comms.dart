@@ -4,12 +4,12 @@ import 'package:connactivity/user_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-
+const server_url = "https://api.connactivity.me";
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
 
   var response = await http
-      .put(Uri.parse("https://api.connactivity.me/join_event/$id"), headers: {
+      .put(Uri.parse("$server_url/join_event/$id"), headers: {
     "cookie": "user_token=${userToken!}",
   });
 
@@ -19,7 +19,7 @@ Future<bool> joinEvent(int id) async {
 Future<bool> leaveEvent(int id) async {
   var userToken = await getUserToken();
   var response = await http
-      .put(Uri.parse("https://api.connactivity.me/leave_event/$id"), headers: {
+      .put(Uri.parse("$server_url/leave_event/$id"), headers: {
     "cookie": "user_token=$userToken",
   });
 
@@ -33,7 +33,7 @@ Future<List<int>> getUserEventIdList() async {
   var userId = user.id;
 
   var response = await http.get(
-      Uri.parse("https://api.connactivity.me/list_user_with_events/${userId!}"),
+      Uri.parse("$server_url/list_user_with_events/${userId!}"),
       headers: {
         "cookie": "user_token=${userToken!}",
       });
@@ -62,7 +62,7 @@ Future<bool> registerUser(String? name, String? email) async {
     "user_id": uid,
   };
 
-  var response = await http.post(Uri.parse("https://api.connactivity.me/user/"),
+  var response = await http.post(Uri.parse("$server_url/user/"),
       headers: {
         "cookie": "user_token=${userToken!}",
         "Content-Type": "application/json"
@@ -81,7 +81,7 @@ Future<bool> userExists() async {
   debugPrint(userToken.toString());
 
   var response = await http.get(
-      Uri.parse("https://api.connactivity.me/user/$uid"),
+      Uri.parse("$server_url/user/$uid"),
       headers: {"cookie": "user_token=$userToken"});
 
   return response.statusCode != 404;
@@ -101,7 +101,7 @@ Future<List> createEvent(
   var uid = user.id;
 
   var request = http.MultipartRequest(
-      'POST', Uri.parse("https://api.connactivity.me/events/"));
+      'POST', Uri.parse("$server_url/events/"));
   request.headers.addAll({"cookie": "user_token=${userToken!}"});
   request.fields["title"] = eventName;
   request.fields["date_published"] = DateTime.now().toLocal().toIso8601String();
@@ -130,4 +130,17 @@ Future<List> createEvent(
 
   debugPrint(response.statusCode.toString());
   return [response.statusCode == 201, response.statusCode, responseData];
+}
+
+Future<int> get_event_detail(event_id) async{
+  var userToken = await getUserToken();
+  UserData user = await getUserId();
+  var uid = user.id;
+  var response = await http.get(
+  Uri.parse("$server_url/events/$event_id"),
+  headers: {
+  "cookie": "user_token=$userToken",
+  });
+  debugPrint("get_event_detail: ${response.body}");
+  return response.statusCode;
 }

@@ -6,11 +6,11 @@ class FeedElementData {
   final String description;
   final String? place;
   final DateTime? time;
-  final bool? isMemeber;
+  final bool? isMember;
   final Uint8List image;
 
   FeedElementData(
-      {this.isMemeber,
+      {this.isMember,
       required this.id,
       required this.title,
       required this.description,

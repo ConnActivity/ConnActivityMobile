@@ -26,8 +26,8 @@ class DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.feedElementData.isMemeber != null &&
-        widget.feedElementData.isMemeber!) {
+    if (widget.feedElementData.isMember != null &&
+        widget.feedElementData.isMember!) {
       setState(() {
         joint = true;
       });
@@ -36,6 +36,7 @@ class DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    get_event_detail(super.widget.feedElementData.id);
     return Material(
       type: MaterialType.transparency,
       child: Container(

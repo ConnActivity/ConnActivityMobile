@@ -31,14 +31,13 @@ var maxpages = 1;
 class _FeedPageState extends State<FeedPage>
     with AutomaticKeepAliveClientMixin {
   Future<List<FeedElementData>?> getFeedData() async {
-    debugPrint("CALLED FEED DATA");
     var userToken = await getUserToken();
     debugPrint("F:getFeedData() -> userToken: $userToken");
 
     if (userToken == null) return null;
 
     var response = await http.get(
-        Uri.parse("https://api.connactivity.me/events/?page=$currentPage"),
+        Uri.parse("$server_url/events/?page=$currentPage"),
         headers: {
           "cookie": "user_token=$userToken",
         });
@@ -51,7 +50,7 @@ class _FeedPageState extends State<FeedPage>
     for (Map<String, dynamic> event in decodedResponse) {
       feedData.add(
         FeedElementData(
-          isMemeber: userEventIds.contains(event["id"]),
+          isMember: userEventIds.contains(event["id"]),
           id: event["id"],
           title: event["title"],
           description: event["description"],

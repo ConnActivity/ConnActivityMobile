@@ -28,8 +28,8 @@ class _FeedElementState extends State<FeedElement>
   @override
   void initState() {
     super.initState();
-    if (widget.feedElementData.isMemeber != null &&
-        widget.feedElementData.isMemeber!) {
+    if (widget.feedElementData.isMember != null &&
+        widget.feedElementData.isMember!) {
       setState(() {
         joint = true;
       });
@@ -39,7 +39,7 @@ class _FeedElementState extends State<FeedElement>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height - 220,
+      height: widget.height,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
