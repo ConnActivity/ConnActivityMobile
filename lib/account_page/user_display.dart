@@ -47,7 +47,6 @@ class UserDisplay extends StatelessWidget {
                 InfoChip(icon: Icons.person, text: name),
                 InfoChip(icon: Icons.email, text: email),
                 isVerifiedInfoChip(isEmailVerified: isVerified),
-                //InfoChip(icon: Icons.numbers, text: id),
               ],
             ),
           ),
