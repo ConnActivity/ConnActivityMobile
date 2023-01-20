@@ -29,18 +29,24 @@ class UserDisplay extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: Colors.brown.shade800,
-            backgroundImage: NetworkImage(photoUrl),
+          Expanded(
+            flex: 1,
+            child: CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.brown.shade800,
+              backgroundImage: NetworkImage(photoUrl),
+            ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InfoChip(icon: Icons.person, text: name),
-              InfoChip(icon: Icons.email, text: email),
-              InfoChip(icon: Icons.numbers, text: id),
-            ],
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InfoChip(icon: Icons.person, text: name),
+                InfoChip(icon: Icons.email, text: email),
+                //InfoChip(icon: Icons.numbers, text: id),
+              ],
+            ),
           ),
         ],
       ),
@@ -57,9 +63,8 @@ class InfoChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: fix text overflow
-    //https://docs.flutter.dev/development/ui/layout/constraints
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(
           icon,
@@ -68,9 +73,12 @@ class InfoChip extends StatelessWidget {
         const SizedBox(
           width: 5,
         ),
-        Text(
-          text,
-          overflow: TextOverflow.fade,
+        Flexible(
+          fit: FlexFit.loose,
+          child: Text(
+            text,
+            overflow: TextOverflow.fade,
+          ),
         )
       ],
     );

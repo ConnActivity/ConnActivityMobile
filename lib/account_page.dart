@@ -1,7 +1,7 @@
 import 'package:connactivity/account_page/github_sign_in.dart';
 import 'package:connactivity/account_page/google_sign_in.dart';
 import 'package:connactivity/comms.dart' as comms;
-import 'package:connactivity/user_display.dart';
+import 'package:connactivity/account_page/user_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
