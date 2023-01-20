@@ -11,7 +11,10 @@ class GitHubSignInBtn extends StatelessWidget {
   final bool isActive;
   final BuildContext context;
   const GitHubSignInBtn(
-      {Key? key, required this.callback, required this.context, required this.isActive})
+      {Key? key,
+      required this.callback,
+      required this.context,
+      required this.isActive})
       : super(key: key);
 
   /// Handles GitHub Sign In on Android and iOS
@@ -60,17 +63,17 @@ class GitHubSignInBtn extends StatelessWidget {
     return MaterialButton(
       disabledColor: Colors.grey,
       // Check for web platform
-      onPressed: 
-      isActive ?
-      kIsWeb
-          ? signInWithGitHubWeb
-          : (() {
-              try {
-                signInWithGitHub();
-              } catch (error) {
-                debugPrint(error.toString());
-              }
-            }) : null,
+      onPressed: isActive
+          ? kIsWeb
+              ? signInWithGitHubWeb
+              : (() {
+                  try {
+                    signInWithGitHub();
+                  } catch (error) {
+                    debugPrint(error.toString());
+                  }
+                })
+          : null,
       color: const Color(0xffFE7F2D),
       child: Row(
         mainAxisSize: MainAxisSize.min,
