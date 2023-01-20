@@ -97,8 +97,11 @@ class _AccountPageState extends State<AccountPage> {
                         )
                       : SendVerificationEmailBtn(
                           callback: userAuth, isActive: false),
-                  GoogleSignInBtn(callback: userAuth),
-                  GitHubSignInBtn(callback: userAuth, context: context),
+                  GoogleSignInBtn(
+                    callback: userAuth,
+                    isActive: userEmail == null,
+                  ),
+                  GitHubSignInBtn(callback: userAuth, isActive: userEmail == null, context: context),
                   // Offer option to change display name if user is logged in
                   userEmail != null
                       ? ChangeDisplayNameBtn(

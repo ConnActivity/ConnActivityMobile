@@ -8,7 +8,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 /// A button that signs in with Google.
 class GoogleSignInBtn extends StatelessWidget {
   final Function() callback;
-  const GoogleSignInBtn({Key? key, required this.callback}) : super(key: key);
+  final bool isActive;
+  const GoogleSignInBtn(
+      {Key? key, required this.callback, required this.isActive})
+      : super(key: key);
 
   /// Handles Google Sign In on Android and iOS
   void signInWithGoogle() async {
@@ -59,16 +62,19 @@ class GoogleSignInBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      // Check for web platform
-      onPressed: kIsWeb
-          ? signInWithGoogleWeb
-          : () {
-              try {
-                signInWithGoogle();
-              } catch (error) {
-                debugPrint(error.toString());
-              }
-            },
+      disabledColor: Colors.grey,
+      // Check for web platform and if button is active / logged in
+      onPressed: isActive
+          ? kIsWeb
+              ? signInWithGoogleWeb
+              : () {
+                  try {
+                    signInWithGoogle();
+                  } catch (error) {
+                    debugPrint(error.toString());
+                  }
+                }
+          : null,
       color: const Color(0xffFE7F2D),
       child: Row(
         mainAxisSize: MainAxisSize.min,

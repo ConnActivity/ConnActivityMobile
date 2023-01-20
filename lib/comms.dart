@@ -55,22 +55,24 @@ Future<bool> registerUser(String? name, String? email) async {
   var body = {
     "username": name,
     "user_email": email,
-    "gender": "x",
-    "user_age": 1337,
+    //"gender": "x",
+    //"user_age": 1337,
     "university": "DHBW",
-    "user_bio": "",
-    "user_id": uid,
+    "user_bio": "DEFAULT BIO",
+    //"user_id": uid,
   };
 
   var response = await http.post(Uri.parse("$server_url/user/"),
       headers: {
-        "cookie": "user_token=${userToken!}",
+        "Cookie": "user_token=${userToken!}",
         "Content-Type": "application/json"
       },
       body: json.encode(body));
+  var resp_body = response.body;
   debugPrint(response.statusCode.toString());
-  debugPrint(response.body.toString());
-  return response.statusCode == 200;
+  debugPrint(userToken.toString());
+  debugPrint("End user registration");
+  return response.statusCode == 201;
 }
 
 Future<bool> userExists() async {
@@ -117,7 +119,6 @@ Future<List> createEvent(
 
   if (imagebytes != null) {
     var imageName = "${imagebytes.hashCode.toString()}.jpg";
-    ;
     var picture =
         http.MultipartFile.fromBytes('image', imagebytes, filename: imageName);
     request.files.add(picture);

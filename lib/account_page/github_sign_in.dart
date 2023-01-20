@@ -8,9 +8,10 @@ import 'package:github_sign_in/github_sign_in.dart';
 /// A button that signs in with GitHub.
 class GitHubSignInBtn extends StatelessWidget {
   final Function() callback;
+  final bool isActive;
   final BuildContext context;
   const GitHubSignInBtn(
-      {Key? key, required this.callback, required this.context})
+      {Key? key, required this.callback, required this.context, required this.isActive})
       : super(key: key);
 
   /// Handles GitHub Sign In on Android and iOS
@@ -57,8 +58,11 @@ class GitHubSignInBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      disabledColor: Colors.grey,
       // Check for web platform
-      onPressed: kIsWeb
+      onPressed: 
+      isActive ?
+      kIsWeb
           ? signInWithGitHubWeb
           : (() {
               try {
@@ -66,7 +70,7 @@ class GitHubSignInBtn extends StatelessWidget {
               } catch (error) {
                 debugPrint(error.toString());
               }
-            }),
+            }) : null,
       color: const Color(0xffFE7F2D),
       child: Row(
         mainAxisSize: MainAxisSize.min,
