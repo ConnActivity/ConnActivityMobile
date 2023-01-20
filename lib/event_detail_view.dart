@@ -40,6 +40,7 @@ class _DetailScreenState extends State<DetailScreen> {
       var data = get_event_detail(widget.feedElementData.id);
       return data;
     }
+
     return Material(
       type: MaterialType.transparency,
       child: FutureBuilder(
@@ -95,14 +96,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                 color: Colors.black, fontSize: 20)),
                       ],
                     ),
-                    Row(
-                      children: [
-                        const Icon(Icons.people),
-                        Text("Limit: ${data["member_limit"].toString()}",
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 20)),
-                      ]
-                    ),
+                    Row(children: [
+                      const Icon(Icons.people),
+                      Text("Limit: ${data["member_limit"].toString()}",
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 20)),
+                    ]),
                     Container(
                       margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                       child: Row(
@@ -205,8 +204,8 @@ class _DetailScreenState extends State<DetailScreen> {
                               children: [
                                 for (var tag in data["tags"])
                                   Container(
-                                    margin: const EdgeInsets.fromLTRB(
-                                        0, 0, 5, 0),
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 5, 0),
                                     child: Chip(
                                       label: Text(tag),
                                     ),
