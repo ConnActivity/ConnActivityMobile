@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+/// A button that signs in with Google.
 class GoogleSignInBtn extends StatelessWidget {
   final Function() callback;
   const GoogleSignInBtn({Key? key, required this.callback}) : super(key: key);
 
+  /// Handles Google Sign In on Android and iOS
   void signInWithGoogle() async {
     final googleUser = await GoogleSignIn().signIn();
 
@@ -26,18 +28,20 @@ class GoogleSignInBtn extends StatelessWidget {
 
     await FirebaseAuth.instance.signInWithCredential(credential);
 
-    //untested...
-
     var name = googleUser?.displayName;
     var email = googleUser?.email;
 
+    // Check if user exists
     var userExists = await comms.userExists();
     debugPrint(userExists.toString());
+    // Register user if it doesn't exist with [name] and [email] (default)
     if (!userExists) await comms.registerUser(name, email);
 
+    // Callback used to refresh widget tree
     callback();
   }
 
+  /// Handles Google Sign In on Web
   void signInWithGoogleWeb() async {
     GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
@@ -56,6 +60,7 @@ class GoogleSignInBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      // check for web platform
       onPressed: kIsWeb
           ? signInWithGoogleWeb
           : () {
