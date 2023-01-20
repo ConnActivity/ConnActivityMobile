@@ -78,7 +78,7 @@ class _MyPAgeState extends State<MyPAge> {
       body: FutureBuilder(
           future: getUserEvents(),
           builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasError) {
+            if (snapshot.hasError) {
               return const UserNotLoggedIn();
             } else if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
