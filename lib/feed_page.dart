@@ -36,11 +36,10 @@ class _FeedPageState extends State<FeedPage>
 
     if (userToken == null) return null;
 
-    var response = await http.get(
-        Uri.parse("$server_url/events/?page=$currentPage"),
-        headers: {
-          "cookie": "user_token=$userToken",
-        });
+    var response = await http
+        .get(Uri.parse("$server_url/events/?page=$currentPage"), headers: {
+      "cookie": "user_token=$userToken",
+    });
     maxpages = int.parse(response.headers['link']!);
 
     var userEventIds = await getUserEventIdList();
