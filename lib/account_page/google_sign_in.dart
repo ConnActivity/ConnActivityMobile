@@ -13,11 +13,10 @@ class GoogleSignInBtn extends StatelessWidget {
   /// Handles Google Sign In on Android and iOS
   void signInWithGoogle() async {
     final googleUser = await GoogleSignIn().signIn();
-
     final googleAuth = await googleUser?.authentication;
 
     if (googleAuth == null) {
-      debugPrint("Google Auth didn't function");
+      debugPrint("Google Auth couldn't authenticate a user");
       return;
     }
 
@@ -28,14 +27,13 @@ class GoogleSignInBtn extends StatelessWidget {
 
     await FirebaseAuth.instance.signInWithCredential(credential);
 
-    var name = googleUser?.displayName;
-    var email = googleUser?.email;
-
     // Check if user exists
     var userExists = await comms.userExists();
     debugPrint(userExists.toString());
     // Register user if it doesn't exist with [name] and [email] (default)
-    if (!userExists) await comms.registerUser(name, email);
+    if (!userExists) {
+      await comms.registerUser(googleUser?.displayName, googleUser?.email);
+    }
 
     // Callback used to refresh widget tree
     callback();
@@ -45,6 +43,7 @@ class GoogleSignInBtn extends StatelessWidget {
   void signInWithGoogleWeb() async {
     GoogleAuthProvider googleProvider = GoogleAuthProvider();
 
+    // Add scopes needed (email and profile)
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
     googleProvider.addScope('https://www.googleapis.com/auth/userinfo.profile');
     googleProvider.setCustomParameters({'login_hint': 'email@example.com'});
@@ -60,7 +59,7 @@ class GoogleSignInBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      // check for web platform
+      // Check for web platform
       onPressed: kIsWeb
           ? signInWithGoogleWeb
           : () {

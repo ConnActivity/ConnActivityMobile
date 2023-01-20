@@ -12,7 +12,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'firebase_options.dart';
 import 'login_page.dart';
 
-/// The AccountPage shows the user theier current account information
+/// The AccountPage shows the user their current account information
+/// and allows them to sign in or out.
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
 

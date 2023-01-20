@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 
+/// A button that signs in with GitHub.
 class GitHubSignInBtn extends StatelessWidget {
   final Function() callback;
   final BuildContext context;
@@ -12,6 +13,7 @@ class GitHubSignInBtn extends StatelessWidget {
       {Key? key, required this.callback, required this.context})
       : super(key: key);
 
+  /// Handles GitHub Sign In on Android and iOS
   void signInWithGitHub() async {
     final GitHubSignIn gitHubSignIn = GitHubSignIn(
         clientId: "92059c6ea0e08cad4256",
@@ -21,6 +23,7 @@ class GitHubSignInBtn extends StatelessWidget {
 
     final result = await gitHubSignIn.signIn(context);
 
+    // User canceled login
     if (result.token == null) {
       return;
     }
@@ -31,15 +34,18 @@ class GitHubSignInBtn extends StatelessWidget {
 
     final gitHubUser = FirebaseAuth.instance.currentUser;
 
+    // Check if user exists
     var userExists = await comms.userExists();
     if (!userExists) {
+      // Register user if it doesn't exist with [name] and [email] (default)
       await comms.registerUser(gitHubUser?.displayName, gitHubUser?.email);
     }
 
+    // Callback used to refresh widget tree
     callback();
-    //.then((value) => callback());
   }
 
+  /// Handles GitHub Sign In on Web
   void signInWithGitHubWeb() async {
     GithubAuthProvider githubProvider = GithubAuthProvider();
 
@@ -51,6 +57,7 @@ class GitHubSignInBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      // Check for web platform
       onPressed: kIsWeb
           ? signInWithGitHubWeb
           : (() {
