@@ -50,18 +50,6 @@ class _AccountPageState extends State<AccountPage> {
     });
   }
 
-  /// Returns Text widget describing verification state of user email according to [isEmailVerified]
-  Text isVerified(bool? isEmailVerified) {
-    if (isEmailVerified == null) {
-      return const Text("Email verification state not available",
-          style: TextStyle(color: Colors.white));
-    }
-    return isEmailVerified
-        ? const Text("Email is verified", style: TextStyle(color: Colors.white))
-        : const Text("Please verify your email",
-            style: TextStyle(color: Colors.white));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,8 +71,8 @@ class _AccountPageState extends State<AccountPage> {
                     email: userEmail ?? "No email",
                     photoUrl: photoUrl ?? "No photo",
                     id: firebaseId ?? "No id",
+                    isVerified: emailVerified,
                   ),
-                  isVerified(emailVerified),
                   // Display login button if user is not logged in and vice versa (Email-Login)
                   userEmail == null
                       ? LoginBtn(callback: userAuth)

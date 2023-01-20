@@ -9,13 +9,15 @@ class UserDisplay extends StatelessWidget {
   final String email;
   final String photoUrl;
   final String id;
+  final bool? isVerified;
 
   const UserDisplay(
       {super.key,
       required this.name,
       required this.email,
       required this.photoUrl,
-      required this.id});
+      required this.id,
+      this.isVerified});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class UserDisplay extends StatelessWidget {
               children: [
                 InfoChip(icon: Icons.person, text: name),
                 InfoChip(icon: Icons.email, text: email),
+                isVerifiedInfoChip(isEmailVerified: isVerified),
                 //InfoChip(icon: Icons.numbers, text: id),
               ],
             ),
@@ -83,4 +86,19 @@ class InfoChip extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Returns an [InfoChip] with the appropriate text based on [isEmailVerified].
+InfoChip isVerifiedInfoChip({bool? isEmailVerified}) {
+  return InfoChip(
+      icon: isEmailVerified == null
+          ? Icons.help
+          : isEmailVerified
+              ? Icons.verified
+              : Icons.cancel,
+      text: isEmailVerified == null
+          ? "Not available"
+          : isEmailVerified
+              ? "Email is verified"
+              : "Please verify your email");
 }
