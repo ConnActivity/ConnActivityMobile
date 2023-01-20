@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
-
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/create_event_ui.dart';
 import 'package:connactivity/time_formater.dart';
@@ -201,7 +199,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     EventField(
-                      title: "Location",
+                      title: "Location\u002A",
                       defaultText: "Where is your event?",
                       controller: eventLocation,
                     ),
@@ -221,7 +219,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Selcet Date\u002A: ",
+                        Text("Select Date\u002A: ",
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                     color: Colors.black,
@@ -348,9 +346,11 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   ],
                 ),
               ),
+              const SizedBox(
+                height: 100,
+              )
             ],
           ),
         ));
   }
 }
-// TODO: Adde user feedback-- > error Handling

@@ -123,6 +123,7 @@ class _AccountPageState extends State<AccountPage> {
 /// Login user with email and password
 class LoginBtn extends StatelessWidget {
   final void Function() callback;
+
   const LoginBtn({Key? key, required this.callback}) : super(key: key);
 
   @override
@@ -144,6 +145,7 @@ class LoginBtn extends StatelessWidget {
 /// Logout user regardless of account type
 class LogoutBtn extends StatelessWidget {
   final void Function() callback;
+
   const LogoutBtn({Key? key, required this.callback}) : super(key: key);
 
   @override
@@ -166,6 +168,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
   final BuildContext context;
   final String? oldDisplayName;
   final bool isActive;
+
   const ChangeDisplayNameBtn(
       {Key? key,
       required this.callback,
@@ -259,6 +262,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
 class SendVerificationEmailBtn extends StatelessWidget {
   final Function() callback;
   final bool isActive;
+
   const SendVerificationEmailBtn(
       {Key? key, required this.callback, required this.isActive})
       : super(key: key);

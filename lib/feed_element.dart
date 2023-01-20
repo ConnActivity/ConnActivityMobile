@@ -4,6 +4,8 @@ import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'event_detail_view.dart';
+
 class FeedElement extends StatefulWidget {
   const FeedElement(
       {Key? key,
@@ -26,8 +28,8 @@ class _FeedElementState extends State<FeedElement>
   @override
   void initState() {
     super.initState();
-    if (widget.feedElementData.isMemeber != null &&
-        widget.feedElementData.isMemeber!) {
+    if (widget.feedElementData.isMember != null &&
+        widget.feedElementData.isMember!) {
       setState(() {
         joint = true;
       });
@@ -37,7 +39,7 @@ class _FeedElementState extends State<FeedElement>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height - 30,
+      height: widget.height,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -47,7 +49,16 @@ class _FeedElementState extends State<FeedElement>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(widget.feedElementData.image),
+          SizedBox(
+            width: 320,
+            height: 200,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: (widget.feedElementData.image.isEmpty)
+                  ? const Icon(Icons.image)
+                  : Image.memory(widget.feedElementData.image),
+            ),
+          ),
           Text(widget.feedElementData.title,
               style: GoogleFonts.anton(
                   textStyle:
@@ -133,8 +144,15 @@ class _FeedElementState extends State<FeedElement>
                   width: double.infinity,
                   margin: const EdgeInsets.fromLTRB(5, 15, 0, 0),
                   child: ElevatedButton(
-                    //TODO: implement route to actual details-page
-                    onPressed: () => null,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailScreen(
+                                  widget.feedElementData,
+                                  widget.backgroundColor,
+                                  widget.height)));
+                    },
                     style: ButtonStyle(
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
