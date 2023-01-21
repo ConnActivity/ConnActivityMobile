@@ -1,11 +1,12 @@
 import 'dart:io';
+
+import 'package:connactivity/alert_dialog.dart';
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/create_event_ui.dart';
 import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:connactivity/alert_dialog.dart';
 
 class CreateEventPage extends StatefulWidget {
   const CreateEventPage({Key? key}) : super(key: key);
@@ -264,7 +265,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Selcet Time\u002A: ",
+                        Text("Select Time\u002A: ",
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                     color: Colors.black,
