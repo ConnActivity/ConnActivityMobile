@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'event_detail_view.dart';
 
+/// A widget that displays a feed element based on [FeedElementData].
 class FeedElement extends StatefulWidget {
   const FeedElement(
       {Key? key,
@@ -28,6 +29,7 @@ class _FeedElementState extends State<FeedElement>
   @override
   void initState() {
     super.initState();
+    // Display if user joined event
     if (widget.feedElementData.isMember != null &&
         widget.feedElementData.isMember!) {
       setState(() {
@@ -105,6 +107,7 @@ class _FeedElementState extends State<FeedElement>
                   margin: const EdgeInsets.fromLTRB(0, 15, 5, 0),
                   width: double.infinity,
                   child: ElevatedButton(
+                    // User can only join if the user is not already a member
                     onPressed: () async {
                       bool response = joint;
                       if (!joint) {
@@ -114,10 +117,12 @@ class _FeedElementState extends State<FeedElement>
                         response = !response;
                       }
                       setState(() {
+                        // Refresh the state of the button
                         joint = response;
                       });
                     },
                     style: ButtonStyle(
+                        // Change the color of the button depending on the joint state
                         backgroundColor: joint
                             ? MaterialStateProperty.all(Colors.black)
                             : MaterialStateProperty.all(
@@ -127,6 +132,7 @@ class _FeedElementState extends State<FeedElement>
                                 RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ))),
+                    // Display a checkmark if the user is a member
                     child: joint
                         ? const Icon(
                             Icons.check,
@@ -145,6 +151,7 @@ class _FeedElementState extends State<FeedElement>
                   width: double.infinity,
                   margin: const EdgeInsets.fromLTRB(5, 15, 0, 0),
                   child: ElevatedButton(
+                    // Navigate to the detail screen
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -180,6 +187,7 @@ class _FeedElementState extends State<FeedElement>
     );
   }
 
+  // Keep scroll position
   @override
   bool get wantKeepAlive => true;
 }
