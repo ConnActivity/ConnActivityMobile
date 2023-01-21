@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 
+///Returns the user token if the user is logged in or throws an error
+///if not logged in
 Future<String?> getUserToken() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -13,7 +15,8 @@ Future<String?> getUserToken() async {
   return currentUser.getIdToken(true);
 }
 
-Future<UserData> getUserId() async {
+/// Returns the current user's data
+Future<UserData> getUserData() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

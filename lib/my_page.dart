@@ -32,7 +32,7 @@ class _MyPageState extends State<MyPage> {
 
   Future<List<FeedElementData>?> getUserEvents() async {
     var userToken = await getUserToken();
-    UserData user = await getUserId();
+    UserData user = await getUserData();
     var userId = user.id;
 
     if (userId == null) return null;

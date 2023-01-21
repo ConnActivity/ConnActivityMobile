@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// This is the stateful widget that is a blueprint for an input field on the create event page.
 class EventField extends StatelessWidget {
   final String title, defaultText;
   final TextEditingController controller;

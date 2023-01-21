@@ -9,6 +9,7 @@ import 'feed_page.dart';
 import 'my_page.dart';
 import 'nav_bar.dart';
 
+/// This is the Screen which will show on the first ever startup of the app.
 class IntroductionScreens extends StatefulWidget {
   const IntroductionScreens({Key? key}) : super(key: key);
 
@@ -16,6 +17,7 @@ class IntroductionScreens extends StatefulWidget {
   State<IntroductionScreens> createState() => _IntroductionScreensState();
 }
 
+/// This is the state of the IntroductionScreens class.
 class _IntroductionScreensState extends State<IntroductionScreens> {
   @override
   Widget build(BuildContext context) {
@@ -101,6 +103,8 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
               decoration: getPageDecoration(),
             ),
           ],
+
+          /// This is the method which will be called when the user clicks on the done button. It will trigger the SharedPreferences to set the isInit value to true and then it will navigate to the FeedPage.
           onDone: () async {
             final prefs = await SharedPreferences.getInstance();
             await prefs.setBool('isInit', true);
@@ -137,7 +141,6 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
                             ),
                           )));
             });
-            print("done");
           },
           //ClampingScrollPhysics prevent the scroll offset from exceeding the bounds of the content.
           scrollPhysics: const ClampingScrollPhysics(),
@@ -164,7 +167,7 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
     );
   }
 
-  //method to customise the page style
+  /// Method to customise the page style
   PageDecoration getPageDecoration() {
     return const PageDecoration(
       imagePadding: EdgeInsets.only(top: 120),
@@ -175,7 +178,7 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
     );
   }
 
-  //method to customize the dots style
+  /// Method to customize the dots style
   DotsDecorator getDotsDecorator() {
     return const DotsDecorator(
       spacing: EdgeInsets.symmetric(horizontal: 2),

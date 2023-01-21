@@ -34,12 +34,12 @@ class _DetailScreenState extends State<DetailScreen> {
         joint = true;
       });
     }
-    is_owner();
+    helper();
   }
 
   /// Checks if the user is the owner of the event
   void is_owner() async {
-    var userid = await getUserId();
+    var userid = await getUserData();
     var event_details = await get_event_detail(widget.feedElementData.id);
     var creatorid = event_details["creator"];
     if (userid.id == creatorid) {
