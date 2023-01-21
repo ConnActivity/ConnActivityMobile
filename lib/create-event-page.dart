@@ -45,7 +45,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
       eventLocation.text = widget.place != null ? widget.place! : "No location";
       eventDate = widget.feedElementData!.time ?? DateTime.now();
       eventTime = TimeOfDay.fromDateTime(widget.feedElementData!.time!);
-      memberLimit.text = widget.limit ?? "Kein Limit"; // todo: get member limit
+      memberLimit.text = widget.limit ?? "Unlimited"; // todo: get member limit
       imagebytes = widget.feedElementData!.image.isEmpty
           ? null
           : widget.feedElementData!.image;

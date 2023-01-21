@@ -126,7 +126,6 @@ Future<List> createEvent(
   var responseData = await response.stream.bytesToString();
   debugPrint(responseData);
 
-  debugPrint(response.statusCode.toString());
   return [response.statusCode == 201, response.statusCode, responseData];
 }
 
@@ -184,7 +183,6 @@ Future<List> editEvent(
   var responseData = await response.stream.bytesToString();
   debugPrint(responseData);
 
-  debugPrint(response.statusCode.toString());
   return [response.statusCode == 200, response.statusCode, responseData];
 }
 
