@@ -34,16 +34,18 @@ class UserDisplay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            flex: 1,
-            child: CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.brown.shade800,
-              backgroundImage: photoUrl != "No photo"
-                  ? NetworkImage(photoUrl)
-                  : const NetworkImage(
-                      "https://media.istockphoto.com/id/916306960/de/foto/der-mann-ohne-gesicht-in-hoodie-stehen-isoliert-auf-schwarz.jpg?s=612x612&w=0&k=20&c=2dUWONtelkES_XLehtpV5EeyL8CA2NBO8QZozAYjfQo="),
-            ),
-          ),
+              flex: 1,
+              child: photoUrl != "No photo"
+                  ? CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.brown.shade800,
+                      backgroundImage: NetworkImage(photoUrl),
+                    )
+                  : const Icon(
+                      Icons.person,
+                      size: 80,
+                      color: Colors.grey,
+                    )),
           Expanded(
             flex: 2,
             child: Column(
