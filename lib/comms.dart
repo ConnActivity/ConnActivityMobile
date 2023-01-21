@@ -142,6 +142,18 @@ Future<dynamic> get_event_detail(int event_id) async {
   return data;
 }
 
+/// Deletes the user from the server
+Future<bool> deleteUser() async {
+  var userToken = await getUserToken();
+  UserData user = await getUserId();
+  var uid = user.id;
+  var response =
+      await http.delete(Uri.parse("$server_url/user/$uid"), headers: {
+    "cookie": "user_token=$userToken",
+  });
+  return response.statusCode == 200;
+}
+
 Future<List> editEvent(
   int eventId,
   String eventName,
