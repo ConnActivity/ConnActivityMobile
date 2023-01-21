@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:connactivity/create-event-page.dart';
 import 'package:connactivity/feed_element_data.dart';
-import 'package:connactivity/comms.dart';
 import 'package:connactivity/my_event_element.dart';
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
@@ -11,20 +10,24 @@ import 'package:connactivity/user_not_logged_in.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class MyPAge extends StatefulWidget {
-  const MyPAge({Key? key}) : super(key: key);
+import 'comms.dart';
+
+/// The "My Page", showing all currently joined events.
+class MyPage extends StatefulWidget {
+  const MyPage({Key? key}) : super(key: key);
 
   @override
-  State<MyPAge> createState() => _MyPAgeState();
+  State<MyPage> createState() => _MyPageState();
 }
 
-class _MyPAgeState extends State<MyPAge> {
+class _MyPageState extends State<MyPage> {
   var colors = <Color>[
     const Color(0xff52D1DC),
     const Color(0xffB497D6),
     const Color(0xffDCF763)
   ];
 
+  /// Triggers reloading the page.
   void triggerUpdate() {
     setState(() {});
   }
