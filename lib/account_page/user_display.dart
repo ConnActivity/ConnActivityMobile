@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/widgets.dart';
 
 /// Displays the user's [name], [email], and [photoUrl].
 class UserDisplay extends StatelessWidget {
@@ -39,7 +36,7 @@ class UserDisplay extends StatelessWidget {
               backgroundColor: Colors.brown.shade800,
               backgroundImage: photoUrl != "No photo"
                   ? NetworkImage(photoUrl)
-                  : NetworkImage(
+                  : const NetworkImage(
                       "https://media.istockphoto.com/id/916306960/de/foto/der-mann-ohne-gesicht-in-hoodie-stehen-isoliert-auf-schwarz.jpg?s=612x612&w=0&k=20&c=2dUWONtelkES_XLehtpV5EeyL8CA2NBO8QZozAYjfQo="),
             ),
           ),

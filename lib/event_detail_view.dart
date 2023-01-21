@@ -41,8 +41,8 @@ class _DetailScreenState extends State<DetailScreen> {
 
   void helper() async {
     var userid = await getUserId();
-    var event_details = await get_event_detail(widget.feedElementData.id);
-    var creatorid = event_details["creator"];
+    var eventDetails = await get_event_detail(widget.feedElementData.id);
+    var creatorid = eventDetails["creator"];
     if (userid.id == creatorid) {
       setState(() {
         user = true;
@@ -61,7 +61,7 @@ class _DetailScreenState extends State<DetailScreen> {
       type: MaterialType.transparency,
       child: FutureBuilder(
           future: get_future(),
-          builder: (build_context, snapshot) {
+          builder: (buildContext, snapshot) {
             if (!snapshot.hasData) {
               debugPrint("no data yet");
               return const Center(child: CircularProgressIndicator());
@@ -83,7 +83,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Expanded(
@@ -300,5 +300,3 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 }
-
-// TODO: implement an edit/delete button if the user is the owner of the event

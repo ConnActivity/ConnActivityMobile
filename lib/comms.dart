@@ -67,7 +67,7 @@ Future<bool> registerUser(String? name, String? email) async {
         "Content-Type": "application/json"
       },
       body: json.encode(body));
-  var resp_body = response.body;
+  var respBody = response.body;
   debugPrint(response.statusCode.toString());
   debugPrint(userToken.toString());
   debugPrint("End user registration");
@@ -129,16 +129,16 @@ Future<List> createEvent(
   return [response.statusCode == 201, response.statusCode, responseData];
 }
 
-Future<dynamic> get_event_detail(int event_id) async {
+Future<dynamic> get_event_detail(int eventId) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
   var uid = user.id;
   var response =
-      await http.get(Uri.parse("$server_url/events/$event_id"), headers: {
+      await http.get(Uri.parse("$server_url/events/$eventId"), headers: {
     "cookie": "user_token=$userToken",
   });
   var data = json.decode(utf8.decode(response.bodyBytes));
-  debugPrint("F: get_event_detail(): ${data}");
+  debugPrint("F: get_event_detail(): $data");
   return data;
 }
 

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:connactivity/alert_dialog.dart';
 import 'package:connactivity/comms.dart';
@@ -32,7 +31,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
   var eventLocation = TextEditingController();
   var memberLimit = TextEditingController();
   var isPrivate = false;
-  var imagebytes = null;
+  var imagebytes;
   final ImagePicker imgpicker = ImagePicker();
   String imagepath = "";
   late File imagefile;
@@ -176,7 +175,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Container(
+                          child: SizedBox(
                             width: 320,
                             height: 200,
                             child: ClipRRect(
@@ -197,15 +196,15 @@ class _CreateEventPageState extends State<CreateEventPage> {
                             openImage();
                           },
                           child: imagebytes == null
-                              ? Text("Pick Image")
-                              : Text("Change Image"),
+                              ? const Text("Pick Image")
+                              : const Text("Change Image"),
                         ),
                         ElevatedButton(
                           onPressed: () {
                             imagebytes = null;
                             setState(() {});
                           },
-                          child: Text("Remove Image"),
+                          child: const Text("Remove Image"),
                         ),
                       ],
                     ),
