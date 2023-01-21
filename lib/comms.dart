@@ -13,7 +13,6 @@ Future<bool> joinEvent(int id) async {
       await http.put(Uri.parse("$server_url/join_event/$id"), headers: {
     "cookie": "user_token=${userToken!}",
   });
-
   return response.statusCode == 202;
 }
 
