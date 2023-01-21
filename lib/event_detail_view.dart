@@ -92,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               width: 320,
                               height: 200,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(50),
+                                borderRadius: BorderRadius.circular(15),
                                 child: (widget.feedElementData.image.isEmpty)
                                     ? const Icon(Icons.image)
                                     : Image.memory(
@@ -140,7 +140,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 1,
                       child: SingleChildScrollView(
                         child: Container(
                           margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
