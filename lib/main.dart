@@ -7,18 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//https://coolors.co/dcf763-02020a-fe7f2d-b497d6-52d1dc
+// Colors: https://coolors.co/dcf763-02020a-fe7f2d-b497d6-52d1dc
 
 void main() {
   runApp(const MainConnActivity());
 }
 
+/// The main widget of the app with the initial MaterialApp widget
 class MainConnActivity extends StatelessWidget {
   const MainConnActivity({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // Define main theme of the app
       theme: ThemeData(
           primaryColor: const Color(0xFF02020A),
           colorScheme: ColorScheme.fromSwatch()
@@ -38,6 +40,7 @@ class ConnActivityHome extends StatefulWidget {
 }
 
 class _ConnActivityHomeState extends State<ConnActivityHome> {
+  // Is need to show introduction screens on first launch
   var _isInit = false;
   @override
   initState() {
@@ -54,6 +57,7 @@ class _ConnActivityHomeState extends State<ConnActivityHome> {
 
   @override
   Widget build(BuildContext context) {
+    // Return introduction screens if it is the first time the app is launched
     return _isInit == true
         ? DefaultTabController(
             length: 3,
@@ -76,7 +80,7 @@ class _ConnActivityHomeState extends State<ConnActivityHome> {
                   );
                 }),
                 //const Center(child: Text("👋 You have not entered any events yet", style: TextStyle(color: Colors.white),)),
-                const MyPAge(),
+                const MyPage(),
                 const AccountPage(),
               ]),
               bottomNavigationBar: const ConnActivityNavBar(),

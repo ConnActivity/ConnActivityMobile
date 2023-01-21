@@ -22,6 +22,7 @@ class UserDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // Display with full width
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -33,16 +34,18 @@ class UserDisplay extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
-            flex: 1,
-            child: CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.brown.shade800,
-              backgroundImage: photoUrl != "No photo"
-                  ? NetworkImage(photoUrl)
-                  : NetworkImage(
-                      "https://media.istockphoto.com/id/916306960/de/foto/der-mann-ohne-gesicht-in-hoodie-stehen-isoliert-auf-schwarz.jpg?s=612x612&w=0&k=20&c=2dUWONtelkES_XLehtpV5EeyL8CA2NBO8QZozAYjfQo="),
-            ),
-          ),
+              flex: 1,
+              child: photoUrl != "No photo"
+                  ? CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.brown.shade800,
+                      backgroundImage: NetworkImage(photoUrl),
+                    )
+                  : const Icon(
+                      Icons.person,
+                      size: 80,
+                      color: Colors.grey,
+                    )),
           Expanded(
             flex: 2,
             child: Column(
@@ -94,11 +97,13 @@ class InfoChip extends StatelessWidget {
 /// Returns an [InfoChip] with the appropriate text based on [isEmailVerified].
 InfoChip isVerifiedInfoChip({bool? isEmailVerified}) {
   return InfoChip(
+      // display appropriate icon based on [isEmailVerified]
       icon: isEmailVerified == null
           ? Icons.help
           : isEmailVerified
               ? Icons.verified
               : Icons.cancel,
+      // display appropriate text based on [isEmailVerified]
       text: isEmailVerified == null
           ? "Not available"
           : isEmailVerified

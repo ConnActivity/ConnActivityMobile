@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+/// A data class that holds the data for a feed element.
 class FeedElementData {
   final int id;
   final String title;

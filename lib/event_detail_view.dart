@@ -7,11 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'comms.dart';
 
-Future<bool> showDetailView() async {
-  debugPrint("showDetailView");
-  return true;
-}
-
+/// The Detail Screen of an Event, showing a scrollable description, the time
+/// and place of the event, joining/leaving and (if you are the owner) the
+/// options to edit or delete the event.
 class DetailScreen extends StatefulWidget {
   FeedElementData feedElementData;
   final Color backgroundColor;
@@ -29,10 +27,11 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    helper();
+    is_owner();
   }
 
-  void helper() async {
+  /// Checks if the user is the owner of the event
+  void is_owner() async {
     var userid = await getUserData();
     var event_details = await get_event_detail(widget.feedElementData.id);
     var creatorid = event_details["creator"];
@@ -45,6 +44,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    /// Loads the Event details asynchronously
     get_future() async {
       var data = await get_event_detail(widget.feedElementData.id);
       return data;
@@ -90,7 +90,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     ? const Icon(Icons.image)
                                     : Image.memory(
                                         widget.feedElementData.image,
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.fitHeight,
                                       ),
                               ),
                             ),
@@ -250,5 +250,3 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 }
-
-// TODO: implement an edit/delete button if the user is the owner of the event
