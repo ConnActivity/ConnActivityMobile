@@ -69,7 +69,7 @@ class _MyPAgeState extends State<MyPAge> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => const CreateEventPage()));
+                  builder: (BuildContext context) => CreateEventPage()));
         },
         backgroundColor: const Color(0xffFE7F2D),
         heroTag: "createEventBtn",
