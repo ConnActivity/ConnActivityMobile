@@ -24,18 +24,11 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  bool joint = false;
   bool user = false;
 
   @override
   void initState() {
     super.initState();
-    if (widget.feedElementData.isMember != null &&
-        widget.feedElementData.isMember!) {
-      setState(() {
-        joint = true;
-      });
-    }
     helper();
   }
 
