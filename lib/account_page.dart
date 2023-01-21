@@ -145,13 +145,20 @@ class LogoutBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        FirebaseAuth.instance.signOut().then(((value) => callback()));
-      },
-      color: const Color(0xffFE7F2D),
-      child: const Text(
-        "Logout",
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        onPressed: () {
+          FirebaseAuth.instance.signOut().then(((value) => callback()));
+        },
+        color: const Color(0xffFE7F2D),
+        child: const Text(
+          "Logout",
+        ),
       ),
     );
   }
@@ -234,20 +241,27 @@ class ChangeDisplayNameBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      // if the button is not active it is still displayed in the UI but greyed out
-      disabledColor: Colors.grey,
-      onPressed: isActive
-          ? () async {
-              _showMyDialog(context);
-            }
-          : null,
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text("Change Nickname"),
-        ],
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        // if the button is not active it is still displayed in the UI but greyed out
+        disabledColor: Colors.grey,
+        onPressed: isActive
+            ? () async {
+                _showMyDialog(context);
+              }
+            : null,
+        color: const Color(0xffFE7F2D),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Text("Change Nickname"),
+          ],
+        ),
       ),
     );
   }
@@ -279,25 +293,46 @@ class SendVerificationEmailBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      // if the button is not active it is still displayed in the UI but greyed out
-      disabledColor: Colors.grey,
-      onPressed: isActive
-          ? () {
-              sendVerificationEmail(context);
-            }
-          : null,
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Icon(Icons.send),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Send verification email"),
-        ],
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        // if the button is not active it is still displayed in the UI but greyed out
+        disabledColor: Colors.grey,
+        onPressed: isActive
+            ? () {
+                sendVerificationEmail(context);
+              }
+            : null,
+        color: const Color(0xffFE7F2D),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Icon(Icons.send),
+            SizedBox(
+              width: 5,
+            ),
+            Text("Send verification email"),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+/// Wrapper to have a consistent margin for all account buttons
+class AccountButton extends StatelessWidget {
+  final Widget child;
+  const AccountButton({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      child: child,
     );
   }
 }

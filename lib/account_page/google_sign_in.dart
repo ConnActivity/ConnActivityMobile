@@ -1,3 +1,4 @@
+import 'package:connactivity/account_page.dart';
 import 'package:connactivity/comms.dart' as comms;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -61,30 +62,37 @@ class GoogleSignInBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      disabledColor: Colors.grey,
-      // Check for web platform and if button is active / logged in
-      onPressed: isActive
-          ? kIsWeb
-              ? signInWithGoogleWeb
-              : () {
-                  try {
-                    signInWithGoogle();
-                  } catch (error) {
-                    debugPrint(error.toString());
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        disabledColor: Colors.grey,
+        // Check for web platform and if button is active / logged in
+        onPressed: isActive
+            ? kIsWeb
+                ? signInWithGoogleWeb
+                : () {
+                    try {
+                      signInWithGoogle();
+                    } catch (error) {
+                      debugPrint(error.toString());
+                    }
                   }
-                }
-          : null,
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          FaIcon(FontAwesomeIcons.google),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Sign in with Google"),
-        ],
+            : null,
+        color: const Color(0xffFE7F2D),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            FaIcon(FontAwesomeIcons.google),
+            SizedBox(
+              width: 5,
+            ),
+            Text("Sign in with Google"),
+          ],
+        ),
       ),
     );
   }

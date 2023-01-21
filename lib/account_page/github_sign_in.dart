@@ -1,3 +1,4 @@
+import 'package:connactivity/account_page.dart';
 import 'package:connactivity/comms.dart' as comms;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -60,30 +61,37 @@ class GitHubSignInBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      disabledColor: Colors.grey,
-      // Check for web platform
-      onPressed: isActive
-          ? kIsWeb
-              ? signInWithGitHubWeb
-              : (() {
-                  try {
-                    signInWithGitHub();
-                  } catch (error) {
-                    debugPrint(error.toString());
-                  }
-                })
-          : null,
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          FaIcon(FontAwesomeIcons.github),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Sign in with GitHub"),
-        ],
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        disabledColor: Colors.grey,
+        // Check for web platform
+        onPressed: isActive
+            ? kIsWeb
+                ? signInWithGitHubWeb
+                : (() {
+                    try {
+                      signInWithGitHub();
+                    } catch (error) {
+                      debugPrint(error.toString());
+                    }
+                  })
+            : null,
+        color: const Color(0xffFE7F2D),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            FaIcon(FontAwesomeIcons.github),
+            SizedBox(
+              width: 5,
+            ),
+            Text("Sign in with GitHub"),
+          ],
+        ),
       ),
     );
   }

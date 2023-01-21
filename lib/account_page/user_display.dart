@@ -24,6 +24,7 @@ class UserDisplay extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.orange),
         borderRadius: BorderRadius.circular(10),
