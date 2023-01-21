@@ -1,14 +1,9 @@
 import 'package:connactivity/account_page/github_sign_in.dart';
 import 'package:connactivity/account_page/google_sign_in.dart';
-import 'package:connactivity/comms.dart' as comms;
 import 'package:connactivity/account_page/user_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:github_sign_in/github_sign_in.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'comms.dart';
 import 'firebase_options.dart';
 import 'login_page.dart';

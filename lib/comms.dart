@@ -1,20 +1,18 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 /// The server url, you can change this to localhost for testing
-const server_url = "https://api.connactivity.me";
+const serverUrl = "https://api.connactivity.me";
 
 /// Tries to join an event, returning true if successful
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
 
   var response =
-      await http.put(Uri.parse("$server_url/join_event/$id"), headers: {
+      await http.put(Uri.parse("$serverUrl/join_event/$id"), headers: {
     "cookie": "user_token=${userToken!}",
   });
   return response.statusCode == 202;
@@ -24,7 +22,7 @@ Future<bool> joinEvent(int id) async {
 Future<bool> leaveEvent(int id) async {
   var userToken = await getUserToken();
   var response =
-      await http.put(Uri.parse("$server_url/leave_event/$id"), headers: {
+      await http.put(Uri.parse("$serverUrl/leave_event/$id"), headers: {
     "cookie": "user_token=$userToken",
   });
 
@@ -39,7 +37,7 @@ Future<List<int>> getUserEventIdList() async {
   var userId = user.id;
 
   var response = await http
-      .get(Uri.parse("$server_url/list_user_with_events/${userId!}"), headers: {
+      .get(Uri.parse("$serverUrl/list_user_with_events/${userId!}"), headers: {
     "cookie": "user_token=${userToken!}",
   });
 
@@ -61,14 +59,11 @@ Future<bool> registerUser(String? name, String? email) async {
   var body = {
     "username": name,
     "user_email": email,
-    //"gender": "x",
-    //"user_age": 1337,
     "university": "DHBW",
     "user_bio": "DEFAULT BIO",
-    //"user_id": uid,
   };
 
-  var response = await http.post(Uri.parse("$server_url/user/"),
+  var response = await http.post(Uri.parse("$serverUrl/user/"),
       headers: {
         "Cookie": "user_token=${userToken!}",
         "Content-Type": "application/json"
@@ -89,7 +84,7 @@ Future<bool> userExists() async {
 
   debugPrint(userToken.toString());
 
-  var response = await http.get(Uri.parse("$server_url/user/$uid"),
+  var response = await http.get(Uri.parse("$serverUrl/user/$uid"),
       headers: {"cookie": "user_token=$userToken"});
 
   return response.statusCode != 404;
@@ -109,7 +104,7 @@ Future<List> createEvent(
   UserData user = await getUserData();
   var uid = user.id;
 
-  var request = http.MultipartRequest('POST', Uri.parse("$server_url/events/"));
+  var request = http.MultipartRequest('POST', Uri.parse("$serverUrl/events/"));
   request.headers.addAll({"cookie": "user_token=${userToken!}"});
   request.fields["title"] = eventName;
   request.fields["date_published"] = DateTime.now().toLocal().toIso8601String();
@@ -144,11 +139,11 @@ Future<dynamic> get_event_detail(int event_id) async {
   UserData user = await getUserData();
   var uid = user.id;
   var response =
-      await http.get(Uri.parse("$server_url/events/$event_id"), headers: {
+      await http.get(Uri.parse("$serverUrl/events/$event_id"), headers: {
     "cookie": "user_token=$userToken",
   });
   var data = json.decode(utf8.decode(response.bodyBytes));
-  debugPrint("F: get_event_detail(): ${data}");
+  debugPrint("F: get_event_detail(): $data");
   return data;
 }
 
@@ -157,8 +152,7 @@ Future<bool> deleteUser() async {
   var userToken = await getUserToken();
   UserData user = await getUserData();
   var uid = user.id;
-  var response =
-      await http.delete(Uri.parse("$server_url/user/$uid"), headers: {
+  var response = await http.delete(Uri.parse("$serverUrl/user/$uid"), headers: {
     "cookie": "user_token=$userToken",
   });
   return response.statusCode == 200;
@@ -180,7 +174,7 @@ Future<List> editEvent(
   var uid = user.id;
 
   var request =
-      http.MultipartRequest('PUT', Uri.parse("$server_url/events/$eventId"));
+      http.MultipartRequest('PUT', Uri.parse("$serverUrl/events/$eventId"));
   request.headers.addAll({"cookie": "user_token=${userToken!}"});
   request.fields["title"] = eventName;
   request.fields["date_published"] = DateTime.now().toLocal().toIso8601String();
@@ -214,7 +208,7 @@ Future<bool> deleteEvent(int eventId) async {
   var userToken = await getUserToken();
 
   var request =
-      http.MultipartRequest('DELETE', Uri.parse("$server_url/events/$eventId"));
+      http.MultipartRequest('DELETE', Uri.parse("$serverUrl/events/$eventId"));
   request.headers.addAll({"cookie": "user_token=${userToken!}"});
   var response = await request.send();
   var responseData = await response.stream.bytesToString();

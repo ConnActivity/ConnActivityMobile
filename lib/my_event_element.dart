@@ -84,9 +84,9 @@ class _MyEventState extends State<MyEvent> {
                       "You are the owner of the event and therefore cannot leave the event.\nYou can delete the event instead.");
                 } else {
                   var hasLeft = await leaveEvent(widget.data.id);
-                  if (hasLeft)
+                  if (hasLeft) {
                     widget.callback();
-                  else {
+                  } else {
                     showAlertDialog(context, "Unable to leave the event.",
                         "There was an unexpected error.\n\nPlease try again later.");
                   }
