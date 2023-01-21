@@ -74,14 +74,17 @@ class _AccountPageState extends State<AccountPage> {
                     id: firebaseId ?? "No id",
                     isVerified: emailVerified,
                   ),
+                  // Logout button
                   LogoutBtn(
                     callback: userAuth,
                     isActive: userEmail != null,
                   ),
+                  // Google sign in button
                   GoogleSignInBtn(
                     callback: userAuth,
                     isActive: userEmail == null,
                   ),
+                  // GitHub sign in button
                   GitHubSignInBtn(
                       callback: userAuth,
                       isActive: userEmail == null,
@@ -100,6 +103,7 @@ class _AccountPageState extends State<AccountPage> {
                           oldDisplayName: displayName,
                           isActive: false,
                         ),
+                  // Account delete button
                   DeleteAccount(
                     isActive: userEmail != null,
                   ),
@@ -127,6 +131,7 @@ class LoginBtn extends StatelessWidget {
           borderRadius: BorderRadius.circular(50),
         ),
         onPressed: () {
+          // Navigate to login page
           Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const LoginPage()))
               .then((value) => callback());
@@ -160,6 +165,7 @@ class LogoutBtn extends StatelessWidget {
         ),
         onPressed: isActive
             ? () {
+                // Sign out of Firebase and refresh after sign out
                 FirebaseAuth.instance.signOut().then(((value) => callback()));
               }
             : null,
@@ -187,6 +193,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
       required this.isActive})
       : super(key: key);
 
+  /// Change the display name of the user
   void changeNickname(String newDisplayName) async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -237,6 +244,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
               onPressed: () {
                 // change nickname asynchrnously
                 changeNickname(nickNameController.text);
+                // close the dialog
                 Navigator.of(context).pop();
               },
               child: const Text('Apply'),
@@ -258,6 +266,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
         ),
         // if the button is not active it is still displayed in the UI but greyed out
         disabledColor: Colors.grey,
+        // if the button is active it can be pressed otherwise the function is null, making it disabled (see disabledColor)
         onPressed: isActive
             ? () async {
                 _showMyDialog(context);
@@ -289,12 +298,14 @@ class DeleteAccount extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         ),
+        // if the button is not active it is still displayed in the UI but greyed out
         disabledColor: Colors.grey,
         onPressed: isActive
             ? () {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
+                    // Ask user for confirmation before deleting account
                     return AlertDialog(
                       title: const Text('Delete Account'),
                       titleTextStyle:
@@ -307,6 +318,7 @@ class DeleteAccount extends StatelessWidget {
                           style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
                                   Colors.white)),
+                          // Closes the dialog if the user does not want to delete their account
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -316,14 +328,17 @@ class DeleteAccount extends StatelessWidget {
                           style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(
                                   Colors.white)),
+                          // Triggers the deletion flow
                           onPressed: () async {
-                            // Delete the user from the server
+                            // Deletes the user from the server
                             bool isDeleted = await deleteUser();
-                            // Delete the user from firebase
+                            // Deletes the user from firebase if it has been deleted from the server
+                            // That way the user id can still be accessed for manual removal
                             if (isDeleted) {
                               FirebaseAuth.instance.currentUser?.delete();
                             }
                             // Widget will still be mounted
+                            // Close the dialog
                             Navigator.of(context).pop();
                           },
                           child: const Text('Delete'),
@@ -351,6 +366,7 @@ class AccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // Add a margin to the bottom of the child
       margin: const EdgeInsets.only(bottom: 15),
       child: child,
     );
