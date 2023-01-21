@@ -30,7 +30,7 @@ class _MyPAgeState extends State<MyPAge> {
 
   Future<List<FeedElementData>?> getUserEvents() async {
     var userToken = await getUserToken();
-    UserData user = await getUserId();
+    UserData user = await getUserData();
     var userId = user.id;
 
     if (userId == null) return null;

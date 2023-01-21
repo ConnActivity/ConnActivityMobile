@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// This is the stateless widget that is used for the user input fields in the login page.
 class Loginfield extends StatelessWidget {
   final String title, defaultText;
   final TextEditingController controller;

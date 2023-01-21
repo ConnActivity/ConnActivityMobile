@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A simple alert dialog with a title, content, and OK button.
 showAlertDialog(BuildContext context, String title, String content) {
   // set up the button
   Widget okButton = TextButton(

@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// The LoginPage class allows the user to login to the app if
+/// they have an account.
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -68,7 +70,9 @@ class _State extends State<LoginPage> {
         ));
   }
 
-  //TODO: Think about account linking
+  /// This function is called when the user presses the login button.
+  /// It checks if the user exists and if the password is correct.
+  /// It logs the user in and navigates to the account page.
   void loginUser(String email, String password) async {
     Firebase.initializeApp;
     try {
@@ -94,6 +98,8 @@ class _State extends State<LoginPage> {
   }
 
   @override
+
+  /// Disposes the controllers when the widget is closed.
   void dispose() {
     userEmailController.dispose();
     passwordController.dispose();
