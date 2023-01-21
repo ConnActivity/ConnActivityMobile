@@ -137,7 +137,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 1,
                       child: SingleChildScrollView(
                         child: Container(
                           margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
