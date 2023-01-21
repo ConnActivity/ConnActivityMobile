@@ -22,18 +22,11 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  bool joint = false;
   bool user = false;
 
   @override
   void initState() {
     super.initState();
-    if (widget.feedElementData.isMember != null &&
-        widget.feedElementData.isMember!) {
-      setState(() {
-        joint = true;
-      });
-    }
     is_owner();
   }
 
@@ -136,6 +129,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                 style: const TextStyle(
                                     color: Colors.black, fontSize: 20)),
                           ]),
+                          Row(children: [
+                            const Icon(Icons.people),
+                            Text(
+                                "Joined: ${(data["member_list"]) == null ? "?" : (data["member_list"]).length}",
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 20)),
+                          ]),
                         ],
                       ),
                     ),
@@ -162,49 +162,6 @@ class _DetailScreenState extends State<DetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(0, 15, 5, 0),
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                bool response = joint;
-                                if (!joint) {
-                                  response = await joinEvent(
-                                      widget.feedElementData.id);
-                                } else {
-                                  response = await leaveEvent(
-                                      widget.feedElementData.id);
-                                  response = !response;
-                                }
-                                setState(() {
-                                  joint = response;
-                                });
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor: joint
-                                      ? MaterialStateProperty.all(Colors.black)
-                                      : MaterialStateProperty.all(
-                                          const Color(0xffFE7F2D)),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ))),
-                              child: joint
-                                  ? const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                    )
-                                  : const Text(
-                                      "Join",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20),
-                                    ),
-                            ),
-                          ),
-                        ),
                         Expanded(
                           flex: 1,
                           child: user == true
