@@ -1,5 +1,7 @@
+import 'package:connactivity/account_page/github_sign_in.dart';
+import 'package:connactivity/account_page/google_sign_in.dart';
 import 'package:connactivity/comms.dart' as comms;
-import 'package:connactivity/user_display.dart';
+import 'package:connactivity/account_page/user_display.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +9,12 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'comms.dart';
 import 'firebase_options.dart';
 import 'login_page.dart';
 
+/// The AccountPage shows the user their current account information
+/// and allows them to sign in or out.
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
 
@@ -30,11 +35,11 @@ class _AccountPageState extends State<AccountPage> {
     userAuth();
   }
 
+  /// Gets information about current user and triggers widgets to be updated
   void userAuth() async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    //await FirebaseAuth.instance.signOut();
     var currentUser = FirebaseAuth.instance.currentUser;
 
     setState(() {
@@ -44,17 +49,6 @@ class _AccountPageState extends State<AccountPage> {
       firebaseId = currentUser?.uid;
       photoUrl = currentUser?.photoURL;
     });
-  }
-
-  Text isVerified(bool? isVerified) {
-    if (isVerified == null) {
-      return const Text("Email verification state not available",
-          style: TextStyle(color: Colors.white));
-    }
-    return isVerified
-        ? const Text("Email is verified", style: TextStyle(color: Colors.white))
-        : const Text("Please verify your email",
-            style: TextStyle(color: Colors.white));
   }
 
   @override
@@ -78,20 +72,24 @@ class _AccountPageState extends State<AccountPage> {
                     email: userEmail ?? "No email",
                     photoUrl: photoUrl ?? "No photo",
                     id: firebaseId ?? "No id",
+                    isVerified: emailVerified,
                   ),
-                  isVerified(emailVerified),
-                  userEmail == null
-                      ? LoginBtn(callback: userAuth)
-                      : LogoutBtn(callback: userAuth),
-                  userEmail != null && emailVerified == false
-                      ? SendVerificationEmailBtn(
-                          callback: userAuth,
-                          isActive: true,
-                        )
-                      : SendVerificationEmailBtn(
-                          callback: userAuth, isActive: false),
-                  GoogleSignInBtn(callback: userAuth),
-                  GitHubSignInBtn(callback: userAuth, context: context),
+                  // Logout button
+                  LogoutBtn(
+                    callback: userAuth,
+                    isActive: userEmail != null,
+                  ),
+                  // Google sign in button
+                  GoogleSignInBtn(
+                    callback: userAuth,
+                    isActive: userEmail == null,
+                  ),
+                  // GitHub sign in button
+                  GitHubSignInBtn(
+                      callback: userAuth,
+                      isActive: userEmail == null,
+                      context: context),
+                  // Offer option to change display name if user is logged in
                   userEmail != null
                       ? ChangeDisplayNameBtn(
                           callback: userAuth,
@@ -105,7 +103,10 @@ class _AccountPageState extends State<AccountPage> {
                           oldDisplayName: displayName,
                           isActive: false,
                         ),
-                  RefreshTokenBtn(callback: userAuth)
+                  // Account delete button
+                  DeleteAccount(
+                    isActive: userEmail != null,
+                  ),
                 ]),
           )
         ],
@@ -114,194 +115,76 @@ class _AccountPageState extends State<AccountPage> {
   }
 }
 
-//UI - Buttons
+/// Login user with email and password
 class LoginBtn extends StatelessWidget {
   final void Function() callback;
+
   const LoginBtn({Key? key, required this.callback}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoginPage()))
-            .then((value) => callback());
-      },
-      color: const Color(0xffFE7F2D),
-      child: const Text(
-        "Login",
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        onPressed: () {
+          // Navigate to login page
+          Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()))
+              .then((value) => callback());
+        },
+        color: const Color(0xffFE7F2D),
+        child: const Text(
+          "Login",
+        ),
       ),
     );
   }
 }
 
+/// Logout user regardless of account type
 class LogoutBtn extends StatelessWidget {
   final void Function() callback;
-  const LogoutBtn({Key? key, required this.callback}) : super(key: key);
+  final bool isActive;
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        FirebaseAuth.instance.signOut().then(((value) => callback()));
-      },
-      color: const Color(0xffFE7F2D),
-      child: const Text(
-        "Logout",
-      ),
-    );
-  }
-}
-
-class GoogleSignInBtn extends StatelessWidget {
-  final Function() callback;
-  const GoogleSignInBtn({Key? key, required this.callback}) : super(key: key);
-
-  void signInWithGoogle() async {
-    final googleUser = await GoogleSignIn().signIn();
-
-    final googleAuth = await googleUser?.authentication;
-
-    if (googleAuth == null) {
-      debugPrint("Google Auth didn't function");
-      return;
-    }
-
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    await FirebaseAuth.instance.signInWithCredential(credential);
-
-    //untested...
-
-    var name = googleUser?.displayName;
-    var email = googleUser?.email;
-
-    var userExists = await comms.userExists();
-    debugPrint(userExists.toString());
-    if (!userExists) await comms.registerUser(name, email);
-
-    callback();
-  }
-
-  void signInWithGoogleWeb() async {
-    GoogleAuthProvider googleProvider = GoogleAuthProvider();
-
-    googleProvider.addScope('https://www.googleapis.com/auth/userinfo.email');
-    googleProvider.addScope('https://www.googleapis.com/auth/userinfo.profile');
-    googleProvider.setCustomParameters({'login_hint': 'email@example.com'});
-
-    await FirebaseAuth.instance
-        .signInWithPopup(googleProvider)
-        .then((value) => callback());
-
-    // Or use signInWithRedirect
-    // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: kIsWeb
-          ? signInWithGoogleWeb
-          : () {
-              try {
-                signInWithGoogle();
-              } catch (error) {
-                debugPrint(error.toString());
-              }
-            },
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          FaIcon(FontAwesomeIcons.google),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Sign in with Google"),
-        ],
-      ),
-    );
-  }
-}
-
-class GitHubSignInBtn extends StatelessWidget {
-  final Function() callback;
-  final BuildContext context;
-  const GitHubSignInBtn(
-      {Key? key, required this.callback, required this.context})
+  const LogoutBtn({Key? key, required this.callback, required this.isActive})
       : super(key: key);
 
-  void signInWithGitHub() async {
-    final GitHubSignIn gitHubSignIn = GitHubSignIn(
-        clientId: "92059c6ea0e08cad4256",
-        clientSecret: "4ed27f9c322c50dda7cba53856ce66e0c4bffcbd",
-        redirectUrl:
-            'https://tenacious-moon-348609.firebaseapp.com/__/auth/handler');
-
-    final result = await gitHubSignIn.signIn(context);
-
-    if (result.token == null) {
-      return;
-    }
-
-    final githubAuthCredential = GithubAuthProvider.credential(result.token!);
-
-    await FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
-
-    final gitHubUser = FirebaseAuth.instance.currentUser;
-
-    var userExists = await comms.userExists();
-    if (!userExists)
-      await comms.registerUser(gitHubUser?.displayName, gitHubUser?.email);
-
-    callback();
-    //.then((value) => callback());
-  }
-
-  void signInWithGitHubWeb() async {
-    GithubAuthProvider githubProvider = GithubAuthProvider();
-
-    await FirebaseAuth.instance
-        .signInWithPopup(githubProvider)
-        .then((value) => callback());
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: kIsWeb
-          ? signInWithGitHubWeb
-          : (() {
-              try {
-                signInWithGitHub();
-              } catch (error) {
-                debugPrint(error.toString());
+    return AccountButton(
+      child: MaterialButton(
+        disabledColor: Colors.grey,
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        onPressed: isActive
+            ? () {
+                // Sign out of Firebase and refresh after sign out
+                FirebaseAuth.instance.signOut().then(((value) => callback()));
               }
-            }),
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          FaIcon(FontAwesomeIcons.github),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Sign in with GitHub"),
-        ],
+            : null,
+        color: const Color(0xffFE7F2D),
+        child: const Text(
+          "Logout",
+        ),
       ),
     );
   }
 }
 
+/// Change the display name of the user
 class ChangeDisplayNameBtn extends StatelessWidget {
   final Function() callback;
   final BuildContext context;
   final String? oldDisplayName;
   final bool isActive;
+
   const ChangeDisplayNameBtn(
       {Key? key,
       required this.callback,
@@ -310,6 +193,7 @@ class ChangeDisplayNameBtn extends StatelessWidget {
       required this.isActive})
       : super(key: key);
 
+  /// Change the display name of the user
   void changeNickname(String newDisplayName) async {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -319,13 +203,15 @@ class ChangeDisplayNameBtn extends StatelessWidget {
         .then((value) => callback());
   }
 
+  /// Show the dialog to change the display name
   Future<void> _showMyDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         var nickNameController = TextEditingController();
-        nickNameController.text = oldDisplayName ?? "";
+        nickNameController.text = oldDisplayName ??
+            ""; // Prepopulate the text field with the old display name
         return AlertDialog(
           title: const Text('Nickname Settings'),
           titleTextStyle: const TextStyle(color: Colors.white, fontSize: 25),
@@ -356,7 +242,9 @@ class ChangeDisplayNameBtn extends StatelessWidget {
                   foregroundColor:
                       MaterialStateProperty.all<Color>(Colors.white)),
               onPressed: () {
+                // change nickname asynchrnously
                 changeNickname(nickNameController.text);
+                // close the dialog
                 Navigator.of(context).pop();
               },
               child: const Text('Apply'),
@@ -369,97 +257,118 @@ class ChangeDisplayNameBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      disabledColor: Colors.grey,
-      onPressed: isActive
-          ? () async {
-              _showMyDialog(context);
-            }
-          : null,
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Text("Change Nickname"),
-        ],
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        // If the button is not active it is still displayed in the UI but greyed out
+        disabledColor: Colors.grey,
+        // If the button is active it can be pressed otherwise the function is null, making it disabled (see disabledColor)
+        onPressed: isActive
+            ? () async {
+                _showMyDialog(context);
+              }
+            : null,
+        color: const Color(0xffFE7F2D),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Text("Change Nickname"),
+          ],
+        ),
       ),
     );
   }
 }
 
-//DEBUGGING-only
-class RefreshTokenBtn extends StatelessWidget {
-  final Function() callback;
-  const RefreshTokenBtn({Key? key, required this.callback}) : super(key: key);
-
-  Future<void> refreshToken() async {
-    FirebaseAuth.instance.currentUser
-        ?.getIdToken(true)
-        .then((value) => debugPrint(value));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        refreshToken().then((value) => callback());
-      },
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Icon(Icons.refresh),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Refresh Token"),
-        ],
-      ),
-    );
-  }
-}
-
-class SendVerificationEmailBtn extends StatelessWidget {
-  final Function() callback;
+/// Delete the user account (from firebase and server)
+class DeleteAccount extends StatelessWidget {
   final bool isActive;
-  const SendVerificationEmailBtn(
-      {Key? key, required this.callback, required this.isActive})
-      : super(key: key);
-
-  void sendVerificationEmail(BuildContext context) async {
-    debugPrint("Sending verification email");
-    try {
-      await FirebaseAuth.instance.currentUser
-          ?.sendEmailVerification()
-          .whenComplete(() => callback());
-    } on Exception catch (e) {
-      debugPrint(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Verification email already sent!"),
-      ));
-    }
-  }
+  const DeleteAccount({super.key, required this.isActive});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      disabledColor: Colors.grey,
-      onPressed: isActive
-          ? () {
-              sendVerificationEmail(context);
-            }
-          : null,
-      color: const Color(0xffFE7F2D),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: const [
-          Icon(Icons.send),
-          SizedBox(
-            width: 5,
-          ),
-          Text("Send verification email"),
-        ],
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        // if the button is not active it is still displayed in the UI but greyed out
+        disabledColor: Colors.grey,
+        onPressed: isActive
+            ? () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // Ask user for confirmation before deleting account
+                    return AlertDialog(
+                      title: const Text('Delete Account'),
+                      titleTextStyle:
+                          const TextStyle(color: Colors.white, fontSize: 25),
+                      backgroundColor: Colors.grey,
+                      content: const Text(
+                          'Are you sure you want to delete your account? This action cannot be undone.'),
+                      actions: <Widget>[
+                        TextButton(
+                          style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white)),
+                          // Closes the dialog if the user does not want to delete their account
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white)),
+                          // Triggers the deletion flow
+                          onPressed: () async {
+                            // Deletes the user from the server
+                            bool isDeleted = await deleteUser();
+                            // Deletes the user from firebase if it has been deleted from the server
+                            // That way the user id can still be accessed for manual removal
+                            if (isDeleted) {
+                              FirebaseAuth.instance.currentUser?.delete();
+                            }
+                            // Widget will still be mounted
+                            // Close the dialog
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Delete'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+            : null,
+        color: const Color.fromARGB(255, 254, 45, 45),
+        child: const Text(
+          "Delete Account",
+        ),
       ),
+    );
+  }
+}
+
+/// Wrapper to have a consistent margin for all account buttons
+class AccountButton extends StatelessWidget {
+  final Widget child;
+  const AccountButton({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // Add a margin to the bottom of the child
+      margin: const EdgeInsets.only(bottom: 15),
+      child: child,
     );
   }
 }

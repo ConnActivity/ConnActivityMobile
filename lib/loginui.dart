@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
+/// This is the stateless widget that is used for the user input fields in the login page.
 class Loginfield extends StatelessWidget {
   final String title, defaultText;
   final TextEditingController controller;
+  final bool isPassword;
+
   const Loginfield(
       {Key? key,
       required this.title,
       required this.defaultText,
-      required this.controller})
+      required this.controller,
+      this.isPassword = false})
       : super(key: key);
 
   @override
@@ -29,7 +33,7 @@ class Loginfield extends StatelessWidget {
           child: TextField(
             controller: controller,
             style: const TextStyle(color: Colors.white),
-            obscureText: false,
+            obscureText: isPassword,
             decoration: InputDecoration(
               labelStyle: const TextStyle(color: Colors.amber),
               enabledBorder: const OutlineInputBorder(

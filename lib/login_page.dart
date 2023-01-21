@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// The LoginPage class allows the user to login to the app if
+/// they have an account.
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -19,53 +21,58 @@ class _State extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xff02020A),
         body: SafeArea(
           child: Container(
-            width: double.infinity,
-            margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  'Login',
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 2.5,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.lobster(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: const Color(0xffFE7F2D),
-                  ),
+              width: double.infinity,
+              margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Login',
+                      textAlign: TextAlign.center,
+                      textScaleFactor: 2.5,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.lobster(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: const Color(0xffFE7F2D),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    Loginfield(
+                      title: 'Accountname:',
+                      defaultText: 'name',
+                      controller: userEmailController,
+                    ),
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Loginfield(
+                      title: 'Password:',
+                      defaultText: 'topsecret123',
+                      controller: passwordController,
+                      isPassword: true,
+                    ),
+                    MaterialButton(
+                        onPressed: () => loginUser(
+                            userEmailController.text, passwordController.text),
+                        color: const Color(0xffFE7F2D),
+                        child: const Text("Login"))
+                  ],
                 ),
-                const SizedBox(
-                  height: 100,
-                ),
-                Loginfield(
-                  title: 'Accountname:',
-                  defaultText: 'name',
-                  controller: userEmailController,
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-                Loginfield(
-                  title: 'Password:',
-                  defaultText: 'topsecret123',
-                  controller: passwordController,
-                ),
-                MaterialButton(
-                    onPressed: () => loginUser(
-                        userEmailController.text, passwordController.text),
-                    color: const Color(0xffFE7F2D),
-                    child: const Text("Login"))
-              ],
-            ),
-          ),
+              )),
         ));
   }
 
-  //TODO: Think about account linking
+  /// This function is called when the user presses the login button.
+  /// It checks if the user exists and if the password is correct.
+  /// It logs the user in and navigates to the account page.
   void loginUser(String email, String password) async {
     Firebase.initializeApp;
     try {
@@ -74,9 +81,10 @@ class _State extends State<LoginPage> {
       debugPrint(creds.user?.uid.toString());
       var userExists = await comms.userExists();
       print(userExists.toString());
-      if (!userExists)
+      if (!userExists) {
         await comms.registerUser(
             creds.user?.uid.toString().substring(0, 19), email);
+      }
       debugPrint("Login end");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -90,6 +98,8 @@ class _State extends State<LoginPage> {
   }
 
   @override
+
+  /// Disposes the controllers when the widget is closed.
   void dispose() {
     userEmailController.dispose();
     passwordController.dispose();

@@ -4,6 +4,9 @@ import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'event_detail_view.dart';
+
+/// A widget that displays a feed element based on [FeedElementData].
 class FeedElement extends StatefulWidget {
   const FeedElement(
       {Key? key,
@@ -26,8 +29,9 @@ class _FeedElementState extends State<FeedElement>
   @override
   void initState() {
     super.initState();
-    if (widget.feedElementData.isMemeber != null &&
-        widget.feedElementData.isMemeber!) {
+    // Display if user joined event
+    if (widget.feedElementData.isMember != null &&
+        widget.feedElementData.isMember!) {
       setState(() {
         joint = true;
       });
@@ -37,7 +41,7 @@ class _FeedElementState extends State<FeedElement>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height - 30,
+      height: widget.height * 0.9,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -47,17 +51,22 @@ class _FeedElementState extends State<FeedElement>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Center(
+            child: SizedBox(
+              width: 320,
+              height: 200,
+              child: (widget.feedElementData.image.isEmpty)
+                  ? const Icon(Icons.image)
+                  : Image.memory(
+                      widget.feedElementData.image,
+                      fit: BoxFit.fitHeight,
+                    ),
+            ),
+          ),
           Text(widget.feedElementData.title,
               style: GoogleFonts.anton(
                   textStyle:
                       const TextStyle(color: Colors.black, fontSize: 30))),
-          Row(
-            children: [
-              const Icon(Icons.place_outlined),
-              Text(widget.feedElementData.place ?? "No location data",
-                  style: const TextStyle(color: Colors.black, fontSize: 20)),
-            ],
-          ),
           Row(
             children: [
               const Icon(Icons.schedule),
@@ -76,6 +85,9 @@ class _FeedElementState extends State<FeedElement>
                 //const Icon(Icons.info_outline),
                 Flexible(
                     child: Text(
+                  maxLines: 3,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                   widget.feedElementData.description,
                   style: const TextStyle(
                       fontSize: 20, fontStyle: FontStyle.italic),
@@ -92,6 +104,7 @@ class _FeedElementState extends State<FeedElement>
                   margin: const EdgeInsets.fromLTRB(0, 15, 5, 0),
                   width: double.infinity,
                   child: ElevatedButton(
+                    // User can only join if the user is not already a member
                     onPressed: () async {
                       bool response = joint;
                       if (!joint) {
@@ -101,10 +114,12 @@ class _FeedElementState extends State<FeedElement>
                         response = !response;
                       }
                       setState(() {
+                        // Refresh the state of the button
                         joint = response;
                       });
                     },
                     style: ButtonStyle(
+                        // Change the color of the button depending on the joint state
                         backgroundColor: joint
                             ? MaterialStateProperty.all(Colors.black)
                             : MaterialStateProperty.all(
@@ -114,6 +129,7 @@ class _FeedElementState extends State<FeedElement>
                                 RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
                         ))),
+                    // Display a checkmark if the user is a member
                     child: joint
                         ? const Icon(
                             Icons.check,
@@ -132,8 +148,16 @@ class _FeedElementState extends State<FeedElement>
                   width: double.infinity,
                   margin: const EdgeInsets.fromLTRB(5, 15, 0, 0),
                   child: ElevatedButton(
-                    //TODO: implement route to actual details-page
-                    onPressed: () => null,
+                    // Navigate to the detail screen
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailScreen(
+                                  widget.feedElementData,
+                                  widget.backgroundColor,
+                                  widget.height)));
+                    },
                     style: ButtonStyle(
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
@@ -160,6 +184,7 @@ class _FeedElementState extends State<FeedElement>
     );
   }
 
+  // Keep scroll position
   @override
   bool get wantKeepAlive => true;
 }

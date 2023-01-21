@@ -1,7 +1,16 @@
-import 'package:connactivity/comms.dart';
-import 'package:connactivity/feed_element_data.dart';
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:connactivity/alert_dialog.dart';
+import 'package:connactivity/comms.dart';
+import 'package:connactivity/event_detail_view.dart';
+import 'package:connactivity/feed_element_data.dart';
+import 'package:connactivity/user.dart';
+import 'package:connactivity/user_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+/// The Elements from the "My Events" page, offering the option to either view
+/// the event or leave it.
 class MyEvent extends StatefulWidget {
   const MyEvent(
       {Key? key,
@@ -9,6 +18,7 @@ class MyEvent extends StatefulWidget {
       required this.color,
       required this.callback})
       : super(key: key);
+
   //const MyEvent({Key? key}) : super(key: key);
   final Color color;
   final FeedElementData data;
@@ -58,10 +68,37 @@ class _MyEventState extends State<MyEvent> {
                   duration: Duration(milliseconds: 900),
                   content: Text("leaving event..."),
                 ));
-                var hasLeft = await leaveEvent(widget.data.id);
-                if (hasLeft) widget.callback();
+                var userToken = await getUserToken();
+                var event = await http.get(
+                    Uri.parse(
+                        "https://api.connactivity.me/events/${widget.data.id}"),
+                    headers: {
+                      "cookie": "user_token=$userToken",
+                    });
+                var jsnondecoded = json.decode(event.body);
+                var creator = jsnondecoded["creator"];
+                UserData user = await getUserData();
+                var uid = user.id;
+                if (creator == uid) {
+                  showAlertDialog(context, "You could not leave the event.",
+                      "You are the owner of the event and therefore cannot leave the event.\nYou can delete the event instead.");
+                } else {
+                  var hasLeft = await leaveEvent(widget.data.id);
+                  if (hasLeft)
+                    widget.callback();
+                  else {
+                    showAlertDialog(context, "Unable to leave the event.",
+                        "There was an unexpected error.\n\nPlease try again later.");
+                  }
+                }
               }),
-          onTap: () => null,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DetailScreen(widget.data, widget.color, 500)));
+          },
         ),
       ),
     );

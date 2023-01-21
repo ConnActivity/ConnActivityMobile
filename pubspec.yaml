@@ -37,11 +37,21 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   # Connactivity Dependencies
+  shared_preferences: ^2.0.17
+  introduction_screen: ^3.1.4
   firebase_auth: ^4.1.2
   google_sign_in: ^5.3.1
   github_sign_in: 0.0.5-dev.4
   font_awesome_flutter: ^10.1.0
   html: ^0.15.0
+  image_picker: ^0.8.5+3
+  flutter_pagination: ^0.0.1
+  flutter_launcher_icons: ^0.11.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/conn_icon.png"
 
 dev_dependencies:
   flutter_test:

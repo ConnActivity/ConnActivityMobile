@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// The Navigation Bar containing the Feed, My, and Account tabs
 class ConnActivityNavBar extends StatelessWidget {
   const ConnActivityNavBar({Key? key}) : super(key: key);
 
