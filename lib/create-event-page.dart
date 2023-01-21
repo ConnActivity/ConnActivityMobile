@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
+/// Displays the create and edit event page showing the form to create/edit
 class CreateEventPage extends StatefulWidget {
   FeedElementData? feedElementData;
   String? limit;
@@ -38,6 +39,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
   late File imagefile;
 
   @override
+
+  /// If the user is editing an event, the form is filled with the event data
   void initState() {
     if (widget.feedElementData != null) {
       eventNameInput.text = widget.feedElementData!.title;

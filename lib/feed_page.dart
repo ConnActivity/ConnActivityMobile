@@ -12,6 +12,8 @@ import 'package:flutter_pagination/widgets/button_styles.dart';
 import 'package:http/http.dart' as http;
 //import 'package:http/browser_client.dart' as bc;
 
+/// Displays all the events of all user in a scrollable list and the
+/// pagination buttons
 class FeedPage extends StatefulWidget {
   FeedPage({Key? key, required this.height}) : super(key: key);
   final double height;
@@ -136,6 +138,7 @@ class _FeedPageState extends State<FeedPage>
   @override
   bool get wantKeepAlive => true;
 
+  /// Returns the image of the event
   getImage(event) async {
     try {
       var response = await http
@@ -147,6 +150,3 @@ class _FeedPageState extends State<FeedPage>
     }
   }
 }
-
-//TODO: change icon color to black
-//TODO: change navBar icon color to black

@@ -29,7 +29,7 @@ Future<bool> leaveEvent(int id) async {
 Future<List<int>> getUserEventIdList() async {
   var userToken = await getUserToken();
 
-  UserData user = await getUserId();
+  UserData user = await getUserData();
   var userId = user.id;
 
   var response = await http
@@ -48,7 +48,7 @@ Future<List<int>> getUserEventIdList() async {
 
 Future<bool> registerUser(String? name, String? email) async {
   var userToken = await getUserToken();
-  UserData user = await getUserId();
+  UserData user = await getUserData();
   var uid = user.id;
 
   var body = {
@@ -76,7 +76,7 @@ Future<bool> registerUser(String? name, String? email) async {
 
 Future<bool> userExists() async {
   var userToken = await getUserToken();
-  UserData user = await getUserId();
+  UserData user = await getUserData();
   var uid = user.id;
 
   debugPrint(userToken.toString());
@@ -97,7 +97,7 @@ Future<List> createEvent(
   imagebytes,
 ) async {
   var userToken = await getUserToken();
-  UserData user = await getUserId();
+  UserData user = await getUserData();
   var uid = user.id;
 
   var request = http.MultipartRequest('POST', Uri.parse("$server_url/events/"));
@@ -131,7 +131,7 @@ Future<List> createEvent(
 
 Future<dynamic> get_event_detail(int event_id) async {
   var userToken = await getUserToken();
-  UserData user = await getUserId();
+  UserData user = await getUserData();
   var uid = user.id;
   var response =
       await http.get(Uri.parse("$server_url/events/$event_id"), headers: {
@@ -145,7 +145,7 @@ Future<dynamic> get_event_detail(int event_id) async {
 /// Deletes the user from the server
 Future<bool> deleteUser() async {
   var userToken = await getUserToken();
-  UserData user = await getUserId();
+  UserData user = await getUserData();
   var uid = user.id;
   var response =
       await http.delete(Uri.parse("$server_url/user/$uid"), headers: {
@@ -165,7 +165,7 @@ Future<List> editEvent(
   imagebytes,
 ) async {
   var userToken = await getUserToken();
-  UserData user = await getUserId();
+  UserData user = await getUserData();
   var uid = user.id;
 
   var request =
