@@ -130,7 +130,6 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
                                     height: constraints.maxHeight,
                                   );
                                 }),
-                                //const Center(child: Text("👋 You have not entered any events yet", style: TextStyle(color: Colors.white),)),
                                 const MyPage(),
                                 const AccountPage(),
                               ]),

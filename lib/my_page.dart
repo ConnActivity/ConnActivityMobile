@@ -52,8 +52,7 @@ class _MyPageState extends State<MyPage> {
           description: event["description"],
           place: null,
           time: event["date"] != null ? DateTime.parse(event["date"]) : null,
-          image: Uint8List(
-              0))); // If we want to show the image replace it with and add get_image function from feed_page event["image"] == null? Uint8List(0): await getImage(event["image"]),
+          image: Uint8List(0)));
     }
 
     debugPrint(response.statusCode.toString());
