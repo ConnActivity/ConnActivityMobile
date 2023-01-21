@@ -95,11 +95,13 @@ class InfoChip extends StatelessWidget {
 /// Returns an [InfoChip] with the appropriate text based on [isEmailVerified].
 InfoChip isVerifiedInfoChip({bool? isEmailVerified}) {
   return InfoChip(
+      // display appropriate icon based on [isEmailVerified]
       icon: isEmailVerified == null
           ? Icons.help
           : isEmailVerified
               ? Icons.verified
               : Icons.cancel,
+      // display appropriate text based on [isEmailVerified]
       text: isEmailVerified == null
           ? "Not available"
           : isEmailVerified
