@@ -129,6 +129,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                 style: const TextStyle(
                                     color: Colors.black, fontSize: 20)),
                           ]),
+                          Row(children: [
+                            const Icon(Icons.people),
+                            Text(
+                                "Joined: ${(data["member_list"]) == null ? "?" : (data["member_list"]).length}",
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 20)),
+                          ]),
                         ],
                       ),
                     ),
