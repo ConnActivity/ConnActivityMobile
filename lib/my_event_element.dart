@@ -66,28 +66,27 @@ class _MyEventState extends State<MyEvent> {
                   duration: Duration(milliseconds: 900),
                   content: Text("leaving event..."),
                 ));
-                var hasLeft = await leaveEvent(widget.data.id);
-                if (hasLeft)
-                  widget.callback();
-                else if (!hasLeft) {
-                  var userToken = await getUserToken();
-                  var event = await http.get(
-                      Uri.parse(
-                          "https://api.connactivity.me/events/${widget.data.id}"),
-                      headers: {
-                        "cookie": "user_token=$userToken",
-                      });
-                  var jsnondecoded = json.decode(event.body);
-                  var creator = jsnondecoded["creator"];
-                  UserData user = await getUserId();
-                  var uid = user.id;
-                  if (creator == uid) {
-                    showAlertDialog(context, "You could not leave the event.",
-                        "You are the owner of the event and therefore cannot leave the event.\nYou can delete the event instead.");
-                  } else {
+                var userToken = await getUserToken();
+                var event = await http.get(
+                    Uri.parse(
+                        "https://api.connactivity.me/events/${widget.data.id}"),
+                    headers: {
+                      "cookie": "user_token=$userToken",
+                    });
+                var jsnondecoded = json.decode(event.body);
+                var creator = jsnondecoded["creator"];
+                UserData user = await getUserId();
+                var uid = user.id;
+                if (creator == uid) {
+                  showAlertDialog(context, "You could not leave the event.",
+                      "You are the owner of the event and therefore cannot leave the event.\nYou can delete the event instead.");
+                } else {
+                  var hasLeft = await leaveEvent(widget.data.id);
+                  if (hasLeft)
+                    widget.callback();
+                  else
                     showAlertDialog(context, "Unable to leave the event.",
                         "There was an unexpected error.\n\nPlease try again later.");
-                  }
                 }
               }),
           onTap: () {

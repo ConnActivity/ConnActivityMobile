@@ -9,7 +9,7 @@ class UserNotLoggedIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Center(
       child: Text(
-        "Your are not logged in",
+        "You are not logged in",
         style: TextStyle(color: Colors.red),
       ),
     );

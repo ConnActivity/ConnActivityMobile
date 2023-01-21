@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+
+import 'package:connactivity/alert_dialog.dart';
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/create_event_ui.dart';
 import 'package:connactivity/feed_element_data.dart';
@@ -7,7 +9,6 @@ import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:connactivity/alert_dialog.dart';
 
 class CreateEventPage extends StatefulWidget {
   FeedElementData? feedElementData;
@@ -317,7 +318,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Selcet Time\u002A: ",
+                        Text("Select Time\u002A: ",
                             style: GoogleFonts.lato(
                                 textStyle: const TextStyle(
                                     color: Colors.black,
@@ -371,34 +372,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                       controller: memberLimit,
                       isNumber: true,
                     ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xff52D1DC)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SwitchListTile(
-                        title: Text("Event private?",
-                            style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold))),
-                        tileColor: const Color(0xff1f2121),
-                        activeColor: const Color(0xfff2d635),
-                        value: isPrivate,
-                        onChanged: (bool value) {
-                          setState(() {
-                            isPrivate = value;
-                          });
-                        }),
                   ],
                 ),
               ),

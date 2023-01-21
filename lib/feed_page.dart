@@ -53,7 +53,7 @@ class _FeedPageState extends State<FeedPage>
           id: event["id"],
           title: event["title"],
           description: event["description"],
-          place: null,
+          place: event["location"],
           time: event["date"] != null ? DateTime.parse(event["date"]) : null,
           image: event["image"] == null
               ? Uint8List(0)
