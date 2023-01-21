@@ -46,13 +46,18 @@ class _MyPageState extends State<MyPage> {
     List<FeedElementData> userEvents = [];
     List decodedResponse = json.decode(utf8.decode(response.bodyBytes));
     for (Map<String, dynamic> event in decodedResponse) {
-      userEvents.add(FeedElementData(
+      userEvents.add(
+        FeedElementData(
           id: event["id"],
           title: event["title"],
           description: event["description"],
           place: null,
           time: event["date"] != null ? DateTime.parse(event["date"]) : null,
-          image: Uint8List(0)));
+          image: event["image"] == null
+              ? Uint8List(0)
+              : await getImage(event["image"]),
+        ),
+      );
     }
 
     debugPrint(response.statusCode.toString());
