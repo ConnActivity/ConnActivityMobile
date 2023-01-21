@@ -211,3 +211,15 @@ Future<List> deleteEvent(int eventId) async {
   debugPrint(response.statusCode.toString());
   return [response.statusCode == 200, response.statusCode, responseData];
 }
+
+/// Returns the image of the event
+getImage(event) async {
+  try {
+    var response = await http
+        .get(Uri.parse("https://api.connactivity.me$event"))
+        .timeout(const Duration(seconds: 5));
+    return response.bodyBytes;
+  } catch (e) {
+    return Uint8List(0);
+  }
+}
