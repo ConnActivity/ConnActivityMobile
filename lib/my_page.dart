@@ -10,20 +10,22 @@ import 'package:connactivity/user_not_logged_in.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class MyPAge extends StatefulWidget {
-  const MyPAge({Key? key}) : super(key: key);
+/// The "My Page", showing all currently joined events.
+class MyPage extends StatefulWidget {
+  const MyPage({Key? key}) : super(key: key);
 
   @override
-  State<MyPAge> createState() => _MyPAgeState();
+  State<MyPage> createState() => _MyPageState();
 }
 
-class _MyPAgeState extends State<MyPAge> {
+class _MyPageState extends State<MyPage> {
   var colors = <Color>[
     const Color(0xff52D1DC),
     const Color(0xffB497D6),
     const Color(0xffDCF763)
   ];
 
+  /// Triggers reloading the page.
   void triggerUpdate() {
     setState(() {});
   }

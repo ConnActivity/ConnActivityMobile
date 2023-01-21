@@ -131,7 +131,7 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
                                   );
                                 }),
                                 //const Center(child: Text("👋 You have not entered any events yet", style: TextStyle(color: Colors.white),)),
-                                const MyPAge(),
+                                const MyPage(),
                                 const AccountPage(),
                               ]),
                               bottomNavigationBar: const ConnActivityNavBar(),

@@ -1,11 +1,15 @@
 import 'dart:convert';
+
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+/// The server url, you can change this to localhost for testing
 const server_url = "https://api.connactivity.me";
+
+/// Tries to join an event, returning true if successful
 Future<bool> joinEvent(int id) async {
   var userToken = await getUserToken();
 
@@ -16,6 +20,7 @@ Future<bool> joinEvent(int id) async {
   return response.statusCode == 202;
 }
 
+/// Tries to leave an event, returning true if successful
 Future<bool> leaveEvent(int id) async {
   var userToken = await getUserToken();
   var response =
@@ -26,6 +31,7 @@ Future<bool> leaveEvent(int id) async {
   return response.statusCode == 200;
 }
 
+/// Retrieves the joined events of the user
 Future<List<int>> getUserEventIdList() async {
   var userToken = await getUserToken();
 
@@ -46,6 +52,7 @@ Future<List<int>> getUserEventIdList() async {
   return userEventIds;
 }
 
+/// Retrieves the joined events of the user
 Future<bool> registerUser(String? name, String? email) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
@@ -74,6 +81,7 @@ Future<bool> registerUser(String? name, String? email) async {
   return response.statusCode == 201;
 }
 
+/// Retrieves whether or not a user exists
 Future<bool> userExists() async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
@@ -87,6 +95,7 @@ Future<bool> userExists() async {
   return response.statusCode != 404;
 }
 
+/// Creates an event. If successful returns the event data
 Future<List> createEvent(
   String eventName,
   String eventDescription,
@@ -129,6 +138,7 @@ Future<List> createEvent(
   return [response.statusCode == 201, response.statusCode, responseData];
 }
 
+/// Requests the event details for a given event id from the server
 Future<dynamic> get_event_detail(int event_id) async {
   var userToken = await getUserToken();
   UserData user = await getUserId();
@@ -142,6 +152,7 @@ Future<dynamic> get_event_detail(int event_id) async {
   return data;
 }
 
+/// Edits an event given the new data. If successful returns the event data
 Future<List> editEvent(
   int eventId,
   String eventName,
@@ -186,7 +197,8 @@ Future<List> editEvent(
   return [response.statusCode == 200, response.statusCode, responseData];
 }
 
-Future<List> deleteEvent(int eventId) async {
+/// Deletes an event given the event id. If successful returns
+Future<bool> deleteEvent(int eventId) async {
   var userToken = await getUserToken();
 
   var request =
@@ -197,5 +209,5 @@ Future<List> deleteEvent(int eventId) async {
   debugPrint(responseData);
 
   debugPrint(response.statusCode.toString());
-  return [response.statusCode == 200, response.statusCode, responseData];
+  return response.statusCode == 200;
 }
