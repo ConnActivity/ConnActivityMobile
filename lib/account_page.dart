@@ -78,14 +78,6 @@ class _AccountPageState extends State<AccountPage> {
                   userEmail == null
                       ? LoginBtn(callback: userAuth)
                       : LogoutBtn(callback: userAuth),
-                  // Offer option to send verification email if user is logged in and email is not verified
-                  userEmail != null && emailVerified == false
-                      ? SendVerificationEmailBtn(
-                          callback: userAuth,
-                          isActive: true,
-                        )
-                      : SendVerificationEmailBtn(
-                          callback: userAuth, isActive: false),
                   GoogleSignInBtn(
                     callback: userAuth,
                     isActive: userEmail == null,
@@ -271,62 +263,6 @@ class ChangeDisplayNameBtn extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: const [
             Text("Change Nickname"),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// Request a verification email to be sent to the user
-class SendVerificationEmailBtn extends StatelessWidget {
-  final Function() callback;
-  final bool isActive;
-
-  const SendVerificationEmailBtn(
-      {Key? key, required this.callback, required this.isActive})
-      : super(key: key);
-
-  /// Request firebase to send a verification email to the user
-  void sendVerificationEmail(BuildContext context) async {
-    debugPrint("Sending verification email");
-    try {
-      await FirebaseAuth.instance.currentUser
-          ?.sendEmailVerification()
-          .whenComplete(() => callback());
-    } on Exception catch (e) {
-      debugPrint(e.toString());
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Verification email already sent!"),
-      ));
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AccountButton(
-      child: MaterialButton(
-        height: 50,
-        minWidth: double.infinity,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
-        ),
-        // if the button is not active it is still displayed in the UI but greyed out
-        disabledColor: Colors.grey,
-        onPressed: isActive
-            ? () {
-                sendVerificationEmail(context);
-              }
-            : null,
-        color: const Color(0xffFE7F2D),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.send),
-            SizedBox(
-              width: 5,
-            ),
-            Text("Send verification email"),
           ],
         ),
       ),
