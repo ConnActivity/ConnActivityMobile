@@ -164,49 +164,6 @@ class _DetailScreenState extends State<DetailScreen> {
                       children: [
                         Expanded(
                           flex: 1,
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(0, 15, 5, 0),
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                bool response = joint;
-                                if (!joint) {
-                                  response = await joinEvent(
-                                      widget.feedElementData.id);
-                                } else {
-                                  response = await leaveEvent(
-                                      widget.feedElementData.id);
-                                  response = !response;
-                                }
-                                setState(() {
-                                  joint = response;
-                                });
-                              },
-                              style: ButtonStyle(
-                                  backgroundColor: joint
-                                      ? MaterialStateProperty.all(Colors.black)
-                                      : MaterialStateProperty.all(
-                                          const Color(0xffFE7F2D)),
-                                  shape: MaterialStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ))),
-                              child: joint
-                                  ? const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                    )
-                                  : const Text(
-                                      "Join",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 20),
-                                    ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
                           child: user == true
                               ? Container(
                                   width: double.infinity,
