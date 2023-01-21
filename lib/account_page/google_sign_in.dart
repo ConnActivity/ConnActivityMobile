@@ -16,9 +16,11 @@ class GoogleSignInBtn extends StatelessWidget {
 
   /// Handles Google Sign In on Android and iOS
   void signInWithGoogle() async {
+    // Trigger platform native Google Sign In
     final googleUser = await GoogleSignIn().signIn();
     final googleAuth = await googleUser?.authentication;
 
+    // User canceled login or closed selection window
     if (googleAuth == null) {
       debugPrint("Google Auth couldn't authenticate a user");
       return;
@@ -29,6 +31,7 @@ class GoogleSignInBtn extends StatelessWidget {
       idToken: googleAuth.idToken,
     );
 
+    // Authenticate to Firebase with Google credentials
     await FirebaseAuth.instance.signInWithCredential(credential);
 
     // Check if user exists
@@ -55,9 +58,6 @@ class GoogleSignInBtn extends StatelessWidget {
     await FirebaseAuth.instance
         .signInWithPopup(googleProvider)
         .then((value) => callback());
-
-    // Or use signInWithRedirect
-    // return await FirebaseAuth.instance.signInWithRedirect(googleProvider);
   }
 
   @override
@@ -71,6 +71,7 @@ class GoogleSignInBtn extends StatelessWidget {
         ),
         disabledColor: Colors.grey,
         // Check for web platform and if button is active / logged in
+        // If the button is active it can be pressed otherwise the function is null, making it disabled (see disabledColor)
         onPressed: isActive
             ? kIsWeb
                 ? signInWithGoogleWeb
