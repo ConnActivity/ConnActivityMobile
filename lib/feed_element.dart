@@ -88,6 +88,8 @@ class _FeedElementState extends State<FeedElement>
                 //const Icon(Icons.info_outline),
                 Flexible(
                     child: Text(
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                   widget.feedElementData.description,
                   style: const TextStyle(
                       fontSize: 20, fontStyle: FontStyle.italic),
