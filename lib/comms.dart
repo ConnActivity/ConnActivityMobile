@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:connactivity/user.dart';
 import 'package:connactivity/user_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -151,7 +150,17 @@ Future<dynamic> get_event_detail(int event_id) async {
   debugPrint("F: get_event_detail(): ${data}");
   return data;
 }
-
+/// Deletes the user from the server, returning true if successful
+Future<bool> deleteUser() async {
+  var userToken = await getUserToken();
+  UserData user = await getUserId();
+  var uid = user.id;
+  var response =
+  await http.delete(Uri.parse("$server_url/user/$uid"), headers: {
+    "cookie": "user_token=$userToken",
+  });
+  return response.statusCode == 200;
+}
 /// Edits an event given the new data. If successful returns the event data
 Future<List> editEvent(
   int eventId,
