@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:github_sign_in/github_sign_in.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'comms.dart';
 import 'firebase_options.dart';
 import 'login_page.dart';
 
@@ -107,6 +108,9 @@ class _AccountPageState extends State<AccountPage> {
                           oldDisplayName: displayName,
                           isActive: false,
                         ),
+                  DeleteAccount(
+                    isActive: userEmail != null,
+                  ),
                 ]),
           )
         ],
@@ -123,15 +127,22 @@ class LoginBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: () {
-        Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const LoginPage()))
-            .then((value) => callback());
-      },
-      color: const Color(0xffFE7F2D),
-      child: const Text(
-        "Login",
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        onPressed: () {
+          Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginPage()))
+              .then((value) => callback());
+        },
+        color: const Color(0xffFE7F2D),
+        child: const Text(
+          "Login",
+        ),
       ),
     );
   }
@@ -317,6 +328,74 @@ class SendVerificationEmailBtn extends StatelessWidget {
             ),
             Text("Send verification email"),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Delete the user account (from firebase and server)
+class DeleteAccount extends StatelessWidget {
+  final bool isActive;
+  const DeleteAccount({super.key, required this.isActive});
+
+  @override
+  Widget build(BuildContext context) {
+    return AccountButton(
+      child: MaterialButton(
+        height: 50,
+        minWidth: double.infinity,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        disabledColor: Colors.grey,
+        onPressed: isActive
+            ? () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Delete Account'),
+                      titleTextStyle:
+                          const TextStyle(color: Colors.white, fontSize: 25),
+                      backgroundColor: Colors.grey,
+                      content: const Text(
+                          'Are you sure you want to delete your account? This action cannot be undone.'),
+                      actions: <Widget>[
+                        TextButton(
+                          style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white)),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.white)),
+                          onPressed: () async {
+                            // Delete the user from the server
+                            bool isDeleted = await deleteUser();
+                            // Delete the user from firebase
+                            if (isDeleted) {
+                              FirebaseAuth.instance.currentUser?.delete();
+                            }
+                            // Widget will still be mounted
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Delete'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+            : null,
+        color: const Color.fromARGB(255, 254, 45, 45),
+        child: const Text(
+          "Delete Account",
         ),
       ),
     );
