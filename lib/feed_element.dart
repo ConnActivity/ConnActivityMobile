@@ -52,18 +52,15 @@ class _FeedElementState extends State<FeedElement>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(
-            child: Expanded(
-              flex: 1,
-              child: SizedBox(
-                width: 320,
-                height: 200,
-                child: (widget.feedElementData.image.isEmpty)
-                    ? const Icon(Icons.image)
-                    : Image.memory(
-                        widget.feedElementData.image,
-                        fit: BoxFit.fitHeight,
-                      ),
-              ),
+            child: SizedBox(
+              width: 320,
+              height: 200,
+              child: (widget.feedElementData.image.isEmpty)
+                  ? const Icon(Icons.image)
+                  : Image.memory(
+                      widget.feedElementData.image,
+                      fit: BoxFit.fitHeight,
+                    ),
             ),
           ),
           Text(widget.feedElementData.title,

@@ -83,7 +83,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Expanded(
