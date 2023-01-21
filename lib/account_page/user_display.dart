@@ -36,7 +36,10 @@ class UserDisplay extends StatelessWidget {
             child: CircleAvatar(
               radius: 40,
               backgroundColor: Colors.brown.shade800,
-              backgroundImage: NetworkImage(photoUrl),
+              backgroundImage: photoUrl != "No photo"
+                  ? NetworkImage(photoUrl)
+                  : NetworkImage(
+                      "https://media.istockphoto.com/id/916306960/de/foto/der-mann-ohne-gesicht-in-hoodie-stehen-isoliert-auf-schwarz.jpg?s=612x612&w=0&k=20&c=2dUWONtelkES_XLehtpV5EeyL8CA2NBO8QZozAYjfQo="),
             ),
           ),
           Expanded(
