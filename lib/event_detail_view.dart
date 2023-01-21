@@ -72,10 +72,13 @@ class _DetailScreenState extends State<DetailScreen> {
                             : Image.memory(widget.feedElementData.image),
                       ),
                     ),
-                    Text(widget.feedElementData.title,
-                        style: GoogleFonts.anton(
-                            textStyle: const TextStyle(
-                                color: Colors.black, fontSize: 30))),
+                    Flexible(
+                      flex: 5,
+                      child: Text(widget.feedElementData.title,
+                          style: GoogleFonts.anton(
+                              textStyle: const TextStyle(
+                                  color: Colors.black, fontSize: 30))),
+                    ),
                     Row(
                       children: [
                         const Icon(Icons.place_outlined),
@@ -110,7 +113,6 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          //const Icon(Icons.info_outline),
                           Flexible(
                               child: Text(
                             widget.feedElementData.description,
