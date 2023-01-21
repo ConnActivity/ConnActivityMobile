@@ -236,7 +236,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
                               onPressed: () async {
                                 var selectedDate = await showDatePicker(
                                     context: context,
-                                    initialDate: DateTime.now(),
+                                    initialDate: DateTime.now()
+                                        .add(const Duration(days: 1)),
                                     firstDate: DateTime(2022),
                                     lastDate: DateTime(2025));
                                 if (selectedDate != null) {
