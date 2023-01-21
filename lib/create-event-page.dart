@@ -83,7 +83,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
             } else {
               if (creation[1] == 400 || creation[1] == 401) {
                 showAlertDialog(context, "Error while creating the event",
-                    "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
+                    "Not all reqired fields are filled or you are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
               } else {
                 showAlertDialog(context, "Error",
                     "An unexpected Error occured while creating event\nPlease try again later");
