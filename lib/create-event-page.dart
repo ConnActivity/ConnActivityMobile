@@ -124,14 +124,17 @@ class _CreateEventPageState extends State<CreateEventPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 320,
-                          height: 200,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: imagebytes == null
-                                ? const Icon(Icons.image)
-                                : Image.memory(imagebytes),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            width: 320,
+                            height: 200,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: imagebytes == null
+                                  ? const Icon(Icons.image)
+                                  : Image.memory(imagebytes),
+                            ),
                           ),
                         ),
                       ],
