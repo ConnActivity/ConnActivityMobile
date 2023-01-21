@@ -75,7 +75,7 @@ class _MyEventState extends State<MyEvent> {
                     });
                 var jsnondecoded = json.decode(event.body);
                 var creator = jsnondecoded["creator"];
-                UserData user = await getUserId();
+                UserData user = await getUserData();
                 var uid = user.id;
                 if (creator == uid) {
                   showAlertDialog(context, "You could not leave the event.",
