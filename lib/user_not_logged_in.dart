@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A widget that displays a message that the user is not logged in.
 class UserNotLoggedIn extends StatelessWidget {
   const UserNotLoggedIn({
     super.key,
