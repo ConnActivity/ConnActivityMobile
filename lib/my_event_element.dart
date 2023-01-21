@@ -66,7 +66,6 @@ class _MyEventState extends State<MyEvent> {
                   duration: Duration(milliseconds: 900),
                   content: Text("leaving event..."),
                 ));
-                //-----------------------------------
                 var userToken = await getUserToken();
                 var event = await http.get(
                     Uri.parse(
