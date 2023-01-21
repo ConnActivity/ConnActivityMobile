@@ -88,7 +88,6 @@ class _MyEventState extends State<MyEvent> {
                     showAlertDialog(context, "Unable to leave the event.",
                         "There was an unexpected error.\n\nPlease try again later.");
                 }
-                //-----------------------------------
               }),
           onTap: () {
             Navigator.push(
