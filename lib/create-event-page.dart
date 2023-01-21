@@ -318,34 +318,6 @@ class _CreateEventPageState extends State<CreateEventPage> {
                   ],
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.all(10),
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: const Color(0xff52D1DC)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SwitchListTile(
-                        title: Text("Event private?",
-                            style: GoogleFonts.lato(
-                                textStyle: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold))),
-                        tileColor: const Color(0xff1f2121),
-                        activeColor: const Color(0xfff2d635),
-                        value: isPrivate,
-                        onChanged: (bool value) {
-                          setState(() {
-                            isPrivate = value;
-                          });
-                        }),
-                  ],
-                ),
-              ),
               const SizedBox(
                 height: 100,
               )

@@ -79,7 +79,10 @@ class _DetailScreenState extends State<DetailScreen> {
                     Row(
                       children: [
                         const Icon(Icons.place_outlined),
-                        Text(data["location"] as String ?? "No location data",
+                        Text(
+                            data["location"] != null
+                                ? data["location"] as String
+                                : "No location data",
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 20)),
                       ],
