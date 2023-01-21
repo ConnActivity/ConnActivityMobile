@@ -22,6 +22,7 @@ class UserDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      // Display with full width
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
@@ -39,7 +40,7 @@ class UserDisplay extends StatelessWidget {
               backgroundColor: Colors.brown.shade800,
               backgroundImage: photoUrl != "No photo"
                   ? NetworkImage(photoUrl)
-                  : NetworkImage(
+                  : const NetworkImage(
                       "https://media.istockphoto.com/id/916306960/de/foto/der-mann-ohne-gesicht-in-hoodie-stehen-isoliert-auf-schwarz.jpg?s=612x612&w=0&k=20&c=2dUWONtelkES_XLehtpV5EeyL8CA2NBO8QZozAYjfQo="),
             ),
           ),

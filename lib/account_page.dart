@@ -264,9 +264,9 @@ class ChangeDisplayNameBtn extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         ),
-        // if the button is not active it is still displayed in the UI but greyed out
+        // If the button is not active it is still displayed in the UI but greyed out
         disabledColor: Colors.grey,
-        // if the button is active it can be pressed otherwise the function is null, making it disabled (see disabledColor)
+        // If the button is active it can be pressed otherwise the function is null, making it disabled (see disabledColor)
         onPressed: isActive
             ? () async {
                 _showMyDialog(context);
