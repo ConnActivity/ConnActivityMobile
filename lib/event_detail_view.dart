@@ -264,30 +264,6 @@ class _DetailScreenState extends State<DetailScreen> {
                         )
                       ],
                     ),
-                    // Tags
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Icon(Icons.label),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.fromLTRB(5, 0, 0, 0),
-                            child: Wrap(
-                              children: [
-                                for (var tag in data["tags"])
-                                  Container(
-                                    margin:
-                                        const EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                    child: Chip(
-                                      label: Text(tag),
-                                    ),
-                                  )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    )
                   ],
                 ),
               );

@@ -104,7 +104,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               } else {
                 if (creation[1] == 400 || creation[1] == 401) {
                   showAlertDialog(context, "Error while creating the event",
-                      "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
+                      "Not all required fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
                 } else {
                   showAlertDialog(context, "Error",
                       "An unexpected Error occured while creating event\nPlease try again later");
@@ -129,7 +129,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
               } else {
                 if (creation[1] == 400 || creation[1] == 401) {
                   showAlertDialog(context, "Error while editing the event",
-                      "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
+                      "Not all required fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
                 } else {
                   showAlertDialog(context, "Error",
                       "An unexpected Error occured while editing event\nPlease try again later");
@@ -289,7 +289,8 @@ class _CreateEventPageState extends State<CreateEventPage> {
                               onPressed: () async {
                                 var selectedDate = await showDatePicker(
                                     context: context,
-                                    initialDate: DateTime.now(),
+                                    initialDate: DateTime.now()
+                                        .add(const Duration(days: 1)),
                                     firstDate: DateTime(2022),
                                     lastDate: DateTime(2025));
                                 if (selectedDate != null) {
