@@ -13,7 +13,7 @@ Future<bool> showDetailView() async {
 }
 
 class DetailScreen extends StatefulWidget {
-  final FeedElementData feedElementData;
+  FeedElementData feedElementData;
   final Color backgroundColor;
   final double height;
 
@@ -52,8 +52,8 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<dynamic> get_future() {
-      var data = get_event_detail(widget.feedElementData.id);
+    get_future() async {
+      var data = await get_event_detail(widget.feedElementData.id);
       return data;
     }
 
@@ -198,7 +198,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                               builder: (BuildContext context) =>
                                                   CreateEventPage(
                                                       feedElementData: widget
-                                                          .feedElementData)));
+                                                          .feedElementData,
+                                                      limit:
+                                                          data["member_limit"]
+                                                              .toString(),
+                                                      place:
+                                                          data["location"])));
                                     },
                                     style: ButtonStyle(
                                         shadowColor: MaterialStateProperty.all(

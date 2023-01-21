@@ -12,8 +12,11 @@ import 'package:image_picker/image_picker.dart';
 
 class CreateEventPage extends StatefulWidget {
   FeedElementData? feedElementData;
+  String? limit;
+  String? place;
 
-  CreateEventPage({this.feedElementData, Key? key}) : super(key: key);
+  CreateEventPage({this.feedElementData, Key? key, this.limit, this.place})
+      : super(key: key);
 
   @override
   State<CreateEventPage> createState() => _CreateEventPageState();
@@ -39,10 +42,10 @@ class _CreateEventPageState extends State<CreateEventPage> {
     if (widget.feedElementData != null) {
       eventNameInput.text = widget.feedElementData!.title;
       eventDescriptionInput.text = widget.feedElementData!.description;
-      eventLocation.text = widget.feedElementData!.place ?? "";
+      eventLocation.text = widget.place != null ? widget.place! : "No location";
       eventDate = widget.feedElementData!.time ?? DateTime.now();
       eventTime = TimeOfDay.fromDateTime(widget.feedElementData!.time!);
-      memberLimit.text = 0.toString(); // todo: get member limit
+      memberLimit.text = widget.limit ?? "Kein Limit"; // todo: get member limit
       imagebytes = widget.feedElementData!.image.isEmpty
           ? null
           : widget.feedElementData!.image;
