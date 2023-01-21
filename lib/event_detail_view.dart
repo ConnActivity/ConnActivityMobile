@@ -83,16 +83,13 @@ class _DetailScreenState extends State<DetailScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            height: 20,
-                          ),
                           Expanded(
                             flex: 1,
                             child: SizedBox(
                               width: 320,
                               height: 200,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
+                                borderRadius: BorderRadius.circular(50),
                                 child: (widget.feedElementData.image.isEmpty)
                                     ? const Icon(Icons.image)
                                     : Image.memory(
@@ -140,7 +137,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
                     ),
                     Expanded(
-                      flex: 1,
+                      flex: 2,
                       child: SingleChildScrollView(
                         child: Container(
                           margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
