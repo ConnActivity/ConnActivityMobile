@@ -62,64 +62,80 @@ class _DetailScreenState extends State<DetailScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 320,
-                      height: 200,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: (widget.feedElementData.image.isEmpty)
-                            ? const Icon(Icons.image)
-                            : Image.memory(widget.feedElementData.image),
+                    Expanded(
+                      flex: 1,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: SizedBox(
+                              width: 320,
+                              height: 200,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: (widget.feedElementData.image.isEmpty)
+                                    ? const Icon(Icons.image)
+                                    : Image.memory(
+                                        widget.feedElementData.image),
+                              ),
+                            ),
+                          ),
+                          Text(widget.feedElementData.title,
+                              style: GoogleFonts.anton(
+                                  textStyle: const TextStyle(
+                                      color: Colors.black, fontSize: 30))),
+                          Row(
+                            children: [
+                              const Icon(Icons.place_outlined),
+                              Text(
+                                  data["location"] != null
+                                      ? data["location"] as String
+                                      : "No location data",
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 20)),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const Icon(Icons.schedule),
+                              Text(
+                                  widget.feedElementData.time != null
+                                      ? timeToString(widget
+                                          .feedElementData.time!
+                                          .toLocal())
+                                      : "No date data",
+                                  style: const TextStyle(
+                                      color: Colors.black, fontSize: 20)),
+                            ],
+                          ),
+                          Row(children: [
+                            const Icon(Icons.people),
+                            Text("Limit: ${data["member_limit"].toString()}",
+                                style: const TextStyle(
+                                    color: Colors.black, fontSize: 20)),
+                          ]),
+                        ],
                       ),
                     ),
-                    Flexible(
-                      flex: 5,
-                      child: Text(widget.feedElementData.title,
-                          style: GoogleFonts.anton(
-                              textStyle: const TextStyle(
-                                  color: Colors.black, fontSize: 30))),
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.place_outlined),
-                        Text(
-                            data["location"] != null
-                                ? data["location"] as String
-                                : "No location data",
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 20)),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const Icon(Icons.schedule),
-                        Text(
-                            widget.feedElementData.time != null
-                                ? timeToString(
-                                    widget.feedElementData.time!.toLocal())
-                                : "No date data",
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 20)),
-                      ],
-                    ),
-                    Row(children: [
-                      const Icon(Icons.people),
-                      Text("Limit: ${data["member_limit"].toString()}",
-                          style: const TextStyle(
-                              color: Colors.black, fontSize: 20)),
-                    ]),
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                              child: Text(
-                            widget.feedElementData.description,
-                            style: const TextStyle(
-                                fontSize: 20, fontStyle: FontStyle.italic),
-                          )),
-                        ],
+                    Expanded(
+                      flex: 2,
+                      child: SingleChildScrollView(
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //const Icon(Icons.info_outline),
+                              Flexible(
+                                  child: Text(
+                                widget.feedElementData.description,
+                                style: const TextStyle(
+                                    fontSize: 20, fontStyle: FontStyle.italic),
+                              )),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Row(
