@@ -143,3 +143,62 @@ Future<dynamic> get_event_detail(int event_id) async {
   debugPrint("F: get_event_detail(): ${data}");
   return data;
 }
+
+Future<List> editEvent(
+  int eventId,
+  String eventName,
+  String eventDescription,
+  String location,
+  DateTime time,
+  memberLimit,
+  isPrivate,
+  imagebytes,
+) async {
+  var userToken = await getUserToken();
+  UserData user = await getUserId();
+  var uid = user.id;
+
+  var request =
+      http.MultipartRequest('PUT', Uri.parse("$server_url/events/$eventId"));
+  request.headers.addAll({"cookie": "user_token=${userToken!}"});
+  request.fields["title"] = eventName;
+  request.fields["date_published"] = DateTime.now().toLocal().toIso8601String();
+  request.fields["date"] = time.toLocal().toIso8601String();
+  request.fields["location"] = location;
+  request.fields["description"] = eventDescription;
+  request.fields["member_list"] = uid.toString();
+  request.fields["creator"] = uid.toString();
+  request.fields["member_limit"] = memberLimit.text;
+  if (isPrivate) {
+    request.fields["is_private"] = "true";
+  } else {
+    request.fields["is_private"] = "false";
+  }
+
+  if (imagebytes != null) {
+    var imageName = "${imagebytes.hashCode.toString()}.jpg";
+    var picture =
+        http.MultipartFile.fromBytes('image', imagebytes, filename: imageName);
+    request.files.add(picture);
+  }
+  var response = await request.send();
+  var responseData = await response.stream.bytesToString();
+  debugPrint(responseData);
+
+  debugPrint(response.statusCode.toString());
+  return [response.statusCode == 200, response.statusCode, responseData];
+}
+
+Future<List> deleteEvent(int eventId) async {
+  var userToken = await getUserToken();
+
+  var request =
+      http.MultipartRequest('DELETE', Uri.parse("$server_url/events/$eventId"));
+  request.headers.addAll({"cookie": "user_token=${userToken!}"});
+  var response = await request.send();
+  var responseData = await response.stream.bytesToString();
+  debugPrint(responseData);
+
+  debugPrint(response.statusCode.toString());
+  return [response.statusCode == 200, response.statusCode, responseData];
+}

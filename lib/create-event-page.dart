@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:connactivity/comms.dart';
 import 'package:connactivity/create_event_ui.dart';
+import 'package:connactivity/feed_element_data.dart';
 import 'package:connactivity/time_formater.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:connactivity/alert_dialog.dart';
 
 class CreateEventPage extends StatefulWidget {
-  const CreateEventPage({Key? key}) : super(key: key);
+  FeedElementData? feedElementData;
+
+  CreateEventPage({this.feedElementData, Key? key}) : super(key: key);
 
   @override
   State<CreateEventPage> createState() => _CreateEventPageState();
@@ -29,6 +33,22 @@ class _CreateEventPageState extends State<CreateEventPage> {
   String imagepath = "";
   late File imagefile;
 
+  @override
+  void initState() {
+    if (widget.feedElementData != null) {
+      eventNameInput.text = widget.feedElementData!.title;
+      eventDescriptionInput.text = widget.feedElementData!.description;
+      eventLocation.text = widget.feedElementData!.place ?? "";
+      eventDate = widget.feedElementData!.time ?? DateTime.now();
+      eventTime = TimeOfDay.fromDateTime(widget.feedElementData!.time!);
+      memberLimit.text = 0.toString(); // todo: get member limit
+      imagebytes = widget.feedElementData!.image.isEmpty
+          ? null
+          : widget.feedElementData!.image;
+    }
+    super.initState();
+  }
+
   openImage() async {
     try {
       var pickedFile = await imgpicker.pickImage(source: ImageSource.gallery);
@@ -39,7 +59,7 @@ class _CreateEventPageState extends State<CreateEventPage> {
         imagebytes = imagefile.readAsBytesSync();
         setState(() {});
       } else {
-        print("No image is selected.");
+        debugPrint("No image is selected.");
       }
     } catch (e) {
       showAlertDialog(context, "Error while loading image", "Exception: $e");
@@ -66,29 +86,55 @@ class _CreateEventPageState extends State<CreateEventPage> {
         floatingActionButton: FloatingActionButton(
           heroTag: "createEvent",
           onPressed: () async {
-            eventDate = DateTime(eventDate.year, eventDate.month, eventDate.day,
-                eventTime.hour, eventTime.minute);
-            var creation = await createEvent(
-                eventNameInput.text,
-                eventDescriptionInput.text,
-                eventLocation.text,
-                eventDate,
-                memberLimit,
-                isPrivate,
-                imagebytes);
-            debugPrint(creation.toString());
-            if (creation[0]) {
-              Navigator.pop(context);
-            } else {
-              if (creation[1] == 400 || creation[1] == 401) {
-                showAlertDialog(context, "Error while creating the event",
-                    "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
+            if (widget.feedElementData == null) {
+              eventDate = DateTime(eventDate.year, eventDate.month,
+                  eventDate.day, eventTime.hour, eventTime.minute);
+              var creation = await createEvent(
+                  eventNameInput.text,
+                  eventDescriptionInput.text,
+                  eventLocation.text,
+                  eventDate,
+                  memberLimit,
+                  isPrivate,
+                  imagebytes);
+              debugPrint(creation.toString());
+              if (creation[0]) {
+                Navigator.pop(context);
               } else {
-                showAlertDialog(context, "Error",
-                    "An unexpected Error occured while creating event\nPlease try again later");
+                if (creation[1] == 400 || creation[1] == 401) {
+                  showAlertDialog(context, "Error while creating the event",
+                      "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
+                } else {
+                  showAlertDialog(context, "Error",
+                      "An unexpected Error occured while creating event\nPlease try again later");
+                }
+              }
+              //Navigator.pop(context);
+            } else {
+              eventDate = DateTime(eventDate.year, eventDate.month,
+                  eventDate.day, eventTime.hour, eventTime.minute);
+              var creation = await editEvent(
+                  widget.feedElementData!.id,
+                  eventNameInput.text,
+                  eventDescriptionInput.text,
+                  eventLocation.text,
+                  eventDate,
+                  memberLimit,
+                  isPrivate,
+                  imagebytes);
+              debugPrint(creation.toString());
+              if (creation[0]) {
+                Navigator.pop(context);
+              } else {
+                if (creation[1] == 400 || creation[1] == 401) {
+                  showAlertDialog(context, "Error while editing the event",
+                      "Not all reqired fields are filled or your are not logged in.\nPlease fill all fields and try again.\nError Message: ${creation[2].toString()}");
+                } else {
+                  showAlertDialog(context, "Error",
+                      "An unexpected Error occured while editing event\nPlease try again later");
+                }
               }
             }
-            //Navigator.pop(context);
           },
           backgroundColor: const Color(0xffFE7F2D),
           child: const Icon(
@@ -149,6 +195,13 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           child: imagebytes == null
                               ? Text("Pick Image")
                               : Text("Change Image"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            imagebytes = null;
+                            setState(() {});
+                          },
+                          child: Text("Remove Image"),
                         ),
                       ],
                     ),
