@@ -20,21 +20,25 @@ class GitHubSignInBtn extends StatelessWidget {
 
   /// Handles GitHub Sign In on Android and iOS
   void signInWithGitHub() async {
+    // Create GitHubSignIn instance for ConnActivity GitHub
+    // Callback to Firebase Auth
     final GitHubSignIn gitHubSignIn = GitHubSignIn(
         clientId: "92059c6ea0e08cad4256",
         clientSecret: "4ed27f9c322c50dda7cba53856ce66e0c4bffcbd",
         redirectUrl:
             'https://tenacious-moon-348609.firebaseapp.com/__/auth/handler');
 
+    // Opens webview to sign in with GitHub
     final result = await gitHubSignIn.signIn(context);
 
-    // User canceled login
+    // User canceled login or closed webview
     if (result.token == null) {
       return;
     }
 
     final githubAuthCredential = GithubAuthProvider.credential(result.token!);
 
+    // Authenticate to Firebase with GitHub credentials
     await FirebaseAuth.instance.signInWithCredential(githubAuthCredential);
 
     final gitHubUser = FirebaseAuth.instance.currentUser;
@@ -70,6 +74,7 @@ class GitHubSignInBtn extends StatelessWidget {
         ),
         disabledColor: Colors.grey,
         // Check for web platform
+        // If the button is active it can be pressed otherwise the function is null, making it disabled (see disabledColor)
         onPressed: isActive
             ? kIsWeb
                 ? signInWithGitHubWeb
