@@ -34,7 +34,7 @@ class _DetailScreenState extends State<DetailScreen> {
         joint = true;
       });
     }
-    helper();
+    is_owner();
   }
 
   /// Checks if the user is the owner of the event
