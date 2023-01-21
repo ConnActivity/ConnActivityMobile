@@ -39,7 +39,7 @@ class _FeedElementState extends State<FeedElement>
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height,
+      height: widget.height * 0.9,
       margin: const EdgeInsets.all(10),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
@@ -49,27 +49,25 @@ class _FeedElementState extends State<FeedElement>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 320,
-            height: 200,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: (widget.feedElementData.image.isEmpty)
-                  ? const Icon(Icons.image)
-                  : Image.memory(widget.feedElementData.image),
+          Center(
+            child: Expanded(
+              flex: 1,
+              child: SizedBox(
+                width: 320,
+                height: 200,
+                child: (widget.feedElementData.image.isEmpty)
+                    ? const Icon(Icons.image)
+                    : Image.memory(
+                        widget.feedElementData.image,
+                        fit: BoxFit.fill,
+                      ),
+              ),
             ),
           ),
           Text(widget.feedElementData.title,
               style: GoogleFonts.anton(
                   textStyle:
                       const TextStyle(color: Colors.black, fontSize: 30))),
-          Row(
-            children: [
-              const Icon(Icons.place_outlined),
-              Text(widget.feedElementData.place ?? "No location data",
-                  style: const TextStyle(color: Colors.black, fontSize: 20)),
-            ],
-          ),
           Row(
             children: [
               const Icon(Icons.schedule),
@@ -88,6 +86,9 @@ class _FeedElementState extends State<FeedElement>
                 //const Icon(Icons.info_outline),
                 Flexible(
                     child: Text(
+                  maxLines: 3,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
                   widget.feedElementData.description,
                   style: const TextStyle(
                       fontSize: 20, fontStyle: FontStyle.italic),
