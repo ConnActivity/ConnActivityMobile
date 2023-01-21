@@ -109,6 +109,7 @@ class _IntroductionScreensState extends State<IntroductionScreens> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => DefaultTabController(
+                            initialIndex: 2,
                             length: 3,
                             child: Scaffold(
                               appBar: AppBar(
