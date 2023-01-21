@@ -59,7 +59,7 @@ class _FeedElementState extends State<FeedElement>
                     ? const Icon(Icons.image)
                     : Image.memory(
                         widget.feedElementData.image,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.fitHeight,
                       ),
               ),
             ),
