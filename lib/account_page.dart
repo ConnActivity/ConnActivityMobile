@@ -74,10 +74,10 @@ class _AccountPageState extends State<AccountPage> {
                     id: firebaseId ?? "No id",
                     isVerified: emailVerified,
                   ),
-                  // Display login button if user is not logged in and vice versa (Email-Login)
-                  userEmail == null
-                      ? LoginBtn(callback: userAuth)
-                      : LogoutBtn(callback: userAuth),
+                  LogoutBtn(
+                    callback: userAuth,
+                    isActive: userEmail != null,
+                  ),
                   GoogleSignInBtn(
                     callback: userAuth,
                     isActive: userEmail == null,
@@ -143,21 +143,26 @@ class LoginBtn extends StatelessWidget {
 /// Logout user regardless of account type
 class LogoutBtn extends StatelessWidget {
   final void Function() callback;
+  final bool isActive;
 
-  const LogoutBtn({Key? key, required this.callback}) : super(key: key);
+  const LogoutBtn({Key? key, required this.callback, required this.isActive})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AccountButton(
       child: MaterialButton(
+        disabledColor: Colors.grey,
         height: 50,
         minWidth: double.infinity,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50),
         ),
-        onPressed: () {
-          FirebaseAuth.instance.signOut().then(((value) => callback()));
-        },
+        onPressed: isActive
+            ? () {
+                FirebaseAuth.instance.signOut().then(((value) => callback()));
+              }
+            : null,
         color: const Color(0xffFE7F2D),
         child: const Text(
           "Logout",
