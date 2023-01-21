@@ -10,6 +10,8 @@ import 'package:connactivity/user_not_logged_in.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'comms.dart';
+
 /// The "My Page", showing all currently joined events.
 class MyPage extends StatefulWidget {
   const MyPage({Key? key}) : super(key: key);
