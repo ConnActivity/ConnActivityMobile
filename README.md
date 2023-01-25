@@ -8,7 +8,6 @@ You can donwload the .apk of our first release [here](https://github.com/ConnAct
 ![](assets/screenshots/feed_afl.jpg) | ![](assets/screenshots/my_page.jpg) | ![](assets/screenshots/account_page.jpg)
 :------------:|:------------:|:------------:
 
-
 ## Contributing
 - use ```dart format```
 - for testing: add own fingerprint of sign-key to project (android only) via firebase-console or use the provided debug.keystore from discord
