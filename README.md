@@ -15,4 +15,4 @@ You can donwload the .apk of our first release [here](https://github.com/ConnAct
 get sha-1 and sha-256 fingerprint of default debug.keystore: ```keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android```
 
 ## Android signing
-A signed .apk is available in each release. GitHub-Actions builds are not signed.
+A signed .apk is available in every release. GitHub-Action builds are not signed.
